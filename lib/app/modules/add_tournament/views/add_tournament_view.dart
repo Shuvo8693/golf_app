@@ -299,7 +299,7 @@ class _AddTournamentViewState extends State<AddTournamentView> {
                  },
                  controller: _searchController,
                  decoration: InputDecoration(
-                   hintText: "Search location",
+                   hintText: AppString.searchLocationText,
                    border: InputBorder.none,
                    prefixIcon: Icon(
                      Icons.location_on,
@@ -312,7 +312,7 @@ class _AddTournamentViewState extends State<AddTournamentView> {
                  },
                ),
              ),
-             IconButton(
+            /* IconButton(
                icon: Icon(
                  Icons.search,
                  color: AppColors.primaryColor,
@@ -324,17 +324,16 @@ class _AddTournamentViewState extends State<AddTournamentView> {
                    onChangeTextFieldValue.clear();
                  });
                },
-             ),
+             ),*/
            ],
          ),
          /// Location list section
          SizedBox(height: 8.h),
-         onChangeTextFieldValue.isNotEmpty == true
-             ? Padding(
-           padding: EdgeInsets.only(left: 8.w),
+         if(onChangeTextFieldValue.isNotEmpty)
+          Padding(
+           padding: EdgeInsets.symmetric(horizontal: 8.w),
            child: Container(
              height: 200.h,
-             width: 320.w,
              decoration: BoxDecoration(
                color: Colors.white,
                boxShadow: [
@@ -356,16 +355,19 @@ class _AddTournamentViewState extends State<AddTournamentView> {
                  return Padding(
                    padding: EdgeInsets.all(8.0.sp),
                    child: InkWell(
-                     onTap: () {
-                       String selectedLocation = onChangeTextFieldValue[index].toString();
-                       print(selectedLocation);
+                     onTap: () async {
+                       String selectedLocation = onChangeTextFieldValue[index];
                        if (selectedLocation.isNotEmpty == true) {
-                         _searchController.text = selectedLocation;
-                         print(_searchController.text);
+                         _searchController.text=selectedLocation;
+                        await _goToSearchLocation(selectedLocation);
                        }
+                       setState(() {
+                         onChangeTextFieldValue=[];
+                       });
+                       print('checkLatLng: $latLng');
+                       print('checkText: ${_searchController.text}');
                      },
-                     child: Text(
-                       onChangeTextFieldValue[index].toString(),
+                     child: Text(onChangeTextFieldValue[index].toString(),
                        style: const TextStyle(fontWeight: FontWeight.w500),
                      ),
                    ),
@@ -373,7 +375,7 @@ class _AddTournamentViewState extends State<AddTournamentView> {
                },
              ),
            ),
-         ) : const SizedBox.shrink(),
+         ) ,
        ],
      );
    }
@@ -394,24 +396,23 @@ class _AddTournamentViewState extends State<AddTournamentView> {
                Align(
                  alignment: Alignment.center,
                  child: Container(
-                   height: 8,
-                   width: 100,
+                   height: 6.h,
+                   width: 65.w,
                    decoration: BoxDecoration(
                        color: AppColors.primaryColor,
-                       borderRadius: BorderRadius.circular(12)),
+                       borderRadius: BorderRadius.circular(12.r)),
                  ),
                ),
                SizedBox(
-                 height: 40,
+                 height: 40.h,
                ),
                GestureDetector(
                  onTap: () {
-                   _addTournamentController
-                       .pickImageFromGallery(ImageSource.gallery);
+                   _addTournamentController.pickImageFromGallery(ImageSource.gallery);
                  },
                  child: Obx(() {
                    return Container(
-                     height: 150,
+                     height: 150.h,
                      decoration: BoxDecoration(
                        color: AppColors.grayLight,
                        borderRadius: BorderRadius.circular(12),
@@ -422,7 +423,7 @@ class _AddTournamentViewState extends State<AddTournamentView> {
                    );
                  }),
                ),
-               SizedBox(height: 20), // Add some space below the button
+               SizedBox(height: 20.h), // Add some space below the button
                Text("Click on the image", style: TextStyle(fontSize: 18)),
              ],
            ),

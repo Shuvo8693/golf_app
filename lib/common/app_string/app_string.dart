@@ -95,6 +95,7 @@ class AppString {
   static String looserNameText="Looser Name";
   static String sendInvitationText="+ Send Invitation";
   static String searchText="Search";
+  static String searchLocationText = "Search Location";
   static String golfGameWorldText="Golf Game World";
   static String homeText="Home";
   static String addTournamentText="Add Tournament";
