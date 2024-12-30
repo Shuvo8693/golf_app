@@ -109,6 +109,7 @@ class AppDrawer extends StatelessWidget {
               title: Text(AppString.requestedToPlayMySmallOutingText,style: AppStyles.h3(),),
               onTap: () {
                 Navigator.pop(context);
+                Get.toNamed(Routes.REQUEST_TO_PLAY);
                 // Navigate to settings or handle logic
               },
               trailing: Icon(Icons.arrow_forward_ios_outlined,size: 20.sp,),

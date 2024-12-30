@@ -118,6 +118,7 @@ class HomeView extends GetView {
                       isRow: true,
                       cardHeight: 60,
                       cardWidth: 300,
+                      elevation: 4,
                       children: [
                         SvgPicture.asset(AppIcons.arrowAngleIcon,width: 22,),
                         SizedBox(width: 8.w),
@@ -149,6 +150,7 @@ class HomeView extends GetView {
                       cardHeight: 50,
                       cardWidth: 90,
                       padding: 8,
+                      elevation: 2,
                       children: [
                         Text(
                           'Add',
@@ -317,7 +319,7 @@ class HomeView extends GetView {
           children: [
             AppButton(
                 onTab: () {
-                  Get.toNamed(Routes.GAGGLE_DETAIL);
+                  Get.toNamed(Routes.TOURNAMENT_DETAIL);
                 },
                 text: 'Details',
                 height: 50.h),

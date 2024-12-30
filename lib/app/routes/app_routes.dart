@@ -13,7 +13,7 @@ abstract class Routes {
   static const MESSAGE = _Paths.MESSAGE;
   static const TOP50 = _Paths.TOP50;
   static const SPONSOR_SIGNUP = _Paths.SPONSOR_SIGNUP;
-  static const GAGGLE_DETAIL = _Paths.GAGGLE_DETAIL;
+  static const TOURNAMENT_DETAIL = _Paths.GAGGLE_DETAIL;
   static const CONTACT_US = _Paths.CONTACT_US;
   static const USER_PROFILE = _Paths.USER_PROFILE;
   static const TEE_SHEET = _Paths.TEE_SHEET;

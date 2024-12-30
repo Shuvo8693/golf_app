@@ -67,7 +67,19 @@ class MyTournamentView extends StatelessWidget {
         Text('Location : Lorem ipsum dolor sit, consectetur elit, sed doadipisicing eiusmod tempor ', style: AppStyles.h5()),
         SizedBox(height: 6.h),
         Text('Group: 1, 2 ', style: AppStyles.h5()),
-        Row(
+        Align(
+          alignment: Alignment.centerRight,
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: 8.h),
+            child: AppButton(
+              text: 'Details',
+              onTab: () {
+                Get.toNamed(Routes.TOURNAMENT_DETAIL);
+              },
+            ),
+          ),
+        ),
+       /* Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Wrap(
@@ -137,14 +149,10 @@ class MyTournamentView extends StatelessWidget {
                 // ),
               ],
             ),
-            AppButton(
-              text: 'Details',
-              onTab: () {
-                Get.toNamed(Routes.TEE_SHEET);
-              },
-            ),
+
           ],
-        )
+        )*/
+
       ],
     );
   }
