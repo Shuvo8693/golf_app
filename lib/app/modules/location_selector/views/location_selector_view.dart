@@ -26,7 +26,11 @@ class _LocationSelectorViewState extends State<LocationSelectorView> {
   late final TextEditingController _searchController = TextEditingController();
   List<String> onChangeTextFieldValue = [];
 
+@override
+  void initState() {
 
+    super.initState();
+  }
 
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
@@ -58,10 +62,13 @@ class _LocationSelectorViewState extends State<LocationSelectorView> {
       // You can make an API call here to save the selected location or perform other actions
       final args = Get.arguments ?? {};
       print(selectedLocation);
-      Get.toNamed(Routes.HOME, arguments: {
-        'address': selectedLocation,
-      });
-      print("Location confirmed: $_pickedLocation");
+      if(args['from']=='login'){
+        Get.toNamed(Routes.SIGN_UP, arguments: {'latLng': _pickedLocation,
+        });
+      }else{
+        Get.offAndToNamed(Routes.HOME);
+      }
+      print("Location confirmed: ${_pickedLocation}");
   }
 
   @override
@@ -93,7 +100,7 @@ class _LocationSelectorViewState extends State<LocationSelectorView> {
             top: 55.h,
             child: InkWell(
               onTap: () {
-                Get.offAllNamed(Routes.HOME);
+                Get.back();
               },
               child: Icon(Icons.arrow_back_ios_new_outlined),
             ),
@@ -124,8 +131,7 @@ class _LocationSelectorViewState extends State<LocationSelectorView> {
                     child: TextField(
                       onChanged: (inputValue) async {
                         if (inputValue.isNotEmpty == true) {
-                          var result = await GoogleApiService.fetchSuggestions(
-                              inputValue);
+                          var result = await GoogleApiService.fetchSuggestions(inputValue);
                           print(result.toString());
                           setState(() {
                             _pickedLocation=null;
@@ -161,7 +167,7 @@ class _LocationSelectorViewState extends State<LocationSelectorView> {
                       // Handle search button press logic
                       _goToSearchLocation(_searchController.text);
                       setState(() {
-                        onChangeTextFieldValue.clear();
+                        onChangeTextFieldValue=[];
                       });
                     },
                   ),
@@ -205,6 +211,10 @@ class _LocationSelectorViewState extends State<LocationSelectorView> {
                                 _searchController.text = selectedLocation;
                                 print(_searchController.text);
                               }
+                              _goToSearchLocation(_searchController.text);
+                              setState(() {
+                                onChangeTextFieldValue=[];
+                              });
                             },
                             child: Text(onChangeTextFieldValue[index].toString(),
                               style: const TextStyle(fontWeight: FontWeight.w500),

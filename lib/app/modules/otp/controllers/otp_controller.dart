@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -9,11 +10,10 @@ import 'package:http/http.dart' as http;
 
 class OtpController extends GetxController {
   TextEditingController otpCtrl = TextEditingController();
-  //ProfileAttributes profileAttributes = ProfileAttributes();
   RxString otpErrorMessage=''.obs;
   var verifyLoading = false.obs;
 
-  Future<void> sendOtp(bool? isResetPass) async {
+  Future<void> sendOtp(bool isResetPass) async {
     Map<String,String> headers = {
       'Content-Type': 'application/json',
     };
@@ -23,14 +23,15 @@ class OtpController extends GetxController {
       var response = await http.post(Uri.parse(ApiConstants.verifyEmailWithOtpUrl), body:  jsonEncode(body),headers: headers);
       final responseData = jsonDecode( response.body);
       if (response.statusCode == 200) {
-        // profileAttributes= ProfileAttributes.fromJson(responseData['data']['attributes']);
-        // print(profileAttributes.toString());
-        // await PrefsHelper.setString('token', profileAttributes.tokens!.access?.token);
-        String token = await PrefsHelper.getString('token');
-        print(token);
 
-        if(isResetPass==true){
-         // Get.toNamed(Routes.passwordChangeScreen,arguments: {'email': Get.arguments['email']});
+       String accessToken = responseData['data']['attributes']['tokens']['access']['token'];
+         if (accessToken.isNotEmpty && isResetPass) {
+           await PrefsHelper.setString('token', accessToken);
+           String token = await PrefsHelper.getString('token');
+           print(token);
+         }
+        if(isResetPass){
+          Get.toNamed(Routes.RESET_PASSWORD,arguments: {'email': Get.arguments['email']});
         }else{
           Get.toNamed(Routes.SIGN_IN);
         }
@@ -41,9 +42,19 @@ class OtpController extends GetxController {
         otpErrorMessage.value = responseData['message'];
         Get.snackbar(otpErrorMessage.value.toString(), '');
       }
-    } on Exception catch (e) {
-      otpErrorMessage.value='$e';
-      Get.snackbar(otpErrorMessage.value.toString(), '');
+    } on SocketException catch (_) {
+      Get.snackbar(
+        'Error',
+        'No internet connection. Please check your network and try again.',
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    }catch(e){
+      Get.snackbar(
+        'Error',
+        'Something went wrong. Please try again later.',
+        snackPosition: SnackPosition.BOTTOM,
+      );
+      print(e);
     }finally{
       verifyLoading.value=false;
     }

@@ -1,32 +1,29 @@
-
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:golf_game_play/app/data/api_constants.dart';
+import 'package:golf_game_play/app/routes/app_pages.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:intl/intl.dart';
+import 'package:http/http.dart' as http;
 
 class SignupController extends GetxController {
-  TextEditingController nameCtlr = TextEditingController();
-  TextEditingController emailCtlr = TextEditingController();
+  TextEditingController nameCtrl = TextEditingController();
+  TextEditingController emailCtrl = TextEditingController();
   TextEditingController handicapCtrl = TextEditingController();
   TextEditingController cityCtrl = TextEditingController();
   TextEditingController stateCtrl = TextEditingController();
   TextEditingController countryCtrl = TextEditingController();
-  TextEditingController passWordCtlr = TextEditingController();
-  TextEditingController confirmPassCtlr = TextEditingController();
+  TextEditingController passWordCtrl = TextEditingController();
+  TextEditingController confirmPassCtrl = TextEditingController();
 
-
-
-  RxBool isJobExperience=false.obs;
-  RxString phoneNumber = ''.obs;
-  RxString address = ''.obs;
+  LatLng? latLng;
   String? gender;
   bool isChecked = false;
   List genderList = ['Male', 'Female', 'Other'];
 
-  RxList<String> categoriList=<String>[].obs;
+  RxList<String> categoryList = <String>[].obs;
 
   RxString selectedDate = 'Select Date Time'.obs;
   String responseMessage = '';
@@ -41,57 +38,65 @@ class SignupController extends GetxController {
     imagePath.value = selectedIMage!.path;
     //image =  File(returnImage.path).readAsBytesSync();
     update();
-    print('ImagesPath:${imagePath}');
+    print('ImagesPath:$imagePath');
     Get.back(); //
-  }
-
-  Future<void> selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-        context: context,
-        initialDate: DateTime.now(),
-        firstDate: DateTime(1725),
-        lastDate: DateTime(2050));
-
-    if (picked != null && picked != selectedDate) {
-      selectedDate.value = DateFormat('dd/MM/yyyy').format(picked);
-      print('dateTime:${selectedDate}');
-      update();
-    }
   }
 
   var registerLoading = false.obs;
 
   signUp() async {
-    registerLoading(true);
-
-    var headers = {'Content-Type': 'multipart/form-data'};
-    String phoneNumbers= phoneNumber.value!=null || phoneNumber.value.isNotEmpty? phoneNumber.value.toString():'';
+    registerLoading.value=true;
+    final location = Get.arguments ?? {};
+    latLng = location['latLng'] as LatLng;
+    final header = {'Content-Type': 'application/json'};
 
     Map<String, String> body = {
-      'fullName': nameCtlr.text,
-      'email': emailCtlr.text,
-      'password': passWordCtlr.text,
-      'role': 'user',
-      if(phoneNumbers.isNotEmpty) 'phoneNumber': phoneNumbers,
-      'dataOfBirth': selectedDate.value,
-      'gender': gender!,
-      'jobExperience': isJobExperience.value.toString(),
-      'jobLessCategory': jsonEncode(categoriList),
-      'address' : address.value
+      "name": nameCtrl.text,
+      "email": emailCtrl.text,
+      "password": passWordCtrl.text,
+      "role": "user",
+      "gender": gender ?? 'male',
+      "city": cityCtrl.text,
+      "state": stateCtrl.text,
+      "country": countryCtrl.text,
+      "handicap": handicapCtrl.text,
+      "latitude": (latLng?.latitude).toString(),
+      "longitude": (latLng?.longitude).toString()
     };
 
-   /* List<MultipartBody> multipartBody = [MultipartBody('image', File(imagePath.value))];
-    var response = await ApiClient.postMultipartData(ApiConstants.registerUrl, body, multipartBody: multipartBody, headers: headers);
+    http.Request request = http.Request('POST', Uri.parse(ApiConstants.registerUrl));
+    request.headers.addAll(header);
+    request.body = jsonEncode(body);
 
-    if (response.statusCode == 201) {
-      //Get.toNamed(AppRoutes.emailveryfaiScreen);
-      registerLoading(false);
-      update();
-    } else {
-      print('Error>>>');
-      print('Error>>>${response.body}');
-      registerLoading(false);
-      update();
-    }*/
+    try {
+      final response = await request.send();
+      final responseData = await http.Response.fromStream(response);
+      Map<String, dynamic> data = jsonDecode(responseData.body);
+      if (response.statusCode == 201) {
+        print(data['code']);
+        if(data['code']==201){
+          Get.toNamed(Routes.OTP,arguments: {'email':emailCtrl.text});
+        }
+
+      } else {
+        print('Error>>>' );
+        print('Error>>>${response}');
+        Get.snackbar('Failed', data['message']);
+      }
+    } on SocketException catch (_) {
+      Get.snackbar(
+        'Error',
+        'No internet connection. Please check your network and try again.',
+        snackPosition: SnackPosition.TOP,
+      );
+    }catch(_){
+      Get.snackbar(
+        'Error',
+        'Something went wrong. Please try again later.',
+        snackPosition: SnackPosition.TOP,
+      );
+    }finally{
+      registerLoading.value=false;
+    }
   }
 }

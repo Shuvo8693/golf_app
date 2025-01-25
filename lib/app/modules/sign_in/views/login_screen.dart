@@ -23,148 +23,168 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final LoginController _loginController = Get.put(LoginController());
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
-    return BackgroundImage(
-        children: [
-          SafeArea(
-            child: SingleChildScrollView(
-              padding: EdgeInsets.symmetric(horizontal: 10.w),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(height: 50.h),
-                    const Align(
-                      alignment: Alignment.center,
-                      child: GolfLogo( imageSize: 230),
-                    ),
-                    Align(
-                        alignment: Alignment.center,
-                        child: Text(AppString.signInText, style: AppStyles.h1(color: Colors.white),)),
+    return BackgroundImage(children: [
+      SafeArea(
+        child: SingleChildScrollView(
+          padding: EdgeInsets.symmetric(horizontal: 10.w),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: 50.h),
+                const Align(
+                  alignment: Alignment.center,
+                  child: GolfLogo(imageSize: 230),
+                ),
+                Align(
+                    alignment: Alignment.center,
+                    child: Text(
+                      AppString.signInText,
+                      style: AppStyles.h1(color: Colors.white),
+                    )),
 
-                    SizedBox(height: 50.h),
-                    CustomTextField(
-                      suffixIcon: Icon(Icons.mail,color:AppColors.appGreyColor ,size: 20,),
-                      filColor: AppColors.textFieldFillColor,
-                      isEmail: true,
-                      contentPaddingVertical: 20.h,
-                      hintText: "Enter Email",
-                      labelText: 'Email',
-                      labelTextStyle: TextStyle(color: AppColors.primaryColor),
-                      controller: _loginController.emailCtrl,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Enter your email';
-                        }
-                        return null;
-                      },
-                    ),
-
-                    SizedBox(height: 20.h),
-
-                    CustomTextField(
-                      filColor: AppColors.textFieldFillColor,
-                      suffixIconColor: AppColors.appGreyColor ,
-                      contentPaddingVertical: 20.h,
-                      hintText: "Enter Password",
-                      labelText: 'Password',
-                      labelTextStyle: TextStyle(color: AppColors.primaryColor),
-                      isObscureText: true,
-                      obscure: '*',
-                      isPassword: true,
-                      controller: _loginController.passCtrl,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Enter password';
-                        }
-                        return null;
-                      },
-                    ),
-                    SizedBox(height: 20.h),
-                    /// remember password
-                     Row(
-                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                       children: [
-                         Wrap(
-                           children: [
-                             InkWell(
-                                 onTap: (){},
-                                 child: const Icon(Icons.check_box_outline_blank,color: Colors.white,)),
-                             SizedBox(width: 6.w),
-                             Text('Remember',style:AppStyles.h4(color: Colors.white),)
-                           ],
-                         ),
-                         /// Forgot password
-                         InkWell(
-                           onTap: ()async{
-                             Get.toNamed(Routes.VERIFY_EMAIL);
-                             String token=await PrefsHelper.getString('token');
-                             if(token.isNotEmpty){
-                               //Get.toNamed(AppRoutes.emailveryfaiScreen);
-                             }
-                           },
-                           child: Text("Forgot Password?",
-                               style: AppStyles.customSize(
-                                   size: 14,
-                                   family: "Schuyler",
-                                   fontWeight: FontWeight.w500,
-                                   color: Colors.white)),
-                         ),
-                       ],
-                     ),
-
-
-                    /// Login Button
-
-                    SizedBox(height: 20.h),
-                    Obx((){
-                      return CustomButton(
-                          loading: _loginController.verifyLoading.value,
-                          onTap: () async {
-                            if (_formKey.currentState!.validate()) {
-                              await _loginController.login();
-                            }
-                          },
-                          textStyle: AppStyles.h1(color: Colors.black,fontWeight: FontWeight.w700),
-                          text: AppString.loginText);
+                SizedBox(height: 50.h),
+                CustomTextField(
+                  suffixIcon: Icon(
+                    Icons.mail,
+                    color: AppColors.appGreyColor,
+                    size: 20,
+                  ),
+                  filColor: AppColors.textFieldFillColor,
+                  isEmail: true,
+                  contentPaddingVertical: 20.h,
+                  hintText: "Enter Email",
+                  labelText: 'Email',
+                  labelTextStyle: TextStyle(color: AppColors.primaryColor),
+                  controller: _loginController.emailCtrl,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Enter your email';
                     }
+                    return null;
+                  },
+                ),
 
-                    ),
+                SizedBox(height: 20.h),
 
-                    /// Route SignUpScreen
-                    SizedBox(height: 100.h),
+                CustomTextField(
+                  filColor: AppColors.textFieldFillColor,
+                  suffixIconColor: AppColors.appGreyColor,
+                  contentPaddingVertical: 20.h,
+                  hintText: "Enter Password",
+                  labelText: 'Password',
+                  labelTextStyle: TextStyle(color: AppColors.primaryColor),
+                  isObscureText: true,
+                  obscure: '*',
+                  isPassword: true,
+                  controller: _loginController.passCtrl,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Enter password';
+                    }
+                    return null;
+                  },
+                ),
+                SizedBox(height: 20.h),
+
+                /// remember password
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                  /*  Wrap(
+                      children: [
+                        InkWell(
+                          onTap: () {},
+                          child: const Icon(
+                            Icons.check_box_outline_blank,
+                            color: Colors.white,
+                          ),
+                        ),
+                        SizedBox(width: 6.w),
+                        Text(
+                          'Remember',
+                          style: AppStyles.h4(color: Colors.white),
+                        )
+                      ],
+                    ),*/
+
+                    /// Forgot password
                     InkWell(
-                      onTap: () {
-                        Get.toNamed(Routes.SIGN_UP);
+                      onTap: () async {
+                        Get.toNamed(Routes.VERIFY_EMAIL);
                       },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text("Don’t have an account? ",
-                              style: AppStyles.customSize(
-                                  size: 14,
-                                  family: "Schuyler",
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.white)),
-                          Text("Register",
-                              style: AppStyles.customSize(
-                                  size: 15,
-                                  family: "Schuyler",
-                                  fontWeight: FontWeight.w500,
-                                  color: AppColors.primaryColor)),
-                        ],
+                      child: Text(
+                        "Forgot Password?",
+                        style: AppStyles.customSize(
+                            size: 14,
+                            family: "Schuyler",
+                            fontWeight: FontWeight.w500,
+                            color: Colors.white),
                       ),
                     ),
-                    SizedBox(height: 80.h),
                   ],
                 ),
-              ),
+
+                /// Login Button
+
+                SizedBox(height: 20.h),
+                Obx(() {
+                  return CustomButton(
+                      loading: _loginController.isLoading.value,
+                      onTap: () async {
+                        if (_formKey.currentState!.validate()) {
+                          await _loginController.login();
+                        }
+                      },
+                      textStyle: AppStyles.h1(color: Colors.black, fontWeight: FontWeight.w700),
+                      text: AppString.loginText);
+                }),
+
+                /// Route to SignUpScreen through location selector screen
+                SizedBox(height: 100.h),
+                InkWell(
+                  onTap: () {
+                    Get.toNamed(Routes.LOCATION_SELECTOR,arguments: {'from':'login'});
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Don’t have an account? ",
+                        style: AppStyles.customSize(
+                            size: 14,
+                            family: "Schuyler",
+                            fontWeight: FontWeight.w500,
+                            color: Colors.white),
+                      ),
+                      Text(
+                        "Register",
+                        style: AppStyles.customSize(
+                            size: 15,
+                            family: "Schuyler",
+                            fontWeight: FontWeight.w500,
+                            color: AppColors.primaryColor),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 80.h),
+              ],
             ),
-          )
-        ]);
+          ),
+        ),
+      )
+    ]);
+  }
+  @override
+  void dispose() {
+    _loginController.dispose();
+    super.dispose();
   }
 }

@@ -26,7 +26,7 @@ class _OtpViewState extends State<OtpView> {
   OtpController otpController = Get.put(OtpController());
   ResendOtpController resendOtpController = Get.put(ResendOtpController());
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  int _start = 59; // 3 min
+  int _start = 179; // 3 min
   Timer _timer = Timer(Duration(seconds: 1), () {});
 
   startTimer() {
@@ -134,14 +134,13 @@ class _OtpViewState extends State<OtpView> {
 
                     SizedBox(height: 20.h),
 
-                    ///======Action Button======
+                    ///======Action Button (Verify mail)======
                     Obx(() {
                       return CustomButton(
                           loading: otpController.verifyLoading.value,
                           onTap: () async {
-                            Get.toNamed(Routes.RESET_PASSWORD,/*arguments: {'email': Get.arguments['email']}*/);
                             if (_formKey.currentState!.validate()) {
-                              //await otpController.sendOtp(isResetPassword);
+                              await otpController.sendOtp(Get.arguments['isPassReset']??false);
                             }
                           },
                           text: AppString.verifyEmailTExt);
@@ -153,8 +152,8 @@ class _OtpViewState extends State<OtpView> {
                     timerText == "00:00"
                         ? InkWell(
                             onTap: () {
-                              resendOtpController.sendMail(false);
-                              _start = 150;
+                              resendOtpController.sendMail();
+                              _start = 179;
                               startTimer();
                               setState(() {});
                             },

@@ -59,7 +59,7 @@ class SignUpView extends GetView {
                     hintText: "Full name",
                     labelText: 'FullName',
                     labelTextStyle: TextStyle(color: AppColors.primaryColor),
-                    controller: _signupController.nameCtlr,
+                    controller: _signupController.nameCtrl,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Enter your name';
@@ -82,7 +82,7 @@ class SignUpView extends GetView {
                     hintText: "Enter Email",
                     labelText: 'Email',
                     labelTextStyle: TextStyle(color: AppColors.primaryColor),
-                    controller: _signupController.emailCtlr,
+                    controller: _signupController.emailCtrl,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Enter your email';
@@ -96,16 +96,19 @@ class SignUpView extends GetView {
                   DropdownButtonFormField<String>(
                     value: _signupController.gender,
                     padding: EdgeInsets.zero,
-                    hint: Text("Select Gender",style: TextStyle(color: AppColors.primaryColor),),
-                    decoration: InputDecoration(
-                      fillColor: AppColors.white
+                    hint: Text(
+                      "Select Gender",
+                      style: TextStyle(color: AppColors.primaryColor),
                     ),
+                    decoration: InputDecoration(fillColor: AppColors.white),
                     items: _signupController.genderList
-                        .map((gender) => DropdownMenuItem<String>(
-                      value: gender,
-                      child: Text(gender),
-                    ),
-                    ).toList(),
+                        .map(
+                          (gender) => DropdownMenuItem<String>(
+                            value: gender,
+                            child: Text(gender),
+                          ),
+                        )
+                        .toList(),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Select your gender';
@@ -115,7 +118,6 @@ class SignUpView extends GetView {
                     onChanged: (newValue) {
                       _signupController.gender = newValue;
                       print('Gender>>>${_signupController.gender}');
-
                     },
                   ),
 
@@ -200,7 +202,7 @@ class SignUpView extends GetView {
                     isObscureText: true,
                     obscure: '*',
                     isPassword: true,
-                    controller: _signupController.passWordCtlr,
+                    controller: _signupController.passWordCtrl,
                   ),
 
                   ///confirm password
@@ -215,11 +217,11 @@ class SignUpView extends GetView {
                     isObscureText: true,
                     obscure: '*',
                     isPassword: true,
-                    controller: _signupController.confirmPassCtlr,
+                    controller: _signupController.confirmPassCtrl,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Enter your confirm password';
-                      } else if (value != _signupController.passWordCtlr.text) {
+                      } else if (value != _signupController.passWordCtrl.text) {
                         return 'Passwords do not match';
                       }
                       return null;
@@ -230,27 +232,27 @@ class SignUpView extends GetView {
                   SizedBox(height: 20.h),
                   Obx(() {
                     return CustomButton(
-                        loading: _signupController.registerLoading.value,
-                        onTap: () async {
-                          Get.offAllNamed(Routes.HOME);
-                          if (_formKey.currentState!.validate()) {
-                            await _signupController.signUp();
-                          }
-                        },
-                        textStyle: AppStyles.h3(
-                            color: Colors.black, fontWeight: FontWeight.w700),
-                        text: AppString.createAccountText);
+                      loading: _signupController.registerLoading.value,
+                      onTap: () async {
+                        //Get.offAndToNamed(Routes.HOME);
+                        if (_formKey.currentState!.validate()) {
+                          await _signupController.signUp();
+                        }
+                      },
+                      textStyle: AppStyles.h3(color: Colors.black, fontWeight: FontWeight.w700),
+                      text: AppString.createAccountText,
+                    );
                   }),
 
                   /// Route SignUpScreen
                   SizedBox(height: 30.h),
                   InkWell(
                     onTap: () {
-                      Get.toNamed(Routes.SIGN_IN);
-                      _signupController.nameCtlr.clear();
-                      _signupController.emailCtlr.clear();
-                      _signupController.passWordCtlr.clear();
-                      _signupController.confirmPassCtlr.clear();
+                      Get.offAndToNamed(Routes.SIGN_IN);
+                      _signupController.nameCtrl.clear();
+                      _signupController.emailCtrl.clear();
+                      _signupController.passWordCtrl.clear();
+                      _signupController.confirmPassCtrl.clear();
                       _signupController.handicapCtrl.clear();
                     },
                     child: Row(
@@ -263,12 +265,14 @@ class SignUpView extends GetView {
                                 family: "Schuyler",
                                 fontWeight: FontWeight.w500,
                                 color: Colors.white)),
-                        Text("Sign in",
-                            style: AppStyles.customSize(
-                                size: 15,
-                                family: "Schuyler",
-                                fontWeight: FontWeight.w500,
-                                color: AppColors.primaryColor)),
+                        Text(
+                          "Sign in",
+                          style: AppStyles.customSize(
+                              size: 15,
+                              family: "Schuyler",
+                              fontWeight: FontWeight.w500,
+                              color: AppColors.primaryColor),
+                        ),
                       ],
                     ),
                   ),

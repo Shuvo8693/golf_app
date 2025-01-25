@@ -122,7 +122,7 @@ class HomeView extends GetView {
                       children: [
                         SvgPicture.asset(AppIcons.arrowAngleIcon,width: 22,),
                         SizedBox(width: 8.w),
-                        Text('Find Tournament Around You', style: AppStyles.h6(),),
+                        Text('Find Tournament Elsewhere', style: AppStyles.h6(),),
                         Flexible(
                           child: Align(
                             alignment: Alignment.topRight,

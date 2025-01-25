@@ -6,28 +6,24 @@ import 'package:golf_game_play/app/modules/bottom_menu/bottom_menu..dart';
 import 'package:golf_game_play/app/routes/app_pages.dart';
 import 'package:golf_game_play/common/app_text_style/style.dart';
 import 'package:golf_game_play/common/widgets/casess_network_image.dart';
+import 'package:golf_game_play/common/widgets/custom_appBar_title.dart';
 import 'package:intl/intl.dart';
 
 
 import '../controllers/message_controller.dart';
 
-class MessageView extends GetView<MessageController> {
+class MessageView extends StatelessWidget {
   const MessageView({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: BottomMenu(3),
-      appBar: AppBar(
-        title: const Text('MessageView'),
-        centerTitle: true,
-      ),
+      appBar: CustomAppBarTitle(text: 'Message'),
       body:Padding(
         padding: EdgeInsets.symmetric(horizontal: 24.w),
         child: Column(
           children: [
-
             /// Friend List
-
             Expanded(
               child: ListView.builder(
                   shrinkWrap: true,

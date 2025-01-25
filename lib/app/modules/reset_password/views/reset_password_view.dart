@@ -71,7 +71,7 @@ class ResetPasswordView extends StatelessWidget {
                     return null;
                   },
                 ),
-
+                /// Confirm password
                 SizedBox(
                   height: 10.h,
                 ),
@@ -98,19 +98,18 @@ class ResetPasswordView extends StatelessWidget {
                 SizedBox(height: 55.h),
 
                 /// Button
-                CustomButton(
-                    onTap: () async {
-                      showStatusOnChangePasswordResponse(context);
-                      if (formKey.currentState!.validate()) {
-                       /* final result = await _resetPasswordController.resetPassword();
-                        result.fold((failureMessage) {
-                          Get.snackbar('Failure', failureMessage);
-                        }, (is200) {
-                          showStatusOnChangePasswordResponse(context);
-                        });*/
-                      }
-                    },
-                    text: AppString.changePasswordText)
+                Obx(() {
+                  return CustomButton(
+                    loading: _resetPasswordController.isLoading.value,
+                      onTap: () {
+                        if (formKey.currentState!.validate()) {
+                          _resetPasswordController.resetPassword(() {
+                            return showStatusOnChangePasswordResponse(context);
+                          });
+                        }
+                      },
+                      text: AppString.changePasswordText);
+                })
               ],
             ),
           ),

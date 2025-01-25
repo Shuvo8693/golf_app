@@ -21,8 +21,7 @@ class VerifyEmailView extends StatefulWidget {
 }
 
 class _VerifyEmailViewState extends State<VerifyEmailView> {
-  final VerifyEmailController _verifyEmailController =
-      Get.put(VerifyEmailController());
+  final VerifyEmailController _verifyEmailController = Get.put(VerifyEmailController());
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -86,10 +85,8 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
                 Obx(() {
                   return CustomButton(
                     onTap: () async {
-                      Get.toNamed(Routes.OTP);
-                      if (_formKey.currentState!.validate() &&
-                          !_verifyEmailController.isLoading.value) {
-                        //await _verifyEmailController.sendMail(isResetPassword);
+                      if (_formKey.currentState!.validate() && !_verifyEmailController.isLoading.value) {
+                        await _verifyEmailController.sendMail(true);
                       }
                     },
                     text: _verifyEmailController.isLoading.value
