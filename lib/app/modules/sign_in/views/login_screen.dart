@@ -21,7 +21,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final LoginController _loginController = Get.put(LoginController());
+  final SignInController _loginController = Get.put(SignInController());
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override

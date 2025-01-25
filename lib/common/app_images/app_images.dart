@@ -11,5 +11,6 @@ class AppImage{
   static String golfLogoLayerImg="$baseUrl/golf_logo_layer.png";
   static String golfTournamentImg="$baseUrl/golf_Trunament_image.png";
   static String starHorizontalImg="$baseUrl/golf_star_horizontal_img.png";
+  static String noImg="$baseUrl/no-image.png";
 
 }

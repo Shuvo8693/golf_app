@@ -8,7 +8,7 @@ import 'package:golf_game_play/app/routes/app_pages.dart';
 import 'package:golf_game_play/common/prefs_helper/prefs_helpers.dart';
 import 'package:http/http.dart' as http;
 
-class LoginController extends GetxController {
+class SignInController extends GetxController {
   TextEditingController emailCtrl = TextEditingController();
   TextEditingController passCtrl = TextEditingController();
 
@@ -36,10 +36,14 @@ class LoginController extends GetxController {
       var responseData = jsonDecode(response.body);
       if (response.statusCode == 200) {
         String token = responseData['data']['attributes']['tokens']['access']['token'];
+        String userId = responseData['data']['attributes']['user']['id'];
         if (token.isNotEmpty) {
           await PrefsHelper.setString('token', token);
+          await PrefsHelper.setString('userId', userId);
           String getToken = await PrefsHelper.getString('token');
+          String appUserId = await PrefsHelper.getString('userId');
           print(getToken);
+          print(appUserId);
           Get.offAllNamed(Routes.HOME);
         }
 

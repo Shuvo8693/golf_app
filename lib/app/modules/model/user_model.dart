@@ -49,6 +49,7 @@ class User {
   String? country;
   String? handicap;
   String? clubName;
+  String? clubHandicap;
   String? facebookLink;
   String? instagramLink;
   String? linkdinLink;
@@ -61,6 +62,7 @@ class User {
   bool? isSubscribe;
   bool? isAprovedAsSupperUser;
   Image? image;
+  CoverImage? coverImage;
   String? createdAt;
   String? updatedAt;
   bool? isResetPassword;
@@ -78,6 +80,7 @@ class User {
         this.country,
         this.handicap,
         this.clubName,
+        this.clubHandicap,
         this.facebookLink,
         this.instagramLink,
         this.linkdinLink,
@@ -90,10 +93,12 @@ class User {
         this.isSubscribe,
         this.isAprovedAsSupperUser,
         this.image,
+        this.coverImage,
         this.createdAt,
         this.updatedAt,
         this.isResetPassword,
-        this.id});
+        this.id
+      });
 
   User.fromJson(Map<String, dynamic> json) {
     myLocation = json['myLocation'] != null
@@ -111,6 +116,7 @@ class User {
     country = json['country'];
     handicap = json['handicap'];
     clubName = json['clubName'];
+    clubHandicap = json['clubHandicap'];
     facebookLink = json['facebookLink'];
     instagramLink = json['instagramLink'];
     linkdinLink = json['linkdinLink'];
@@ -123,6 +129,7 @@ class User {
     isSubscribe = json['isSubscribe'];
     isAprovedAsSupperUser = json['isAprovedAsSupperUser'];
     image = json['image'] != null ? Image.fromJson(json['image']) : null;
+    coverImage = json['coverImage'] != null ? CoverImage.fromJson(json['coverImage']) : null;
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
     isResetPassword = json['isResetPassword'];
@@ -149,6 +156,18 @@ class Image {
   Image({this.url, this.path});
 
   Image.fromJson(Map<String, dynamic> json) {
+    url = json['url'];
+    path = json['path'];
+  }
+}
+
+class CoverImage {
+  String? url;
+  String? path;
+
+  CoverImage({this.url, this.path});
+
+  CoverImage.fromJson(Map<String, dynamic> json) {
     url = json['url'];
     path = json['path'];
   }

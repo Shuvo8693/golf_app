@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
+import 'package:golf_game_play/app/modules/sign_in/controllers/login_controller.dart';
 
-import '../controllers/sign_in_controller.dart';
+
 
 class SignInBinding extends Bindings {
   @override

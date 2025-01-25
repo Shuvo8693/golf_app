@@ -15,13 +15,19 @@ import 'package:lottie/lottie.dart';
 import '../controllers/reset_password_controller.dart';
 
 class ResetPasswordView extends StatelessWidget {
-   ResetPasswordView({super.key});
- final ResetPasswordController _resetPasswordController=Get.put(ResetPasswordController());
-  final GlobalKey<FormState> formKey= GlobalKey<FormState>();
+  ResetPasswordView({super.key});
+
+  final ResetPasswordController _resetPasswordController =
+      Get.put(ResetPasswordController());
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBarTitle(key: key, text: AppString.changePasswordText,),
+      appBar: CustomAppBarTitle(
+        key: key,
+        text: AppString.changePasswordText,
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 24.w),
@@ -71,11 +77,13 @@ class ResetPasswordView extends StatelessWidget {
                     return null;
                   },
                 ),
+
                 /// Confirm password
                 SizedBox(
                   height: 10.h,
                 ),
-                Text('Confirm Password', style: AppStyles.h4(family: "Schuyler")),
+                Text('Confirm Password',
+                    style: AppStyles.h4(family: "Schuyler")),
                 SizedBox(height: 10.h),
                 CustomTextField(
                   contentPaddingVertical: 12.h,
@@ -89,7 +97,8 @@ class ResetPasswordView extends StatelessWidget {
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Confirm your password';
-                    } else if (value != _resetPasswordController.newPassCtrl.text) {
+                    } else if (value !=
+                        _resetPasswordController.newPassCtrl.text) {
                       return 'Password do not match';
                     }
                     return null;
@@ -100,7 +109,7 @@ class ResetPasswordView extends StatelessWidget {
                 /// Button
                 Obx(() {
                   return CustomButton(
-                    loading: _resetPasswordController.isLoading.value,
+                      loading: _resetPasswordController.isLoading.value,
                       onTap: () {
                         if (formKey.currentState!.validate()) {
                           _resetPasswordController.resetPassword(() {
@@ -117,55 +126,62 @@ class ResetPasswordView extends StatelessWidget {
       ),
     );
   }
-   void showStatusOnChangePasswordResponse(BuildContext context) {
-     showModalBottomSheet(
-       context: context,
-       enableDrag: false,
-       isDismissible: false,
-       shape: RoundedRectangleBorder(
-         borderRadius: BorderRadius.vertical(top: Radius.circular(25.0.sp)),
-       ),
-       isScrollControlled: true,
-       builder: (context) {
-         return Padding(
-           padding: EdgeInsets.only(
-             left: 16.0,
-             right: 16.0,
-             top: 16.0,
-             bottom: MediaQuery.of(context).viewInsets.bottom + 16.0,
-           ),
-           child: Column(
-             mainAxisSize: MainAxisSize.min,
-             children: [
-               SizedBox(height: 20.h),
-               SizedBox(
-                   height: 170.h,
-                   child: Lottie.asset('assets/lotti/success_lotti.json')),
-               SizedBox(height: 20.h),
-               // Text
-               Text(
-                 AppString.passwordChangedText,
-                 style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
-               ),
-               SizedBox(height: 10.h),
-               Text(
-                 AppString.returnToTheLoginPageText,textAlign: TextAlign.center,
-                 style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500,),
-               ),
-               SizedBox(height: 20.h),
-               // Elevated Button
-               Padding(
-                 padding:  EdgeInsets.only(bottom: 20.h),
-                 child: CustomButton(
-                     onTap: () {
-                       Get.toNamed(Routes.SIGN_IN);
-                     }, text: 'Back To Login'),
-               )
-             ],
-           ),
-         );
-       },
-     );
-   }
-}
 
+  void showStatusOnChangePasswordResponse(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      enableDrag: false,
+      isDismissible: false,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(25.0.sp)),
+      ),
+      isScrollControlled: true,
+      builder: (context) {
+        return Padding(
+          padding: EdgeInsets.only(
+            left: 16.0,
+            right: 16.0,
+            top: 16.0,
+            bottom: MediaQuery.of(context).viewInsets.bottom + 16.0,
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(height: 20.h),
+              SizedBox(
+                height: 170.h,
+                child: Lottie.asset('assets/lotti/success_lotti.json'),
+              ),
+              SizedBox(height: 20.h),
+              // Text
+              Text(
+                AppString.passwordChangedText,
+                style:
+                    const TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+              ),
+              SizedBox(height: 10.h),
+              Text(
+                AppString.returnToTheLoginPageText,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              SizedBox(height: 20.h),
+              // Elevated Button
+              Padding(
+                padding: EdgeInsets.only(bottom: 20.h),
+                child: CustomButton(
+                    onTap: () {
+                      Get.toNamed(Routes.SIGN_IN);
+                    },
+                    text: 'Back To Login'),
+              )
+            ],
+          ),
+        );
+      },
+    );
+  }
+}
