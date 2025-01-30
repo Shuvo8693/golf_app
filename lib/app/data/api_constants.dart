@@ -20,6 +20,10 @@ static String verifyEmailWithOtpUrl= '$baseUrl/auth/verify-email';
 static String resendOtpUrl= '$baseUrl/auth/re-send-otp';
 static String logInUrl= '$baseUrl/auth/login';
 static String resetPasswordUrl= '$baseUrl/auth/reset-password';
+static String createTournamentUrl= '$baseUrl/tournament/create';
+static String createSmallTournamentUrl= '$baseUrl/small-tournament/create';
+static String clubTournamentUrl= '$baseUrl/tournament/getAll-tournament';
+static String smallTournamentUrl= '$baseUrl/small-tournament/getAll-small-tournament';
 
 
 static String timelinePostUrl= '$baseUrl/post/home';

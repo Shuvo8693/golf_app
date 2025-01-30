@@ -4,8 +4,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
+import 'package:golf_game_play/app/modules/home/model/club_tournament_model.dart';
 import 'package:golf_game_play/app/modules/bottom_menu/bottom_menu..dart';
+import 'package:golf_game_play/app/modules/home/controllers/home_controller.dart';
 import 'package:golf_game_play/app/modules/home/controllers/tab_bar_controller.dart';
+import 'package:golf_game_play/app/modules/home/model/small_tournament_model.dart';
 import 'package:golf_game_play/app/routes/app_pages.dart';
 import 'package:golf_game_play/common/app_color/app_colors.dart';
 import 'package:golf_game_play/common/app_drawer/app_drawer.dart';
@@ -18,10 +21,25 @@ import 'package:golf_game_play/common/widgets/casess_network_image.dart';
 import 'package:golf_game_play/common/widgets/custom_card.dart';
 import 'package:golf_game_play/common/widgets/golf_logo.dart';
 
-class HomeView extends GetView {
-  HomeView({super.key});
+class HomeView extends StatefulWidget {
+  const HomeView({super.key});
 
+  @override
+  State<HomeView> createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<HomeView> {
   final TabBarController _tabBarController = Get.put(TabBarController());
+  final HomeController _homeController =Get.put(HomeController());
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((__)async{
+      await _homeController.fetchClubTournament((){});
+    });
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -204,9 +222,12 @@ class HomeView extends GetView {
                                   ? AppColors.primaryColor.withOpacity(0.5)
                                   : AppColors.primaryColor.withOpacity(0.3),
                           borderColors: AppColors.primaryColor,
-                          onTab: () {
+                          onTab: () async{
                             _tabBarController.currentIndex.value = index;
-                          },
+                            if(_tabBarController.currentIndex.value==1){
+                             await _homeController.fetchSmallTournament((){});
+                            }
+                          }
                       ),
                   ],
                 );
@@ -218,29 +239,43 @@ class HomeView extends GetView {
                   Future.microtask(() => Get.offNamed(Routes.LOOKING_TO_PLAY));
                   return SizedBox.shrink();
                 }
+               List<ClubTournamentData> clubTournamentDataList= _homeController.clubTournamentModel.value.data??[];
+               List<SmallTournamentData> smallTournamentDataList= _homeController.smallTournamentModel.value.data??[];
                 return AnimatedContainer(
                   duration: Duration(milliseconds: 300),
                   child: switch (_tabBarController.currentIndex.value) {
-                    /// Big Tournament
-                    0 => SizedBox(
+                    /// Club Tournament
+                    0 =>
+                    _homeController.isLoadingClub.value
+                        ? CircularProgressIndicator()
+                        : clubTournamentDataList.isEmpty
+                        ? Text('No Tournament Available at your area'):
+                    SizedBox(
                         height: 400.h,
                         child: ListView.builder(
-                          itemCount: 3,
+                          itemCount: clubTournamentDataList.length,
                           shrinkWrap: true,
                           itemBuilder: (BuildContext context, int index) {
-                            return buildTournament();
+                              final clubTournamentData = clubTournamentDataList[index];
+                            return buildClubTournament(clubTournamentData: clubTournamentData);
                           },
                         ),
                       ),
 
                     /// Small Tournament
-                    1 =>  SizedBox(
+                    1 =>
+                    _homeController.isLoadingSmall.value
+                        ? CircularProgressIndicator()
+                        : smallTournamentDataList.isEmpty
+                        ? Text('No Small Tournament Available at your area'):
+                        SizedBox(
                       height: 400.h,
                       child: ListView.builder(
                         itemCount: 3,
                         shrinkWrap: true,
                         itemBuilder: (BuildContext context, int index) {
-                          return buildTournament();
+                          final smallTournamentData = smallTournamentDataList[index];
+                          return buildSmallTournament(smallTournamentData: smallTournamentData);
                         },
                       ),
                     ),
@@ -298,21 +333,23 @@ class HomeView extends GetView {
     );
   }
 
-  CustomCard buildTournament() {
+  CustomCard buildClubTournament({ClubTournamentData? clubTournamentData}) {
     return CustomCard(
       cardWidth: 350,
       children: [
-        Text('Tournament : Booz', style: AppStyles.h5()),
+        Text('Club : ${clubTournamentData?.clubName}', style: AppStyles.h5()),
         SizedBox(height: 6.h),
-        Text('Type : Skins', style: AppStyles.h5()),
+        Text('Type : ${clubTournamentData?.tournamentType}', style: AppStyles.h5()),
         SizedBox(height: 6.h),
-        Text('Location : Lorem ipsum dolor sit, consectetur elit, sed doadipisicing eiusmod tempor ', style: AppStyles.h5()),
+        Text('Course name : ${clubTournamentData?.courseName} ', style: AppStyles.h5()),
         SizedBox(height: 6.h),
-        Text('Players : 2/15', style: AppStyles.h5()),
+        Text('City : ${clubTournamentData?.city}', style: AppStyles.h5()),
         SizedBox(height: 6.h),
-        Text('Start Date : 2024-05-16', style: AppStyles.h5()),
+        Text('Players : ${clubTournamentData?.tournamentPlayersList?.length??0}/${clubTournamentData?.numberOfPlayers}', style: AppStyles.h5()),
         SizedBox(height: 6.h),
-        Text('Start Time : 12:00 AM', style: AppStyles.h5()),
+        Text('Start Date : ${clubTournamentData?.date}', style: AppStyles.h5()),
+        SizedBox(height: 6.h),
+        Text('Start Time : ${clubTournamentData?.time}', style: AppStyles.h5()),
         SizedBox(height: 8),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -321,9 +358,49 @@ class HomeView extends GetView {
                 onTab: () {
                   Get.toNamed(Routes.TOURNAMENT_DETAIL);
                 },
-                text: 'Details',
+                text: 'Rules',
                 height: 50.h),
-            AppButton(onTab: () {}, text: 'Players 2/15', height: 50.h),
+            AppButton(onTab: () {}, text: '${clubTournamentData?.tournamentPlayersList?.length??0}/${clubTournamentData?.numberOfPlayers}', height: 50.h),
+            if(clubTournamentData!.distanceToUser !=null && clubTournamentData.distanceToUser! < 61.0)
+            AppButton(
+              onTab: () {},
+              text: 'Request to play',
+              height: 50.h,
+            ),
+          ],
+        )
+      ],
+    );
+  }
+
+
+  CustomCard buildSmallTournament({SmallTournamentData? smallTournamentData}) {
+    return CustomCard(
+      cardWidth: 350,
+      children: [
+        Text('Tournament : ${smallTournamentData?.tournamentName}', style: AppStyles.h5()),
+        SizedBox(height: 6.h),
+        Text('Type : ${smallTournamentData?.tournamentType}', style: AppStyles.h5()),
+        SizedBox(height: 6.h),
+        Text('Location : ${smallTournamentData?.courseName} ', style: AppStyles.h5()),
+        SizedBox(height: 6.h),
+        Text('Players :  ${smallTournamentData?.tournamentPlayersList?.length??0}/${smallTournamentData?.numberOfPlayers}', style: AppStyles.h5()),
+        SizedBox(height: 6.h),
+        Text('Start Date : ${smallTournamentData?.date}', style: AppStyles.h5()),
+        SizedBox(height: 6.h),
+        Text('Start Time : ${smallTournamentData?.time}', style: AppStyles.h5()),
+        SizedBox(height: 8),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            AppButton(
+                onTab: () {
+                  Get.toNamed(Routes.TOURNAMENT_DETAIL);
+                },
+                text: 'Rules',
+                height: 50.h),
+            AppButton(onTab: () {}, text: '${smallTournamentData?.tournamentPlayersList?.length??0}/${smallTournamentData?.numberOfPlayers}', height: 50.h),
+            if(smallTournamentData!.distanceToUser !=null && smallTournamentData.distanceToUser! < 61.0)
             AppButton(
               onTab: () {},
               text: 'Request to play',

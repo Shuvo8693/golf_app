@@ -1,7 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:golf_game_play/app/data/api_constants.dart';
+import 'package:golf_game_play/app/modules/model/user_model.dart';
+import 'package:golf_game_play/app/modules/my_profile/controllers/my_profile_controller.dart';
 import 'package:golf_game_play/app/modules/profile_update/controllers/profile_update_controller.dart';
 import 'package:golf_game_play/common/app_color/app_colors.dart';
 import 'package:golf_game_play/common/app_constant/app_constant.dart';
@@ -13,17 +18,38 @@ import 'package:golf_game_play/common/widgets/custom_button.dart';
 import 'package:golf_game_play/common/widgets/custom_text_field.dart';
 import 'package:image_picker/image_picker.dart';
 
-class ProfileUpdateView extends StatelessWidget {
-  ProfileUpdateView({super.key});
+class ProfileUpdateView extends StatefulWidget {
+  const ProfileUpdateView({super.key});
 
-  final ProfileUpdateController _profileUpdateController =
-      Get.put(ProfileUpdateController());
+  @override
+  State<ProfileUpdateView> createState() => _ProfileUpdateViewState();
+}
+
+class _ProfileUpdateViewState extends State<ProfileUpdateView> {
+  MyProfileController myProfileCtrl = Get.find();
+  ProfileUpdateController? _profileUpdateController;
+
+  @override
+  void initState()  {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((__)async{
+     await myProfileCtrl.fetchProfile(() {});
+      _profileUpdateController = Get.put(ProfileUpdateController(user: myProfileCtrl.user.value));
+      _profileUpdateController?.getProfile();
+      setState(() {});
+    });
+
+
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: SingleChildScrollView(
+      body:_profileUpdateController == null
+          ? const Center(
+        child: CircularProgressIndicator(), // Show a loading state while initializing
+      ) : SingleChildScrollView(
         padding: EdgeInsets.only(bottom: 30.h),
         child: Column(
           children: [
@@ -31,22 +57,57 @@ class ProfileUpdateView extends StatelessWidget {
               height: 275.h,
               child: Stack(
                 children: [
-                  Positioned(
-                    child: CustomNetworkImage(
-                      imageUrl: AppConstants.golfDemoImage,
-                      height: 200.h,
-                    ),
-                  ),
-                  Positioned(
-                    top: 140.h,
-                    left: 145.w,
-                    child: CustomNetworkImage(
-                      imageUrl: AppConstants.demoPersonImage,
-                      height: 125.h,
-                      width: 125.h,
-                      boxShape: BoxShape.circle,
-                      border: Border.all(color: AppColors.white, width: 3),
-                    ),
+                  ///Cover image
+                  Obx(() {
+                    return Positioned(
+                      child: _profileUpdateController!
+                              .coverImagePath.value.isNotEmpty
+                          ? Container(
+                              height: 200.h,
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                    image: FileImage(
+                                      File(_profileUpdateController!
+                                          .coverImagePath.value),
+                                    ),
+                                    fit: BoxFit.cover),
+                              ),
+                            )
+                          : CustomNetworkImage(
+                              imageUrl: '${ApiConstants.imageBaseUrl}${myProfileCtrl.user.value.coverImage?.url}',
+                              height: 200.h,
+                            ),
+                    );
+                  }),
+
+                  ///profile image
+                  Obx((){
+                    return  Positioned(
+                      top: 140.h,
+                      left: 145.w,
+                      child: _profileUpdateController!.profileImagePath.value.isNotEmpty
+                          ? Container(
+                        height: 125.h,
+                        width: 125.h,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(color: AppColors.white, width: 3),
+                          image: DecorationImage(
+                              image: FileImage(
+                                File(_profileUpdateController!
+                                    .profileImagePath.value),
+                              ),
+                              fit: BoxFit.cover,
+                          ),
+                        ),
+                      ) : CustomNetworkImage(imageUrl: '${ApiConstants.imageBaseUrl}${myProfileCtrl.user.value.image?.url}',
+                        height: 125.h,
+                        width: 125.h,
+                        boxShape: BoxShape.circle,
+                        border: Border.all(color: AppColors.white, width: 3),
+                      ),
+                     );
+                    }
                   ),
 
                   /// Cover image edit
@@ -91,6 +152,7 @@ class ProfileUpdateView extends StatelessWidget {
                 ],
               ),
             ),
+
             Row(mainAxisAlignment: MainAxisAlignment.center,
               children: [Icon(Icons.edit), Text('Edit')],
             ),
@@ -108,21 +170,22 @@ class ProfileUpdateView extends StatelessWidget {
                   CustomTextField(
                     contentPaddingVertical: 15.h,
                     hintText: "Name",
-                    controller: _profileUpdateController.nameCtrl,
+                    controller: _profileUpdateController!.nameCtrl,
                   ),
 
                   /// Select Gender
                   SizedBox(height: 10.h),
-                  Text(AppString.genderText, style: AppStyles.h4(family: "Schuyler")),
+                  Text(AppString.genderText,
+                      style: AppStyles.h4(family: "Schuyler")),
                   SizedBox(
                     height: 10.h,
                   ),
                   DropdownButtonFormField<String>(
-                    value: _profileUpdateController.gender,
+                    value: _profileUpdateController!.gender,
                     padding: EdgeInsets.zero,
                     hint: Text("Select Gender"),
                     decoration: InputDecoration(),
-                    items: _profileUpdateController.genderList
+                    items: _profileUpdateController!.genderList
                         .map(
                           (gender) => DropdownMenuItem<String>(
                             value: gender,
@@ -137,8 +200,8 @@ class ProfileUpdateView extends StatelessWidget {
                       return null;
                     },
                     onChanged: (newValue) {
-                      _profileUpdateController.gender = newValue;
-                      print('Gender>>>${_profileUpdateController.gender}');
+                      _profileUpdateController!.gender = newValue;
+                      print('Gender>>>${_profileUpdateController!.gender}');
                     },
                   ),
 
@@ -156,7 +219,7 @@ class ProfileUpdateView extends StatelessWidget {
                             child: CustomTextField(
                               contentPaddingVertical: 15.h,
                               hintText: "city",
-                              controller: _profileUpdateController.cityCtrl,
+                              controller: _profileUpdateController!.cityCtrl,
                             ),
                           ),
                         ],
@@ -171,7 +234,7 @@ class ProfileUpdateView extends StatelessWidget {
                             child: CustomTextField(
                               contentPaddingVertical: 15.h,
                               hintText: "state",
-                              controller: _profileUpdateController.stateCtrl,
+                              controller: _profileUpdateController!.stateCtrl,
                             ),
                           ),
                         ],
@@ -182,7 +245,7 @@ class ProfileUpdateView extends StatelessWidget {
                   CustomTextField(
                     contentPaddingVertical: 15.h,
                     hintText: "country",
-                    controller: _profileUpdateController.countryCtrl,
+                    controller: _profileUpdateController!.countryCtrl,
                   ),
 
                   /// Club name & handicap
@@ -199,7 +262,8 @@ class ProfileUpdateView extends StatelessWidget {
                             child: CustomTextField(
                               contentPaddingVertical: 15.h,
                               hintText: "Club name",
-                              controller: _profileUpdateController.clubNameCtrl,
+                              controller:
+                                  _profileUpdateController!.clubNameCtrl,
                             ),
                           ),
                         ],
@@ -218,7 +282,7 @@ class ProfileUpdateView extends StatelessWidget {
                               contentPaddingVertical: 15.h,
                               hintText: "Club handicap",
                               controller:
-                                  _profileUpdateController.clubHandicapCtrl,
+                                  _profileUpdateController!.clubHandicapCtrl,
                             ),
                           ),
                         ],
@@ -234,7 +298,7 @@ class ProfileUpdateView extends StatelessWidget {
                     contentPaddingVertical: 15.h,
                     hintText: "Handicap level",
                     labelTextStyle: TextStyle(color: AppColors.primaryColor),
-                    controller: _profileUpdateController.handicapCtrl,
+                    controller: _profileUpdateController!.handicapCtrl,
                   ),
 
                   /// Facebook link
@@ -245,7 +309,7 @@ class ProfileUpdateView extends StatelessWidget {
                     contentPaddingVertical: 15.h,
                     hintText: "https://www.facebook.com/shuvo",
                     labelTextStyle: TextStyle(color: AppColors.primaryColor),
-                    controller: _profileUpdateController.faceBookLinkCtrl,
+                    controller: _profileUpdateController!.faceBookLinkCtrl,
                   ),
 
                   /// Instagram link
@@ -256,7 +320,7 @@ class ProfileUpdateView extends StatelessWidget {
                     contentPaddingVertical: 15.h,
                     hintText: "https://www.instagram.com/shuvo",
                     labelTextStyle: TextStyle(color: AppColors.primaryColor),
-                    controller: _profileUpdateController.instagramLinkCtrl,
+                    controller: _profileUpdateController!.instagramLinkCtrl,
                   ),
 
                   /// Linkedin link
@@ -267,7 +331,7 @@ class ProfileUpdateView extends StatelessWidget {
                     contentPaddingVertical: 15.h,
                     hintText: "https://www.linkedin.com/shuvo",
                     labelTextStyle: TextStyle(color: AppColors.primaryColor),
-                    controller: _profileUpdateController.linkedinCtrl,
+                    controller: _profileUpdateController!.linkedinCtrl,
                   ),
 
                   /// X link
@@ -278,13 +342,35 @@ class ProfileUpdateView extends StatelessWidget {
                     contentPaddingVertical: 15.h,
                     hintText: "https://www.x.com/shuvo",
                     labelTextStyle: TextStyle(color: AppColors.primaryColor),
-                    controller: _profileUpdateController.xLinkCtrl,
+                    controller: _profileUpdateController!.xLinkCtrl,
                   ),
                 ],
               ),
             ),
             SizedBox(height: 50.h),
-            CustomButton(onTap: () {}, text: AppString.saveAndContinueText),
+            Obx(() {
+              return CustomButton(
+                loading: _profileUpdateController!.registerLoading.value,
+                onTap: () {
+                  _profileUpdateController?.updateProfile(
+                    callBack: (message) async{
+                      if (message != null && message.isNotEmpty) {
+                        await myProfileCtrl.fetchProfile(() {});
+                        Get.snackbar(
+                          'Success',
+                          message,
+                          snackPosition: SnackPosition.TOP,
+                          duration: const Duration(seconds: 2),
+                        );
+                      } else {
+                        print("Message is null or empty");
+                      }
+                    },
+                  );
+                },
+                text: AppString.saveAndContinueText,
+              );
+            }),
             SizedBox(height: 20.h),
           ],
         ),
@@ -316,11 +402,11 @@ class ProfileUpdateView extends StatelessWidget {
                     GestureDetector(
                       onTap: () {
                         if (editPic == 'ProfilePic') {
-                          _profileUpdateController
+                          _profileUpdateController!
                               .pickImageFromCameraForProfilePic(
                                   ImageSource.gallery);
                         } else if (editPic == 'CoverPic') {
-                          _profileUpdateController
+                          _profileUpdateController!
                               .pickImageFromCameraForCoverPic(
                                   ImageSource.gallery);
                         }
@@ -339,11 +425,11 @@ class ProfileUpdateView extends StatelessWidget {
                     GestureDetector(
                       onTap: () {
                         if (editPic == 'ProfilePic') {
-                          _profileUpdateController
+                          _profileUpdateController!
                               .pickImageFromCameraForProfilePic(
                                   ImageSource.camera);
                         } else if (editPic == 'CoverPic') {
-                          _profileUpdateController
+                          _profileUpdateController!
                               .pickImageFromCameraForCoverPic(
                                   ImageSource.camera);
                         }

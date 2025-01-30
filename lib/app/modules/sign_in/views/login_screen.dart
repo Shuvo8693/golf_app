@@ -21,7 +21,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final SignInController _loginController = Get.put(SignInController());
+  final SignInController _signInController = Get.put(SignInController());
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
@@ -61,7 +61,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   hintText: "Enter Email",
                   labelText: 'Email',
                   labelTextStyle: TextStyle(color: AppColors.primaryColor),
-                  controller: _loginController.emailCtrl,
+                  controller: _signInController.emailCtrl,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Enter your email';
@@ -82,7 +82,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   isObscureText: true,
                   obscure: '*',
                   isPassword: true,
-                  controller: _loginController.passCtrl,
+                  controller: _signInController.passCtrl,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Enter password';
@@ -135,10 +135,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 SizedBox(height: 20.h),
                 Obx(() {
                   return CustomButton(
-                      loading: _loginController.isLoading.value,
+                      loading: _signInController.isLoading.value,
                       onTap: () async {
                         if (_formKey.currentState!.validate()) {
-                          await _loginController.login();
+                          await _signInController.login();
                         }
                       },
                       textStyle: AppStyles.h1(color: Colors.black, fontWeight: FontWeight.w700),
@@ -184,7 +184,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
   @override
   void dispose() {
-    _loginController.dispose();
+    _signInController.dispose();
     super.dispose();
   }
 }

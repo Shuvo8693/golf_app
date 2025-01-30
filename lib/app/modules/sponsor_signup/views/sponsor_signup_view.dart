@@ -25,7 +25,8 @@ class SponsorSignupView extends StatefulWidget {
 }
 
 class _SponsorSignupViewState extends State<SponsorSignupView> {
-  final SponsorSignupController _sponsorSignupController = Get.put(SponsorSignupController());
+  final SponsorSignupController _sponsorSignupController =
+      Get.put(SponsorSignupController());
   late final TextEditingController _searchController = TextEditingController();
   List<String> onChangeTextFieldValue = [];
 
@@ -36,9 +37,9 @@ class _SponsorSignupViewState extends State<SponsorSignupView> {
       List<Location> locations = await locationFromAddress(query);
       if (locations.isNotEmpty) {
         Location location = locations.first;
-         var latLngLocation = LatLng(location.latitude, location.longitude);
-          latLng = latLngLocation;
-          print(latLng);
+        var latLngLocation = LatLng(location.latitude, location.longitude);
+        latLng = latLngLocation;
+        print(latLng);
       }
     } catch (e) {
       print('Error occurred while searching: $e');
@@ -95,6 +96,7 @@ class _SponsorSignupViewState extends State<SponsorSignupView> {
                     return null;
                   },
                 ),
+
                 /// Location selector section
                 SizedBox(height: 12.h),
                 Text(
@@ -107,10 +109,12 @@ class _SponsorSignupViewState extends State<SponsorSignupView> {
                       child: TextField(
                         onChanged: (inputValue) async {
                           if (inputValue.isNotEmpty == true) {
-                            var result = await GoogleApiService.fetchSuggestions(inputValue);
+                            var result =
+                                await GoogleApiService.fetchSuggestions(
+                                    inputValue);
                             print(result.toString());
                             setState(() {
-                              latLng=null;
+                              latLng = null;
                               onChangeTextFieldValue = result;
                             });
                             print(onChangeTextFieldValue.toString());
@@ -128,7 +132,7 @@ class _SponsorSignupViewState extends State<SponsorSignupView> {
                         ),
                         onSubmitted: (value) {
                           // Handle search submission logic here
-                           _goToSearchLocation(value);
+                          _goToSearchLocation(value);
                         },
                       ),
                     ),
@@ -139,7 +143,7 @@ class _SponsorSignupViewState extends State<SponsorSignupView> {
                         size: 24.sp,
                       ),
                       onPressed: () {
-                         _goToSearchLocation(_searchController.text);
+                        _goToSearchLocation(_searchController.text);
                         setState(() {
                           onChangeTextFieldValue.clear();
                         });
@@ -147,6 +151,7 @@ class _SponsorSignupViewState extends State<SponsorSignupView> {
                     ),
                   ],
                 ),
+
                 /// Location list section
                 SizedBox(height: 8.h),
                 onChangeTextFieldValue.isNotEmpty == true
@@ -177,7 +182,9 @@ class _SponsorSignupViewState extends State<SponsorSignupView> {
                                 padding: EdgeInsets.all(8.0.sp),
                                 child: InkWell(
                                   onTap: () {
-                                    String selectedLocation = onChangeTextFieldValue[index].toString();
+                                    String selectedLocation =
+                                        onChangeTextFieldValue[index]
+                                            .toString();
                                     print(selectedLocation);
                                     if (selectedLocation.isNotEmpty == true) {
                                       _searchController.text = selectedLocation;
@@ -186,7 +193,8 @@ class _SponsorSignupViewState extends State<SponsorSignupView> {
                                   },
                                   child: Text(
                                     onChangeTextFieldValue[index].toString(),
-                                    style: const TextStyle(fontWeight: FontWeight.w500),
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.w500),
                                   ),
                                 ),
                               );
@@ -213,16 +221,20 @@ class _SponsorSignupViewState extends State<SponsorSignupView> {
                   },
                 ),
                 SizedBox(height: 100.h),
-                CustomButton(onTap: () {
-                  if(latLng !=null){
-                    print('Check LatLng: $latLng');
-                    print('${latLng?.latitude} & ${latLng?.longitude}'); ///======== I need this LatLng
-                  }else{
-                    print("No location selected!");
-                    Get.snackbar('No location selected!', 'Please select your location ');
-                  }
+                CustomButton(
+                    onTap: () {
+                      if (latLng != null) {
+                        print('Check LatLng: $latLng');
+                        print('${latLng?.latitude} & ${latLng?.longitude}');
 
-                }, text: AppString.saveAndContinueText)
+                        ///======== I need this LatLng
+                      } else {
+                        print("No location selected!");
+                        Get.snackbar('No location selected!',
+                            'Please select your location ');
+                      }
+                    },
+                    text: AppString.saveAndContinueText)
               ],
             ),
           ),
@@ -266,12 +278,13 @@ class _SponsorSignupViewState extends State<SponsorSignupView> {
                   return Container(
                     height: 150,
                     decoration: BoxDecoration(
-                        color: AppColors.grayLight,
-                        borderRadius: BorderRadius.circular(12),
-                        image: DecorationImage(
-                            image: FileImage(
-                                File(_sponsorSignupController.filePath.value)),
-                            fit: BoxFit.cover)),
+                      color: AppColors.grayLight,
+                      borderRadius: BorderRadius.circular(12),
+                      image: DecorationImage(
+                          image: FileImage(
+                              File(_sponsorSignupController.filePath.value)),
+                          fit: BoxFit.cover),
+                    ),
                   );
                 }),
               ),

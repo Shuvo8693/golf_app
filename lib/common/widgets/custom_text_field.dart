@@ -71,11 +71,11 @@ class _CustomTextFieldState extends State<CustomTextField> {
           (value) {
             if (widget.isEmail == null) {
               if (value!.isEmpty) {
-                return "Please ${widget.hintText!.toLowerCase()}";
+                return widget.hintText!.toLowerCase();
               } else if (widget.isPassword) {
                 bool data = AppConstants.passwordValidator.hasMatch(value);
                 if (value.isEmpty) {
-                  return "Please ${widget.hintText!.toLowerCase()}";
+                  return widget.hintText!.toLowerCase();
                 } else if (!data) {
                   return "Password hint: [A-Z],[a-z],[!-*],[1-8]";
                 }
