@@ -122,11 +122,6 @@ class GaggleDetailView extends StatelessWidget {
                     Get.toNamed(Routes.CHALLENGE_MATCHES);
                   }, text: AppString.challengeMatchesText),
               SizedBox(height: 10.h),
-              CustomButton(
-                  onTap: () {
-                    _showGaggleDetailsBottomSheet(context);
-                  },
-                  text: AppString.gaggleRulesText),
             ],
           ),
         ),
@@ -200,63 +195,4 @@ class GaggleDetailView extends StatelessWidget {
     );
   }
 
-  void _showGaggleDetailsBottomSheet(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) {
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          // To shrink the bottom sheet to fit content
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Title with Close Button
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                // Close Icon at the Top-right Corner
-                IconButton(
-                  icon: Icon(Icons.close),
-                  onPressed: () {
-                    Navigator.pop(context); // Close the bottom sheet
-                  },
-                ),
-              ],
-            ),
-            Align(
-                alignment: Alignment.center,
-                child: Text(AppString.gaggleRulesText, style: AppStyles.h1())),
-            // Content of Bottom Sheet
-            SizedBox(height: 20.h),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: CustomCard(
-                borderSideColor: AppColors.primaryColor.withOpacity(0.5),
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(AppString.gaggleRulesText, style: AppStyles.h2()),
-                      Text(AppString.subonboardingText, style: AppStyles.h6()),
-                      SizedBox(height: 10.h),
-                      Text(
-                        AppString.formatOfPlayText,
-                        style: AppStyles.h2(),
-                      ),
-                      Text(AppString.subonboardingText, style: AppStyles.h6()),
-                      SizedBox(height: 10.h),
-                      Text(
-                        AppString.tournamentSpecificsText,
-                        style: AppStyles.h2(),
-                      ),
-                      Text(AppString.subonboardingText, style: AppStyles.h6()),
-                    ],
-                  )
-                ],
-              ),
-            )
-          ],
-        );
-      },
-    );
-  }
 }

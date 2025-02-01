@@ -24,6 +24,7 @@ static String createTournamentUrl= '$baseUrl/tournament/create';
 static String createSmallTournamentUrl= '$baseUrl/small-tournament/create';
 static String clubTournamentUrl= '$baseUrl/tournament/getAll-tournament';
 static String smallTournamentUrl= '$baseUrl/small-tournament/getAll-small-tournament';
+static String locationUpdateUrl= '$baseUrl/location/update';
 
 
 static String timelinePostUrl= '$baseUrl/post/home';

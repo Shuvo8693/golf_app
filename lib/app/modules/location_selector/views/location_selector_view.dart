@@ -63,8 +63,7 @@ class _LocationSelectorViewState extends State<LocationSelectorView> {
       final args = Get.arguments ?? {};
       print(selectedLocation);
       if(args['from']=='login'){
-        Get.toNamed(Routes.SIGN_UP, arguments: {'latLng': _pickedLocation,
-        });
+        Get.toNamed(Routes.SIGN_UP, arguments: {'latLng': _pickedLocation});
       }else{
         Get.offAndToNamed(Routes.HOME);
       }

@@ -35,8 +35,8 @@ class SmallTournamentData {
   String? city;
   String? courseName;
   CourseLocation? courseLocation;
-  int? courseRating;
-  int? slopeRating;
+  double? courseRating;
+  double? slopeRating;
   int? numberOfPlayers;
   int? handicapFromRange;
   int? handicapToRange;
@@ -90,8 +90,16 @@ class SmallTournamentData {
     courseLocation = json['courseLocation'] != null
         ? CourseLocation.fromJson(json['courseLocation'])
         : null;
-    courseRating = json['courseRating'];
-    slopeRating = json['slopeRating'];
+    if( json['courseRating'] is double){
+      courseRating = json['courseRating'];
+    }else if(json['courseRating'] is int){
+      courseRating =double.tryParse(json['courseRating'].toString());
+    }
+    if( json['slopeRating'] is double){
+      slopeRating = json['slopeRating'];
+    }else if(json['slopeRating'] is int){
+      slopeRating =double.tryParse(json['slopeRating'].toString());
+    }
     numberOfPlayers = json['numberOfPlayers'];
     handicapFromRange = json['handicapFromRange'];
     handicapToRange = json['handicapToRange'];

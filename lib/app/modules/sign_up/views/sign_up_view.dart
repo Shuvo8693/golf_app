@@ -234,7 +234,6 @@ class SignUpView extends GetView {
                     return CustomButton(
                       loading: _signupController.registerLoading.value,
                       onTap: () async {
-                        //Get.offAndToNamed(Routes.HOME);
                         if (_formKey.currentState!.validate()) {
                           await _signupController.signUp();
                         }

@@ -46,7 +46,6 @@ class ClubTournamentData {
   double? distance;
   double? distanceToCurrentLocation;
   double? distanceToUser;
-  String? tournamentName;
 
   ClubTournamentData(
       {this.sId,
@@ -70,13 +69,13 @@ class ClubTournamentData {
         this.distance,
         this.distanceToCurrentLocation,
         this.distanceToUser,
-        this.tournamentName});
+      });
 
   ClubTournamentData.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
     clubName = json['clubName'];
     tournamentCreator = json['tournamentCreator'];
-    if (json['tournamentPlayersList'] != null) {
+    if (json['tournamentPlayersList'] != null && (json['tournamentPlayersList'] as List).isNotEmpty ) {
       tournamentPlayersList = <String>[];
       json['tournamentPlayersList'].forEach((v) {
         tournamentPlayersList!.add(v);
@@ -90,10 +89,24 @@ class ClubTournamentData {
     courseLocation = json['courseLocation'] != null
         ? CourseLocation.fromJson(json['courseLocation'])
         : null;
-    courseRating = json['courseRating'];
-    slopeRating = json['slopeRating'];
+    if( json['courseRating'] is double){
+      courseRating = json['courseRating'];
+    }else if(json['courseRating'] is int){
+      courseRating =double.tryParse(json['courseRating'].toString());
+    }
+    if( json['slopeRating'] is double){
+      slopeRating = json['slopeRating'];
+    }else if(json['slopeRating'] is int){
+      slopeRating =double.tryParse(json['slopeRating'].toString());
+    }
     numberOfPlayers = json['numberOfPlayers'];
-    gaggleLength = json['gaggleLength'];
+    if(json['gaggleLength'] is double){
+      gaggleLength = json['gaggleLength'];
+    } else if(json['gaggleLength'] is int){
+      gaggleLength =double.tryParse(json['gaggleLength'].toString());
+      print(gaggleLength);
+    }
+
     tournamentImage = json['tournamentImage'] != null
         ? TournamentImage.fromJson(json['tournamentImage'])
         : null;
@@ -103,7 +116,6 @@ class ClubTournamentData {
     distance = json['distance'];
     distanceToCurrentLocation = json['distanceToCurrentLocation'];
     distanceToUser = json['distanceToUser'];
-    tournamentName = json['tournamentName'];
   }
 }
 
@@ -143,7 +155,7 @@ class TournamentPagination {
   int? currentPage;
   int? totalPages;
   int? nextPage;
-  dynamic previousPage;
+  int? previousPage;
   int? totalItems;
 
   TournamentPagination(

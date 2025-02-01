@@ -4,22 +4,30 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
+import 'package:golf_game_play/app/modules/home/controllers/current_location_controller.dart';
+import 'package:golf_game_play/app/modules/home/controllers/location_update_controller.dart';
 import 'package:golf_game_play/app/modules/home/model/club_tournament_model.dart';
 import 'package:golf_game_play/app/modules/bottom_menu/bottom_menu..dart';
 import 'package:golf_game_play/app/modules/home/controllers/home_controller.dart';
 import 'package:golf_game_play/app/modules/home/controllers/tab_bar_controller.dart';
 import 'package:golf_game_play/app/modules/home/model/small_tournament_model.dart';
+import 'package:golf_game_play/app/modules/home/widgets/club_tournament_card.dart';
+import 'package:golf_game_play/app/modules/home/widgets/gaggle_rules.dart';
+import 'package:golf_game_play/app/modules/home/widgets/small_tournament_card.dart';
+import 'package:golf_game_play/app/modules/home/widgets/sponsor_content_view.dart';
 import 'package:golf_game_play/app/routes/app_pages.dart';
 import 'package:golf_game_play/common/app_color/app_colors.dart';
 import 'package:golf_game_play/common/app_drawer/app_drawer.dart';
 import 'package:golf_game_play/common/app_icons/app_icons.dart';
 import 'package:golf_game_play/common/app_images/app_images.dart';
 import 'package:golf_game_play/common/app_images/network_image%20.dart';
+import 'package:golf_game_play/common/app_string/app_string.dart';
 import 'package:golf_game_play/common/app_text_style/style.dart';
 import 'package:golf_game_play/common/widgets/app_button.dart';
 import 'package:golf_game_play/common/widgets/casess_network_image.dart';
 import 'package:golf_game_play/common/widgets/custom_card.dart';
 import 'package:golf_game_play/common/widgets/golf_logo.dart';
+import 'package:golf_game_play/common/widgets/spacing.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -30,13 +38,34 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   final TabBarController _tabBarController = Get.put(TabBarController());
-  final HomeController _homeController =Get.put(HomeController());
+  final CurrentLocationController currentLocationController=Get.put(CurrentLocationController());
+   LocationUpdateController? _locationUpdateController;
+  final HomeController _homeController = Get.put(HomeController());
+  final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((__)async{
-      await _homeController.fetchClubTournament((){});
+    WidgetsBinding.instance.addPostFrameCallback((__) async {
+     await currentLocationController.getCurrentLocation();
+     _locationUpdateController=Get.put(LocationUpdateController(currentLocationController: currentLocationController));
+    await _locationUpdateController?.updateLocation();
+      await _homeController.fetchClubTournament(() {});
+    });
+    _scrollController.addListener(()async{
+      if(_scrollController.position.pixels
+          >= _scrollController.position.maxScrollExtent -200
+          && !_homeController.isClubFetchingMore.value){
+         await _homeController.loadMoreClubPage();
+      }
+    });
+
+    _scrollController.addListener(()async{
+      if(_scrollController.position.pixels
+          >= _scrollController.position.maxScrollExtent -200
+          && !_homeController.isOutingFetchingMore.value){
+        await _homeController.loadMoreOutingPage();
+      }
     });
 
   }
@@ -66,6 +95,7 @@ class _HomeViewState extends State<HomeView> {
                   CustomCard(
                     cardHeight: 110,
                     cardWidth: 120,
+                    elevation: 2,
                     children: [
                       Image.asset(
                         AppImage.cityImg,
@@ -82,6 +112,7 @@ class _HomeViewState extends State<HomeView> {
                   CustomCard(
                     cardHeight: 110,
                     cardWidth: 120,
+                    elevation: 2,
                     children: [
                       Image.asset(
                         AppImage.stateImg,
@@ -102,6 +133,7 @@ class _HomeViewState extends State<HomeView> {
                   CustomCard(
                     cardHeight: 110,
                     cardWidth: 120,
+                    elevation: 2,
                     children: [
                       Image.asset(
                         AppImage.countryImg,
@@ -136,15 +168,23 @@ class _HomeViewState extends State<HomeView> {
                       isRow: true,
                       cardHeight: 60,
                       cardWidth: 300,
-                      elevation: 4,
+                      elevation: 2,
                       children: [
-                        SvgPicture.asset(AppIcons.arrowAngleIcon,width: 22,),
+                        SvgPicture.asset(
+                          AppIcons.arrowAngleIcon,
+                          width: 22,
+                        ),
                         SizedBox(width: 8.w),
-                        Text('Find Tournament Elsewhere', style: AppStyles.h6(),),
+                        Text(
+                          'Find Tournament Elsewhere',
+                          style: AppStyles.h6(),
+                        ),
                         Flexible(
                           child: Align(
                             alignment: Alignment.topRight,
-                            child: Icon(Icons.arrow_forward_ios_outlined, size: 18,
+                            child: Icon(
+                              Icons.arrow_forward_ios_outlined,
+                              size: 18,
                             ),
                           ),
                         )
@@ -177,7 +217,8 @@ class _HomeViewState extends State<HomeView> {
                       ],
                     ),
                   ),
-                  Text('Sponsored Tournaments',
+                  Text(
+                    'Sponsored Tournaments',
                     style: AppStyles.h2(),
                   )
                 ],
@@ -187,33 +228,35 @@ class _HomeViewState extends State<HomeView> {
               SizedBox(height: 10.h),
               CarouselSlider.builder(
                 itemCount: 3,
-                itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex) {
-                  return buildSponsorContentView();
+                itemBuilder:
+                    (BuildContext context, int itemIndex, int pageViewIndex) {
+                  return SponsorContentView();
                 },
                 options: CarouselOptions(
-                height: 280.h,
-                aspectRatio: 16/9,
-                viewportFraction: 1,
-                initialPage: 0,
-                enableInfiniteScroll: true,
-                reverse: false,
-                autoPlay: true,
-                autoPlayInterval: Duration(seconds: 3),
-                autoPlayAnimationDuration: Duration(milliseconds: 800),
-                autoPlayCurve: Curves.fastOutSlowIn,
-                enlargeCenterPage: true,
-                enlargeFactor: 0.3,
-               // onPageChanged: ,
-                scrollDirection: Axis.horizontal,
-              ),
-
+                  height: 280.h,
+                  aspectRatio: 16 / 9,
+                  viewportFraction: 1,
+                  initialPage: 0,
+                  enableInfiniteScroll: true,
+                  reverse: false,
+                  autoPlay: true,
+                  autoPlayInterval: Duration(seconds: 3),
+                  autoPlayAnimationDuration: Duration(milliseconds: 800),
+                  autoPlayCurve: Curves.fastOutSlowIn,
+                  enlargeCenterPage: true,
+                  enlargeFactor: 0.3,
+                  // onPageChanged: ,
+                  scrollDirection: Axis.horizontal,
+                ),
               ),
               SizedBox(height: 10.h),
               Obx(() {
                 return Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    for (int index = 0; index < _tabBarController.tapBarList.length; index++)
+                    for (int index = 0;
+                        index < _tabBarController.tapBarList.length;
+                        index++)
                       AppButton(
                           text: _tabBarController.tapBarList[index],
                           isBorderActive: true,
@@ -222,63 +265,86 @@ class _HomeViewState extends State<HomeView> {
                                   ? AppColors.primaryColor.withOpacity(0.5)
                                   : AppColors.primaryColor.withOpacity(0.3),
                           borderColors: AppColors.primaryColor,
-                          onTab: () async{
+                          onTab: () async {
                             _tabBarController.currentIndex.value = index;
-                            if(_tabBarController.currentIndex.value==1){
-                             await _homeController.fetchSmallTournament((){});
+                            /// Small Tournament data fetch
+                            if (_tabBarController.currentIndex.value == 1) {
+                              await _homeController.fetchSmallTournament(() {});
+
+                            } else if (_tabBarController.currentIndex.value == 0) {
+                              /// Club Tournament data fetch
+                              await _homeController.fetchClubTournament(() {});
                             }
-                          }
-                      ),
+                          }),
                   ],
                 );
               }),
               SizedBox(height: 10.h),
               Obx(() {
+                List<ClubTournamentData> clubTournamentDataList = [];
+                List<SmallTournamentData> smallTournamentDataList = [];
                 if (_tabBarController.currentIndex.value == 2) {
                   /// Looking to Play Screen Route
                   Future.microtask(() => Get.offNamed(Routes.LOOKING_TO_PLAY));
                   return SizedBox.shrink();
                 }
-               List<ClubTournamentData> clubTournamentDataList= _homeController.clubTournamentModel.value.data??[];
-               List<SmallTournamentData> smallTournamentDataList= _homeController.smallTournamentModel.value.data??[];
+                if (_tabBarController.currentIndex.value == 0) {
+                  clubTournamentDataList = _homeController.clubTournamentModel.value.data ?? [];
+                } else if (_tabBarController.currentIndex.value == 1) {
+                  smallTournamentDataList = _homeController.smallTournamentModel.value.data ?? [];
+                }
+
                 return AnimatedContainer(
                   duration: Duration(milliseconds: 300),
                   child: switch (_tabBarController.currentIndex.value) {
                     /// Club Tournament
-                    0 =>
-                    _homeController.isLoadingClub.value
+                    0 => _homeController.isLoadingClub.value
                         ? CircularProgressIndicator()
                         : clubTournamentDataList.isEmpty
-                        ? Text('No Tournament Available at your area'):
-                    SizedBox(
-                        height: 400.h,
-                        child: ListView.builder(
-                          itemCount: clubTournamentDataList.length,
-                          shrinkWrap: true,
-                          itemBuilder: (BuildContext context, int index) {
-                              final clubTournamentData = clubTournamentDataList[index];
-                            return buildClubTournament(clubTournamentData: clubTournamentData);
-                          },
-                        ),
-                      ),
+                            ? Text('No Tournament Available at your area')
+                            : SizedBox(
+                                height: 400.h,
+                                child: ListView.builder(
+                                  controller: _scrollController,
+                                  itemCount: clubTournamentDataList.length +(_homeController.isClubFetchingMore.value ? 1:0),
+                                  shrinkWrap: true,
+                                  itemBuilder: (BuildContext context, int index) {
+                                    if(index == clubTournamentDataList.length){
+                                      return  Padding(
+                                        padding: EdgeInsets.symmetric(vertical: 16.0.h),
+                                        child: Center(child: CircularProgressIndicator()),
+                                      );
+                                    }
+                                    final clubTournamentData = clubTournamentDataList[index];
+                                    return ClubTournamentCard(
+                                        clubTournamentData: clubTournamentData);
+                                  },
+                                ),
+                              ),
 
                     /// Small Tournament
-                    1 =>
-                    _homeController.isLoadingSmall.value
+                    1 => _homeController.isLoadingSmall.value
                         ? CircularProgressIndicator()
                         : smallTournamentDataList.isEmpty
-                        ? Text('No Small Tournament Available at your area'):
-                        SizedBox(
-                      height: 400.h,
-                      child: ListView.builder(
-                        itemCount: 3,
-                        shrinkWrap: true,
-                        itemBuilder: (BuildContext context, int index) {
-                          final smallTournamentData = smallTournamentDataList[index];
-                          return buildSmallTournament(smallTournamentData: smallTournamentData);
-                        },
-                      ),
-                    ),
+                            ? Text('No Small Tournament Available at your area')
+                            : SizedBox(
+                                height: 400.h,
+                                child: ListView.builder(
+                                  controller: _scrollController,
+                                  itemCount: smallTournamentDataList.length + (_homeController.isOutingFetchingMore.value ? 1:0),
+                                  shrinkWrap: true,
+                                  itemBuilder: (BuildContext context, int index) {
+                                    if(index == smallTournamentDataList.length){
+                                      return  Padding(
+                                        padding: EdgeInsets.symmetric(vertical: 16.0.h),
+                                        child: Center(child: CircularProgressIndicator()),
+                                      );
+                                    }
+                                    final smallTournamentData = smallTournamentDataList[index];
+                                    return SmallTournamentCard(smallTournamentData: smallTournamentData);
+                                  },
+                                ),
+                              ),
                     _ => SizedBox.shrink(),
                   },
                 );
@@ -290,125 +356,4 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 
-  Padding buildSponsorContentView() {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 4.w),
-      child: Stack(
-        children: [
-          Positioned(
-            child: CustomNetworkImage(
-                imageUrl: AppNetworkImage.golfFlayerImg,
-              height: 230,
-              borderRadius: BorderRadius.circular(12.r),
-            )
-          ),
-          Positioned(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                /// Action button Route to Web view
-                Padding(
-                  padding:  EdgeInsets.only(bottom: 30.w),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text('For more information '),
-                      SizedBox(width: 8.h),
-                      GestureDetector(
-                        onTap: () {
-                          Get.toNamed(Routes.SPONSORE_WEB);
-                        },
-                        child: Text('click here', style: AppStyles.h5(
-                              color: Colors.orange, fontWeight: FontWeight.w700),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  CustomCard buildClubTournament({ClubTournamentData? clubTournamentData}) {
-    return CustomCard(
-      cardWidth: 350,
-      children: [
-        Text('Club : ${clubTournamentData?.clubName}', style: AppStyles.h5()),
-        SizedBox(height: 6.h),
-        Text('Type : ${clubTournamentData?.tournamentType}', style: AppStyles.h5()),
-        SizedBox(height: 6.h),
-        Text('Course name : ${clubTournamentData?.courseName} ', style: AppStyles.h5()),
-        SizedBox(height: 6.h),
-        Text('City : ${clubTournamentData?.city}', style: AppStyles.h5()),
-        SizedBox(height: 6.h),
-        Text('Players : ${clubTournamentData?.tournamentPlayersList?.length??0}/${clubTournamentData?.numberOfPlayers}', style: AppStyles.h5()),
-        SizedBox(height: 6.h),
-        Text('Start Date : ${clubTournamentData?.date}', style: AppStyles.h5()),
-        SizedBox(height: 6.h),
-        Text('Start Time : ${clubTournamentData?.time}', style: AppStyles.h5()),
-        SizedBox(height: 8),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            AppButton(
-                onTab: () {
-                  Get.toNamed(Routes.TOURNAMENT_DETAIL);
-                },
-                text: 'Rules',
-                height: 50.h),
-            AppButton(onTab: () {}, text: '${clubTournamentData?.tournamentPlayersList?.length??0}/${clubTournamentData?.numberOfPlayers}', height: 50.h),
-            if(clubTournamentData!.distanceToUser !=null && clubTournamentData.distanceToUser! < 61.0)
-            AppButton(
-              onTab: () {},
-              text: 'Request to play',
-              height: 50.h,
-            ),
-          ],
-        )
-      ],
-    );
-  }
-
-
-  CustomCard buildSmallTournament({SmallTournamentData? smallTournamentData}) {
-    return CustomCard(
-      cardWidth: 350,
-      children: [
-        Text('Tournament : ${smallTournamentData?.tournamentName}', style: AppStyles.h5()),
-        SizedBox(height: 6.h),
-        Text('Type : ${smallTournamentData?.tournamentType}', style: AppStyles.h5()),
-        SizedBox(height: 6.h),
-        Text('Location : ${smallTournamentData?.courseName} ', style: AppStyles.h5()),
-        SizedBox(height: 6.h),
-        Text('Players :  ${smallTournamentData?.tournamentPlayersList?.length??0}/${smallTournamentData?.numberOfPlayers}', style: AppStyles.h5()),
-        SizedBox(height: 6.h),
-        Text('Start Date : ${smallTournamentData?.date}', style: AppStyles.h5()),
-        SizedBox(height: 6.h),
-        Text('Start Time : ${smallTournamentData?.time}', style: AppStyles.h5()),
-        SizedBox(height: 8),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            AppButton(
-                onTab: () {
-                  Get.toNamed(Routes.TOURNAMENT_DETAIL);
-                },
-                text: 'Rules',
-                height: 50.h),
-            AppButton(onTab: () {}, text: '${smallTournamentData?.tournamentPlayersList?.length??0}/${smallTournamentData?.numberOfPlayers}', height: 50.h),
-            if(smallTournamentData!.distanceToUser !=null && smallTournamentData.distanceToUser! < 61.0)
-            AppButton(
-              onTab: () {},
-              text: 'Request to play',
-              height: 50.h,
-            ),
-          ],
-        )
-      ],
-    );
-  }
 }

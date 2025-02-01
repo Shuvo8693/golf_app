@@ -17,6 +17,7 @@ class AppButton extends StatelessWidget {
   final double? containerHorizontalPadding;
   final bool? isIconWithTextActive;
   final String? iconPath;
+  final TextStyle? textStyle;
 
   const AppButton(
       {super.key,
@@ -29,7 +30,7 @@ class AppButton extends StatelessWidget {
       this.buttonColor,
       this.containerVerticalPadding,
       this.containerHorizontalPadding,
-      this.isIconWithTextActive = false, this.iconPath});
+      this.isIconWithTextActive = false, this.iconPath, this.textStyle});
 
   @override
   Widget build(BuildContext context) {
@@ -57,15 +58,14 @@ class AppButton extends StatelessWidget {
           children: [
             SvgPicture.asset(iconPath??'',height: 17,),
             SizedBox(width: 5.w),
-            Text(
-              text,
-              style: AppStyles.h4(),
+            Text(text,
+              style:textStyle?? AppStyles.h4(),
               textAlign: TextAlign.center,
             )
           ],
         ) :Text(
           text,
-          style: AppStyles.h4(),
+          style:textStyle?? AppStyles.h4(),
           textAlign: TextAlign.center,
         ),
       ),
