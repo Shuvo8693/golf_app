@@ -25,6 +25,9 @@ static String createSmallTournamentUrl= '$baseUrl/small-tournament/create';
 static String clubTournamentUrl= '$baseUrl/tournament/getAll-tournament';
 static String smallTournamentUrl= '$baseUrl/small-tournament/getAll-small-tournament';
 static String locationUpdateUrl= '$baseUrl/location/update';
+static String requestToPlayUrl= '$baseUrl/invitation';
+  static String clubRequestToPlayUrl(dynamic tournamentId) => '$baseUrl/tournament/makerequest-toplay?id=$tournamentId';
+  static String smallOutingRequestToPlayUrl(dynamic tournamentId) => '$baseUrl/small-tournament/makerequest-toplay?id=$tournamentId';
 
 
 static String timelinePostUrl= '$baseUrl/post/home';
@@ -54,7 +57,7 @@ static String leaveGroupChatUrl= '$baseUrl/chat/group/live';
 static String notificationUrl= '$baseUrl/notification';
 static String rewardPaymentUrl= '$baseUrl/payment/post/reward';
 static String userProfileUrl= '$baseUrl/users/profile';
-static String groupTimelinePostUrl(dynamic groupId) => '$baseUrl/group/posts?groupId=$groupId';
+
 static String getMessageUrl(dynamic chatId) => '$baseUrl/message/get-messages?chatId=$chatId';
 static String updateGroupChatUrl(dynamic chatId) => '$baseUrl/chat?id=$chatId';
 static String deleteGroupUrl(dynamic groupId) => '$baseUrl/group/$groupId';

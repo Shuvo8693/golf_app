@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:golf_game_play/app/modules/home/controllers/request_to_play_controller.dart';
 import 'package:golf_game_play/app/modules/home/model/club_tournament_model.dart';
 import 'package:golf_game_play/common/app_text_style/style.dart';
 import 'package:golf_game_play/common/widgets/app_button.dart';
@@ -11,7 +13,8 @@ import 'gaggle_rules.dart';
 class ClubTournamentCard extends StatelessWidget {
   final ClubTournamentData? clubTournamentData;
 
-  const ClubTournamentCard({super.key, required this.clubTournamentData});
+  ClubTournamentCard({super.key, required this.clubTournamentData});
+  final RequestToPlayController _requestToPlayController=Get.put(RequestToPlayController(),tag: 'club');
 
   @override
   Widget build(BuildContext context) {
@@ -65,11 +68,19 @@ class ClubTournamentCard extends StatelessWidget {
               Flexible(
                 flex: 3,
                 fit: FlexFit.loose,
-                child: AppButton(
-                  onTab: () {},
-                  text: 'Request to play',
-                  height: 50.h,
-                ),
+                child:  Obx(() {
+                  return AppButton(
+                    onTab: () {
+                      if (clubTournamentData != null) {
+                        _requestToPlayController.clubRequest(tournamentId: clubTournamentData?.sId, tournamentType: 'big');
+                      }
+                    },
+                    text: _requestToPlayController.isLoading.value
+                        ? 'Sending...'
+                        : 'Request to play',
+                    height: 50.h,
+                  );
+                }),
               ),
           ],
         ),

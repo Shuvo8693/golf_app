@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:golf_game_play/app/modules/home/controllers/request_to_play_controller.dart';
 import 'package:golf_game_play/app/modules/home/model/small_tournament_model.dart';
 import 'package:golf_game_play/common/app_text_style/style.dart';
 import 'package:golf_game_play/common/widgets/app_button.dart';
@@ -11,7 +13,9 @@ import 'gaggle_rules.dart';
 class SmallTournamentCard extends StatelessWidget {
   final SmallTournamentData? smallTournamentData;
 
-  const SmallTournamentCard({super.key, required this.smallTournamentData});
+   SmallTournamentCard({super.key, required this.smallTournamentData});
+
+  final RequestToPlayController _requestToPlayController=Get.put(RequestToPlayController());
 
   @override
   Widget build(BuildContext context) {
@@ -25,8 +29,7 @@ class SmallTournamentCard extends StatelessWidget {
         SizedBox(height: 6.h),
         Text('Location : ${smallTournamentData?.courseName} ', style: AppStyles.h5()),
         SizedBox(height: 6.h),
-        Text(
-          'Players :  ${smallTournamentData?.tournamentPlayersList?.length ?? 0}/${smallTournamentData?.numberOfPlayers}',
+        Text('Players :  ${smallTournamentData?.tournamentPlayersList?.length ?? 0}/${smallTournamentData?.numberOfPlayers}',
           style: AppStyles.h5(),
         ),
         SizedBox(height: 6.h),
@@ -60,15 +63,23 @@ class SmallTournamentCard extends StatelessWidget {
             //         height: 50.h),
             // ),
             horizontalSpacing(8.w),
-            if (smallTournamentData?.distanceToUser != null && smallTournamentData!.distanceToUser! < 61.0)
+            if (smallTournamentData?.distanceToUser != null && smallTournamentData!.distanceToUser! < 61.0 )
               Flexible(
                 flex: 3,
                 fit: FlexFit.loose,
-                child: AppButton(
-                  onTab: () {},
-                  text: 'Request to play',
-                  height: 50.h,
-                ),
+                child: Obx(() {
+                  return AppButton(
+                    onTab: () {
+                      if (smallTournamentData != null) {
+                        _requestToPlayController.smallOutingRequest(tournamentId: smallTournamentData?.sId, tournamentType: 'small');
+                      }
+                    },
+                    text: _requestToPlayController.isLoading.value
+                        ? 'Sending...'
+                        : 'Request to play',
+                    height: 50.h,
+                  );
+                }),
               ),
           ],
         ),
