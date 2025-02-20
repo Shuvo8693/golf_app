@@ -1,5 +1,7 @@
  import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:golf_game_play/app/modules/notification/model/notification_model.dart';
+import 'package:golf_game_play/common/app_color/app_colors.dart';
 import 'package:golf_game_play/common/app_images/network_image%20.dart';
 import 'package:golf_game_play/common/app_string/app_string.dart';
 import 'package:golf_game_play/common/app_text_style/style.dart';
@@ -10,23 +12,17 @@ import 'package:golf_game_play/common/widgets/custom_button.dart';
 import 'package:golf_game_play/common/widgets/custom_outlinebutton.dart';
 import 'package:golf_game_play/common/widgets/spacing.dart';
 
-class NotificationCard extends StatefulWidget {
+class NotificationCard extends StatelessWidget {
   final int index;
+ final NotificationAttributes notificationData;
+ final VoidCallback iconOnTap;
+   NotificationCard({super.key, required this.index, required this.notificationData, required this.iconOnTap});
 
-  const NotificationCard({super.key, required this.index});
-
-  @override
-  State<NotificationCard> createState() => _NotificationCardState();
-}
-
-class _NotificationCardState extends State<NotificationCard> {
   final DataAgeFormation _dataAgeFormation = DataAgeFormation();
 
   final DifferenceFormation _differenceFormation = DifferenceFormation();
 
   // final FriendRemoveController _friendRemoveController=Get.put(FriendRemoveController(),tag: 'notification');
-  // final FriendRequestAcceptController _requestAcceptController= Get.put(FriendRequestAcceptController(),tag: 'notification');
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -34,12 +30,30 @@ class _NotificationCardState extends State<NotificationCard> {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CustomNetworkImage(
-            imageUrl: AppNetworkImage.golfPlayerImg,
-            height: 64.h,
-            width: 64.w,
-            borderRadius: BorderRadius.circular(10.r),
+          // CustomNetworkImage(
+          //   imageUrl: AppNetworkImage.golfPlayerImg,
+          //   height: 64.h,
+          //   width: 64.w,
+          //   borderRadius: BorderRadius.circular(10.r),
+          // ),
+          Stack(
+            children: [
+              Icon(Icons.notifications_none_outlined,size: 40.sp,color: AppColors.primaryColor,),
+              notificationData.isRead==false? Positioned(
+                top: 5.h,
+                  right: 5.w,
+                  child: Container(
+                    height: 12.h,
+                    width: 12.h,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.deepOrangeAccent
+                    ),
+                  )
+              ):SizedBox.shrink()
+            ],
           ),
+
           Expanded(
             child: Padding(
               padding: EdgeInsets.only(left: 10.w),
@@ -47,53 +61,41 @@ class _NotificationCardState extends State<NotificationCard> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      /// Title or Name
-                      Flexible(
-                        child: Text(
-                          "This is Title akljshkdkljhsdkjhsakjdhkasjdh",
-                          overflow: TextOverflow.ellipsis,
-                          style: AppStyles.customSize(
-                            size: 14,
-                            fontWeight: FontWeight.w500,
-                            family: "Schuyler",
-                          ),
-                        ),
-                      ),
-                      /// Time
-                      horizontalSpacing(8.w),
-                      Text(
-                          _dataAgeFormation.formatContentAge(_differenceFormation.formatDifference(DateTime.now()),),
-                          style: AppStyles.h6()),
-                    ],
+                  /// Title or Name
+                  Text(
+                    "${notificationData.title}",
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
+                    style: AppStyles.customSize(
+                      size: 14,
+                      fontWeight: FontWeight.w500,
+                      family: "Schuyler",
+                    ),
                   ),
+
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Flexible(
                         child: Text(
-                            "This is content message thisiscontentmessagethisis",
+                            "${notificationData.body}",
                             overflow: TextOverflow.ellipsis,
                             maxLines: 3,
                             style: AppStyles.h6()),
                       ),
                       IconButton(
-                          onPressed: () {
-                            // Get.toNamed(AppRoutes.personalInfoScreen,arguments: {'postId': widget.notificationResults.postId});
-                            // Get.toNamed(AppRoutes.homeScreen,arguments: {'postId': widget.notificationResults.postId});
-                          },
+                          onPressed: iconOnTap,
                           icon: Icon(
                             Icons.arrow_forward_ios_outlined,
                             size: 12.sp,
                           ))
                     ],
                   ),
-                  SizedBox(
-                    height: 10.h,
-                  ),
-                  Row(
+                  verticalSpacing(8.w),
+                  /// Time
+                  Text(_dataAgeFormation.formatContentAge(_differenceFormation.formatDifference(notificationData.createdAt!),),
+                      style: AppStyles.h6()),
+                  /*Row(
                     children: [
                       CustomButton(
                         onTap: () async {
@@ -126,7 +128,7 @@ class _NotificationCardState extends State<NotificationCard> {
                         textStyle: AppStyles.h5(color: Colors.redAccent),
                       ),
                     ],
-                  ),
+                  ),*/
                 ],
               ),
             ),

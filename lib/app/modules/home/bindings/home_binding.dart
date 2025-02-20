@@ -15,8 +15,8 @@ class HomeBinding extends Bindings {
       () => CurrentLocationController(),
     );
 
-    Get.lazyPut<RequestToPlayController>(
-      () => RequestToPlayController(),
+    Get.lazyPut<RequestSendToPlayController>(
+      () => RequestSendToPlayController(),
     );
   }
 }

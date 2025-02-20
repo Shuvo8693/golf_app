@@ -31,6 +31,7 @@ class AppString {
   static String top4To50PlayersText='Players 4 to 50';
   static String pointText='Point';
   static String tournamentText='Tournament';
+  static String applicantNameText='Applicant Name';
   static String tournamentNameText='Club Name';
   static String chooseTournamentText='Choose a Tournament';
   static String tournamentTypeText='Tournament Type';

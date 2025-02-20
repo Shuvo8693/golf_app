@@ -44,8 +44,8 @@ import '../modules/otp/bindings/otp_binding.dart';
 import '../modules/otp/views/otp_view.dart';
 import '../modules/profile_update/bindings/profile_update_binding.dart';
 import '../modules/profile_update/views/profile_update_view.dart';
-import '../modules/request_to_play/bindings/request_to_play_binding.dart';
-import '../modules/request_to_play/views/request_to_play_view.dart';
+import '../modules/requested_to_play_tournament/bindings/request_to_play_binding.dart';
+import '../modules/requested_to_play_tournament/views/request_to_play_view.dart';
 import '../modules/reset_password/bindings/reset_password_binding.dart';
 import '../modules/reset_password/views/reset_password_view.dart';
 import '../modules/settings/bindings/about_us_binding.dart';
@@ -70,6 +70,8 @@ import '../modules/sponsor_signup/bindings/sponsor_signup_binding.dart';
 import '../modules/sponsor_signup/views/sponsor_signup_view.dart';
 import '../modules/sponsore_web/bindings/sponsore_web_binding.dart';
 import '../modules/sponsore_web/views/sponsore_web_view.dart';
+import '../modules/story_slider/bindings/story_slider_binding.dart';
+import '../modules/story_slider/views/story_slider_view.dart';
 import '../modules/subscription/bindings/subscription_binding.dart';
 import '../modules/subscription/views/subscription_view.dart';
 import '../modules/tee_sheet/bindings/tee_sheet_binding.dart';
@@ -170,7 +172,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.REQUEST_TO_PLAY,
-      page: () => RequestToPlayView(),
+      page: () => RequestedToPlayTournamentView(),
       binding: RequestToPlayBinding(),
     ),
     GetPage(
@@ -302,6 +304,11 @@ class AppPages {
       name: _Paths.SINGLE_MATCHES,
       page: () => const SingleMatchesView(),
       binding: SingleMatchesBinding(),
+    ),
+    GetPage(
+      name: _Paths.STORY_SLIDER,
+      page: () => StorySliderView(),
+      binding: StorySliderBinding(),
     ),
   ];
 }

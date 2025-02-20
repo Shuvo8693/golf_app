@@ -1,26 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:golf_game_play/app/modules/looking_to_play/controllers/looking_to_play_controller.dart';
+import 'package:golf_game_play/app/modules/looking_to_play/model/looking_to_play_model.dart';
 import 'package:golf_game_play/app/modules/looking_to_play/widgets/looking_to_play_card_item.dart';
 import 'package:golf_game_play/app/routes/app_pages.dart';
 import 'package:golf_game_play/common/app_color/app_colors.dart';
-import 'package:golf_game_play/common/app_icons/app_icons.dart';
 import 'package:golf_game_play/common/app_string/app_string.dart';
 import 'package:golf_game_play/common/app_text_style/style.dart';
 import 'package:golf_game_play/common/widgets/app_button.dart';
-import 'package:golf_game_play/common/widgets/bottomSheet_top_line.dart';
-import 'package:golf_game_play/common/widgets/custom_button.dart';
 import 'package:golf_game_play/common/widgets/custom_card.dart';
 import 'package:golf_game_play/common/widgets/custom_text_field.dart';
-import 'package:golf_game_play/common/widgets/spacing.dart';
 
 class LookingToPlayView extends StatelessWidget {
   LookingToPlayView({super.key});
 
-  final LookingToPlayController _lookingToPlayController =
-      Get.put(LookingToPlayController());
+  final LookingToPlayController _lookingToPlayController = Get.put(LookingToPlayController());
 
   @override
   Widget build(BuildContext context) {
@@ -70,39 +65,38 @@ class LookingToPlayView extends StatelessWidget {
                     onChange: (value) {},
                   ),
                 ),
-                SizedBox(width: 6.w),
-                GestureDetector(
-                  onTap: () {},
-                  child: CustomCard(
-                    cardColor: AppColors.grayLight,
-                    borderSideColor: AppColors.primaryColor,
-                    cardHeight: 75,
-                    cardWidth: 100,
-                    padding: 18,
-                    children: [
-                      Text(
-                        AppString.searchText,
-                        style: AppStyles.h4(),
-                      )
-                    ],
-                  ),
-                )
               ],
             ),
             SizedBox(height: 30.h),
-            Text(
-              '80+ Results',
-              style: AppStyles.h5(),
-            ),
-            SizedBox(height: 8.h),
-            Flexible(
-              child: ListView.builder(
-                itemCount: 3,
-                shrinkWrap: true,
-                itemBuilder: (BuildContext context, int index) {
-                  return LookingToPlayCardItem();
-                },
-              ),
+            Obx((){
+             List<LookingToPlayAttributes> lookingToPlayAttribute = _lookingToPlayController.lookingToPlayModel.value.data?.attributes??[];
+             if(_lookingToPlayController.isLoading.value){
+               return Center(child: CircularProgressIndicator());
+             }
+             if(lookingToPlayAttribute.isEmpty){
+               return Center(child: Text('Looking to player list empty',style: AppStyles.h4(),));
+             }
+              return Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(lookingToPlayAttribute.length > 99 ? '99+ Results': '${lookingToPlayAttribute.length} Results ', style: AppStyles.h5()),
+                    SizedBox(height: 8.h),
+                    Expanded(
+                      child: ListView.builder(
+                        itemCount: lookingToPlayAttribute.length ,
+                        shrinkWrap: true,
+                        itemBuilder: (BuildContext context, int index) {
+                         final lookingToPlayAttributesIndex = lookingToPlayAttribute[index];
+                          return LookingToPlayCardItem(lookingToPlayAttributes: lookingToPlayAttributesIndex,);
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            }
+
             ),
             SizedBox(height: 25.h),
           ],

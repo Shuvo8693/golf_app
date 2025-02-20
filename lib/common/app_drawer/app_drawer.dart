@@ -48,6 +48,7 @@ class AppDrawer extends StatelessWidget {
               onTap: () {
                 Navigator.pop(context);
                 Get.toNamed(Routes.HOME);
+               // Get.toNamed(Routes.STORY_SLIDER);
               },
               trailing: Icon(Icons.arrow_forward_ios_outlined,size: 20.sp,),
             ),
@@ -99,7 +100,7 @@ class AppDrawer extends StatelessWidget {
               title: Text(AppString.requestedToPlayMyTournamentText,style: AppStyles.h3(),),
               onTap: () {
                 Navigator.pop(context);
-                Get.toNamed(Routes.REQUEST_TO_PLAY);
+                Get.toNamed(Routes.REQUEST_TO_PLAY,arguments: {'tournamentType':'big'});
                 // Navigate to settings or handle logic
               },
               trailing: Icon(Icons.arrow_forward_ios_outlined,size: 20.sp,),
@@ -109,7 +110,7 @@ class AppDrawer extends StatelessWidget {
               title: Text(AppString.requestedToPlayMySmallOutingText,style: AppStyles.h3(),),
               onTap: () {
                 Navigator.pop(context);
-                Get.toNamed(Routes.REQUEST_TO_PLAY);
+                Get.toNamed(Routes.REQUEST_TO_PLAY,arguments: {'tournamentType':'small'});
                 // Navigate to settings or handle logic
               },
               trailing: Icon(Icons.arrow_forward_ios_outlined,size: 20.sp,),

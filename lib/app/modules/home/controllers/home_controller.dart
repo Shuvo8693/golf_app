@@ -17,7 +17,7 @@ class HomeController extends GetxController {
 
   RxBool isClubFetchingMore = false.obs;
   RxInt currentClubPage = 1.obs;
-  RxInt clubLimit = 3.obs;
+  RxInt clubLimit = 2.obs;
   RxInt totalClubPages = 1.obs;
 
  ///Club tournament
@@ -42,6 +42,7 @@ class HomeController extends GetxController {
       print(responseData);
       if (response.statusCode == 200) {
         if(isLoadMore){
+          clubTournamentModel.value.data??=[];
           clubTournamentModel.value.data?.addAll(dataList.map((data)=> ClubTournamentData.fromJson(data)));
         }else{
           clubTournamentModel.value =ClubTournamentModel.fromJson(responseData);
@@ -85,7 +86,7 @@ class HomeController extends GetxController {
   }
 
   loadMoreClubPage()async{
-    if(currentClubPage.value<=totalClubPages.value && !isClubFetchingMore.value){
+    if(currentClubPage.value < totalClubPages.value && !isClubFetchingMore.value){
       currentClubPage.value += 1;
       await fetchClubTournament((){},isLoadMore: true);
     }
@@ -100,18 +101,20 @@ class HomeController extends GetxController {
 
   RxBool isOutingFetchingMore = false.obs;
   RxInt currentOutingPage = 1.obs;
-  RxInt outingLimit = 3.obs;
+  RxInt outingLimit = 2.obs;
   RxInt totalOutingPages = 1.obs;
 
 
   fetchSmallTournament(Function() noInternet,{bool isLoadMore=false }) async {
     if (isLoadMore && isOutingFetchingMore.value) return;
+
     if(isLoadMore){
       isOutingFetchingMore.value= true;
     }else{
       isLoadingSmall.value=true;
       currentOutingPage.value = 1;
     }
+
     try {
       String token = await PrefsHelper.getString('token');
       String url= '${ApiConstants.smallTournamentUrl}?page=${currentOutingPage.value}&limit=${outingLimit.value}';
@@ -125,12 +128,13 @@ class HomeController extends GetxController {
       var dataList= (responseData['data'] as List<dynamic>);
       if (response.statusCode == 200) {
         if(isLoadMore){
+          smallTournamentModel.value.data??=[];
           smallTournamentModel.value.data?.addAll(dataList.map((data)=> SmallTournamentData.fromJson(data)));
         }else{
           smallTournamentModel.value =SmallTournamentModel.fromJson(responseData);
         }
         print(smallTournamentModel.value);
-        totalOutingPages.value= responseData['pagination']['totalPages']?? totalOutingPages.value;
+        totalOutingPages.value = responseData['pagination']?['totalPages']?? totalOutingPages.value;
       } else {
         print('Error>>>');
         isLoadingSmall.value=false;
@@ -165,7 +169,7 @@ class HomeController extends GetxController {
     }
   }
   loadMoreOutingPage()async{
-    if(currentOutingPage.value <= totalOutingPages.value && !isOutingFetchingMore.value){
+    if(currentOutingPage.value < totalOutingPages.value && !isOutingFetchingMore.value){
       currentOutingPage.value += 1;
       await fetchSmallTournament((){},isLoadMore: true);
     }

@@ -1,36 +1,36 @@
 class UserModel {
   int? code;
   String? message;
-  Data? data;
+  UserData? data;
 
   UserModel({this.code, this.message, this.data});
 
   UserModel.fromJson(Map<String, dynamic> json) {
     code = json['code'];
     message = json['message'];
-    data = json['data'] != null ? Data.fromJson(json['data']) : null;
+    data = json['data'] != null ? UserData.fromJson(json['data']) : null;
   }
 }
 
-class Data {
-  Attributes? attributes;
+class UserData {
+  UserAttributes? attributes;
 
-  Data({this.attributes});
+  UserData({this.attributes});
 
-  Data.fromJson(Map<String, dynamic> json) {
+  UserData.fromJson(Map<String, dynamic> json) {
     attributes = json['attributes'] != null
-        ? Attributes.fromJson(json['attributes'])
+        ? UserAttributes.fromJson(json['attributes'])
         : null;
   }
 }
 
-class Attributes {
+class UserAttributes {
   User? user;
   Tokens? tokens;
 
-  Attributes({this.user, this.tokens});
+  UserAttributes({this.user, this.tokens});
 
-  Attributes.fromJson(Map<String, dynamic> json) {
+  UserAttributes.fromJson(Map<String, dynamic> json) {
     user = json['user'] != null ? User.fromJson(json['user']) : null;
     tokens =
     json['tokens'] != null ? Tokens.fromJson(json['tokens']) : null;

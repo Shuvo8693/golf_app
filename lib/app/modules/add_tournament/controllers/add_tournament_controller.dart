@@ -106,13 +106,13 @@ class AddTournamentController extends GetxController {
 
       request.headers.addAll(headers);
       if (selectedFile != null && selectedFile!.path.isNotEmpty) {
-        _addFileToRequest(request, selectedFile!, 'tournamentImage');
+      await _addFileToRequest(request, selectedFile!, 'tournamentImage');
       }
       request.fields.assignAll(body);
 
       var response = await request.send();
       var responseBody = await http.Response.fromStream(response);
-      print('Profile updated successfully: ${responseBody.body}');
+      print('Response Body: ${responseBody.body}');
       var decodedBody = jsonDecode(responseBody.body);
 
       if (response.statusCode == 201) {
@@ -140,7 +140,7 @@ class AddTournamentController extends GetxController {
   }
 
   /// Helper method to add file based on its type
-  _addFileToRequest(
+ Future<void> _addFileToRequest(
       http.MultipartRequest request, File file, String fileKey) async {
     String fileName = file.path.split('/').last;
     String fileType = fileName.split('.').last.toLowerCase();
@@ -155,7 +155,9 @@ class AddTournamentController extends GetxController {
         ),
       );
       debugPrint("Media type png ==== $fileName");
-    } else if (fileType == 'jpg' || fileType == 'jpeg') {
+    }
+
+    if (fileType == 'jpg' || fileType == 'jpeg') {
       request.files.add(http.MultipartFile.fromBytes(
         fileKey,
         await file.readAsBytes(),

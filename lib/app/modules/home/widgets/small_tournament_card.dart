@@ -5,6 +5,7 @@ import 'package:golf_game_play/app/modules/home/controllers/request_to_play_cont
 import 'package:golf_game_play/app/modules/home/model/small_tournament_model.dart';
 import 'package:golf_game_play/common/app_text_style/style.dart';
 import 'package:golf_game_play/common/widgets/app_button.dart';
+import 'package:golf_game_play/common/widgets/custom_button.dart';
 import 'package:golf_game_play/common/widgets/custom_card.dart';
 import 'package:golf_game_play/common/widgets/spacing.dart';
 
@@ -12,10 +13,11 @@ import 'gaggle_rules.dart';
 
 class SmallTournamentCard extends StatelessWidget {
   final SmallTournamentData? smallTournamentData;
+  final int index;
 
-   SmallTournamentCard({super.key, required this.smallTournamentData});
+    SmallTournamentCard({super.key, required this.smallTournamentData, required this.index});
 
-  final RequestToPlayController _requestToPlayController=Get.put(RequestToPlayController());
+   final RequestSendToPlayController _requestToPlayController = Get.put(RequestSendToPlayController( ));
 
   @override
   Widget build(BuildContext context) {
@@ -68,15 +70,14 @@ class SmallTournamentCard extends StatelessWidget {
                 flex: 3,
                 fit: FlexFit.loose,
                 child: Obx(() {
-                  return AppButton(
-                    onTab: () {
+                  return CustomButton(
+                    loading: _requestToPlayController.isLoading[index]??false,
+                    onTap: () async {
                       if (smallTournamentData != null) {
-                        _requestToPlayController.smallOutingRequest(tournamentId: smallTournamentData?.sId, tournamentType: 'small');
+                       await _requestToPlayController.request(tournamentId: smallTournamentData?.sId, tournamentType: 'small', index: index);
                       }
                     },
-                    text: _requestToPlayController.isLoading.value
-                        ? 'Sending...'
-                        : 'Request to play',
+                    text:'Request to play',
                     height: 50.h,
                   );
                 }),
@@ -86,6 +87,7 @@ class SmallTournamentCard extends StatelessWidget {
       ],
     );
   }
+
   void _showGaggleDetailsBottomSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,

@@ -47,6 +47,7 @@ abstract class Routes {
   static const SUPPORT = _Paths.SUPPORT;
   static const TERMS_CONDITION = _Paths.TERMS_CONDITION;
   static const SINGLE_MATCHES = _Paths.SINGLE_MATCHES;
+  static const STORY_SLIDER = _Paths.STORY_SLIDER;
 }
 
 abstract class _Paths {
@@ -95,4 +96,5 @@ abstract class _Paths {
   static const SUPPORT = '/support';
   static const TERMS_CONDITION = '/term_condition';
   static const SINGLE_MATCHES = '/single-matches';
+  static const STORY_SLIDER = '/story-slider';
 }

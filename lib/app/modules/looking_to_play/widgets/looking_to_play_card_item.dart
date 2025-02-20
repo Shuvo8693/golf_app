@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:golf_game_play/app/modules/looking_to_play/model/looking_to_play_model.dart';
+import 'package:golf_game_play/app/modules/looking_to_play/widgets/tournament_selection.dart';
 import 'package:golf_game_play/common/app_color/app_colors.dart';
 import 'package:golf_game_play/common/app_icons/app_icons.dart';
 import 'package:golf_game_play/common/app_string/app_string.dart';
@@ -11,8 +13,12 @@ import 'package:golf_game_play/common/widgets/custom_card.dart';
 import 'package:golf_game_play/common/widgets/spacing.dart';
 
 class LookingToPlayCardItem extends StatelessWidget {
+  final LookingToPlayAttributes lookingToPlayAttributes;
+
   const LookingToPlayCardItem({
     super.key,
+    required this.lookingToPlayAttributes,
+
   });
 
   @override
@@ -27,24 +33,18 @@ class LookingToPlayCardItem extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(height: 8.h),
-            Text('${AppString.userNameText} : Shuvo',
+            Text('${AppString.userNameText} : ${lookingToPlayAttributes.userName}',
                 overflow: TextOverflow.ellipsis,
                 style: AppStyles.h4()),
             SizedBox(height: 10.h),
             SizedBox(height: 7.h),
-            Text('${AppString.visitingFromText} :  Dhaka',
-                overflow: TextOverflow.ellipsis,
-                style: AppStyles.h4()),
+            Text('${AppString.visitingFromText} :  ${lookingToPlayAttributes.visitingFrom}', overflow: TextOverflow.ellipsis, style: AppStyles.h4()),
             SizedBox(height: 10.h),
             SizedBox(height: 7.h),
-            Text('${AppString.golfCourseText} : Pine valley ',
-                overflow: TextOverflow.ellipsis,
-                style: AppStyles.h4()),
+            Text('${AppString.golfCourseText} : ${lookingToPlayAttributes.golfCourse} ', overflow: TextOverflow.ellipsis, style: AppStyles.h4()),
             SizedBox(height: 10.h),
             SizedBox(height: 7.h),
-            Text(
-                '${AppString.dateRangeText} : 22 January 2024 to 3 July 2024',
-                overflow: TextOverflow.ellipsis,
+            Text('${AppString.dateRangeText} : ${lookingToPlayAttributes.fromDate} to ${lookingToPlayAttributes.tomDate}', overflow: TextOverflow.ellipsis,
                 style: AppStyles.h4()),
             SizedBox(height: 10.h),
             Row(
@@ -53,14 +53,14 @@ class LookingToPlayCardItem extends StatelessWidget {
                 AppButton(
                   text: AppString.sendInvitationText,
                   onTab: () {
-                    showModalBottomSheet(
+                   showModalBottomSheet(
                       context: context,
+                      isScrollControlled: true,
+                      useSafeArea: true,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.vertical(
-                            top: Radius.circular(16)),
+                        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
                       ),
-                      builder: (context) =>
-                          buildSendInvitationCard(),
+                      builder: (context) => TournamentSelection(),
                     );
                   },
                   containerHorizontalPadding: 8.w,
@@ -73,76 +73,5 @@ class LookingToPlayCardItem extends StatelessWidget {
       ],
     );
   }
-
-  Column buildSendInvitationCard() {
-    return Column(
-      children: [
-        BottomSheetTopLine(),
-        verticalSpacing(10.h),
-        Padding(
-          padding: EdgeInsets.only(left: 10.w),
-          child: Text(AppString.chooseTournamentText, style: AppStyles.h3()),
-        ),
-        verticalSpacing(10.h),
-        Expanded(
-          child: ListView.builder(
-            itemCount: 4,
-            shrinkWrap: true,
-            itemBuilder: (BuildContext context, int index) {
-              return Padding(
-                padding: EdgeInsets.all(8.0.sp),
-                child: CustomCard(
-                  isRow: true,
-                  cardWidth: double.infinity,
-                  elevation: 0,
-                  cardColor: AppColors.primaryColor.withOpacity(0.4),
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Flexible(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('${AppString.tournamentNameText} : ',
-                              style: AppStyles.h4(family: 'Schuyler')),
-                          Text('Booz ahsgdfhsgafdhgsafdhgsdfsahgdfhsagfdhgsaf ',
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              style: AppStyles.h6()),
-                          verticalSpacing(8.h),
-                          Text('${AppString.courseNameText} :',
-                              style: AppStyles.h4(family: 'Schuyler')),
-                          Text(
-                            'Mirpur,dhaka jasgdjasdjsajdsajdjsagdjhsagdjhjas',
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: AppStyles.h6(),
-                          ),
-                        ],
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () {},
-                      borderRadius: BorderRadius.all(Radius.circular(10.r)),
-                      child: CustomCard(
-                        elevation: 3,
-                        cardColor: AppColors.primaryColor,
-                        children: [
-                          SvgPicture.asset(
-                            AppIcons.sentIcon,
-                            height: 25.h,
-                            colorFilter: ColorFilter.mode(
-                                AppColors.white, BlendMode.srcIn),
-                          )
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              );
-            },
-          ),
-        ),
-      ],
-    );
-  }
 }
+

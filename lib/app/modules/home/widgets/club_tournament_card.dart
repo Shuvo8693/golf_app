@@ -5,6 +5,7 @@ import 'package:golf_game_play/app/modules/home/controllers/request_to_play_cont
 import 'package:golf_game_play/app/modules/home/model/club_tournament_model.dart';
 import 'package:golf_game_play/common/app_text_style/style.dart';
 import 'package:golf_game_play/common/widgets/app_button.dart';
+import 'package:golf_game_play/common/widgets/custom_button.dart';
 import 'package:golf_game_play/common/widgets/custom_card.dart';
 import 'package:golf_game_play/common/widgets/spacing.dart';
 
@@ -12,9 +13,10 @@ import 'gaggle_rules.dart';
 
 class ClubTournamentCard extends StatelessWidget {
   final ClubTournamentData? clubTournamentData;
+  final int index;
 
-  ClubTournamentCard({super.key, required this.clubTournamentData});
-  final RequestToPlayController _requestToPlayController=Get.put(RequestToPlayController(),tag: 'club');
+   ClubTournamentCard({super.key, required this.clubTournamentData, required this.index});
+   final RequestSendToPlayController _requestToPlayController =Get.put(RequestSendToPlayController(),tag: 'club');
 
   @override
   Widget build(BuildContext context) {
@@ -69,16 +71,15 @@ class ClubTournamentCard extends StatelessWidget {
                 flex: 3,
                 fit: FlexFit.loose,
                 child:  Obx(() {
-                  return AppButton(
-                    onTab: () {
+                  return CustomButton(
+                    loading: _requestToPlayController.isLoading[index]??false,
+                    onTap: () async{
                       if (clubTournamentData != null) {
-                        _requestToPlayController.clubRequest(tournamentId: clubTournamentData?.sId, tournamentType: 'big');
+                       await _requestToPlayController.request(tournamentId: clubTournamentData?.sId, tournamentType: 'big', index: index);
                       }
                     },
-                    text: _requestToPlayController.isLoading.value
-                        ? 'Sending...'
-                        : 'Request to play',
-                    height: 50.h,
+                    text: 'Request to play',
+                    height: 45.h,
                   );
                 }),
               ),

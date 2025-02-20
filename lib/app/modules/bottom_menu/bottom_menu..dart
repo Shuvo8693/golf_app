@@ -26,6 +26,7 @@ class _BottomMenuState extends State<BottomMenu> {
   }
 
   void _onItemTapped(int index) {
+    if(_selectedIndex == index) return;
     setState(() {
       _selectedIndex = index;
     });

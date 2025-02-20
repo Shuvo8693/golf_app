@@ -21,13 +21,24 @@ static String resendOtpUrl= '$baseUrl/auth/re-send-otp';
 static String logInUrl= '$baseUrl/auth/login';
 static String resetPasswordUrl= '$baseUrl/auth/reset-password';
 static String createTournamentUrl= '$baseUrl/tournament/create';
+static String createSponsorTournamentUrl= '$baseUrl/sponser-tournament';
+static String lookingToPlayCreationUrl= '$baseUrl/looking-toplay';
+static String myTournamentShowingUrl= '$baseUrl/looking-toplay/show-tournament';
 static String createSmallTournamentUrl= '$baseUrl/small-tournament/create';
 static String clubTournamentUrl= '$baseUrl/tournament/getAll-tournament';
 static String smallTournamentUrl= '$baseUrl/small-tournament/getAll-small-tournament';
 static String locationUpdateUrl= '$baseUrl/location/update';
 static String requestToPlayUrl= '$baseUrl/invitation';
-  static String clubRequestToPlayUrl(dynamic tournamentId) => '$baseUrl/tournament/makerequest-toplay?id=$tournamentId';
-  static String smallOutingRequestToPlayUrl(dynamic tournamentId) => '$baseUrl/small-tournament/makerequest-toplay?id=$tournamentId';
+static String notificationUrl= '$baseUrl/notification';
+static String sponsorContentUrl= '$baseUrl/sponser-tournament';
+  static String sendRequestToPlayUrl = '$baseUrl/request-to-play';
+  static String smallOutingRequestToPlayUrl(dynamic tournamentId) => '$baseUrl/small-tournament/makerequest-toplay';
+  static String markAsReadNotificationUrl(dynamic notificationId) => '$baseUrl/notification?id=$notificationId';
+  static String requestToPlayApprovedUrl(dynamic id) => '$baseUrl/request-to-play?id=$id';
+  static String requestToPlayRejectUrl(dynamic id) => '$baseUrl/request-to-play/cancleRequest?id=$id';
+  static String userProfileByIdUrl(dynamic userID) => '$baseUrl/users/$userID';
+  static String requestToPlaylistUrl(String type,int page,int limit) => '$baseUrl/request-to-play?typename=big&page=$page&limit=$limit';
+
 
 
 static String timelinePostUrl= '$baseUrl/post/home';
@@ -54,7 +65,6 @@ static String createChatUrl= '$baseUrl/chat';
 static String addGroupChatMember= '$baseUrl/chat/group';
 static String removeGroupChatMember= '$baseUrl/chat/group/remove';
 static String leaveGroupChatUrl= '$baseUrl/chat/group/live';
-static String notificationUrl= '$baseUrl/notification';
 static String rewardPaymentUrl= '$baseUrl/payment/post/reward';
 static String userProfileUrl= '$baseUrl/users/profile';
 
