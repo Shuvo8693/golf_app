@@ -12,11 +12,24 @@ import 'package:golf_game_play/common/widgets/app_button.dart';
 import 'package:golf_game_play/common/widgets/custom_card.dart';
 import 'package:golf_game_play/common/widgets/custom_text_field.dart';
 
-class LookingToPlayView extends StatelessWidget {
-  LookingToPlayView({super.key});
+class LookingToPlayView extends StatefulWidget {
+  const LookingToPlayView({super.key});
 
+  @override
+  State<LookingToPlayView> createState() => _LookingToPlayViewState();
+}
+
+class _LookingToPlayViewState extends State<LookingToPlayView> {
   final LookingToPlayController _lookingToPlayController = Get.put(LookingToPlayController());
 
+@override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((__)async{
+     await _lookingToPlayController.fetchLookingToPlay();
+    });
+
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -104,7 +117,6 @@ class LookingToPlayView extends StatelessWidget {
       ),
     );
   }
-
 }
 
 

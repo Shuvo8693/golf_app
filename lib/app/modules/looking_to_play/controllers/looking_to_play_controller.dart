@@ -59,10 +59,12 @@ class LookingToPlayController extends GetxController {
       isLoading.value = false;
     }
   }
+/*
   @override
-  void onReady() async {
+  void onInit() async {
+    super.onInit();
    await fetchLookingToPlay();
-    super.onReady();
   }
+*/
 
 }

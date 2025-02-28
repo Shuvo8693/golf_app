@@ -267,7 +267,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.INVITATION,
-      page: () => const InvitationView(),
+      page: () =>  InvitationView(),
       binding: InvitationBinding(),
     ),
     GetPage(

@@ -6,6 +6,7 @@ import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:golf_game_play/app/data/google_api_service.dart';
 import 'package:golf_game_play/app/modules/sponsor_signup/controllers/sponsor_signup_controller.dart';
+import 'package:golf_game_play/app/routes/app_pages.dart';
 import 'package:golf_game_play/common/app_color/app_colors.dart';
 import 'package:golf_game_play/common/app_string/app_string.dart';
 import 'package:golf_game_play/common/app_text_style/style.dart';
@@ -33,7 +34,14 @@ class _SponsorSignupViewState extends State<SponsorSignupView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        leading: InkWell(
+          onTap: () {
+            Get.offAllNamed(Routes.HOME);
+          },
+          child: Icon(Icons.arrow_back_ios_new_outlined),
+        ),
+      ),
       body: Center(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 8.w),

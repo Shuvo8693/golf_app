@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:golf_game_play/app/modules/create_looking_to_play/controllers/create_looking_to_play_controller.dart';
+import 'package:golf_game_play/app/routes/app_pages.dart';
 import 'package:golf_game_play/common/app_color/app_colors.dart';
 import 'package:golf_game_play/common/app_icons/app_icons.dart';
 import 'package:golf_game_play/common/app_string/app_string.dart';
@@ -24,7 +25,13 @@ final GlobalKey<FormState> _formKey= GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        leading: InkWell(
+        onTap: () {
+      Get.offNamed(Routes.LOOKING_TO_PLAY);
+    },
+    child: Icon(Icons.arrow_back_ios_new_outlined),),
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding:  EdgeInsets.symmetric(horizontal: 8.0.w),

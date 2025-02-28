@@ -45,7 +45,7 @@ class HomeController extends GetxController {
           clubTournamentModel.value.data??=[];
           clubTournamentModel.value.data?.addAll(dataList.map((data)=> ClubTournamentData.fromJson(data)));
         }else{
-          clubTournamentModel.value =ClubTournamentModel.fromJson(responseData);
+          clubTournamentModel.value = ClubTournamentModel.fromJson(responseData);
         }
         print(clubTournamentModel.value.data);
         totalClubPages.value= responseData['pagination']['totalPages']?? totalClubPages.value;

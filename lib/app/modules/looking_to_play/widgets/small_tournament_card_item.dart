@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
+import 'package:golf_game_play/app/modules/looking_to_play/controllers/invitation_send_controller.dart';
 import 'package:golf_game_play/app/modules/looking_to_play/model/tournament_selection_model.dart';
 import 'package:golf_game_play/common/app_color/app_colors.dart';
 import 'package:golf_game_play/common/app_icons/app_icons.dart';
@@ -11,10 +13,12 @@ import 'package:golf_game_play/common/widgets/spacing.dart';
 
 class SmallTournamentSelectionCardItem extends StatelessWidget {
   final SmallTournament smallTournament;
-  const SmallTournamentSelectionCardItem({
-    super.key, required this.smallTournament,
-  });
+  final String playerId;
 
+   SmallTournamentSelectionCardItem({
+    super.key, required this.smallTournament, required this.playerId,
+  });
+  final InvitationSendController _invitationSendController =Get.put(InvitationSendController(),tag: 'small');
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -54,7 +58,11 @@ class SmallTournamentSelectionCardItem extends StatelessWidget {
           ),
           if(smallTournament.tournamentPlayersList?.length != smallTournament.numberOfPlayers)
           InkWell(
-            onTap: () {},
+            onTap: ()async {
+              if(smallTournament.sId!=null && playerId.isNotEmpty){
+               await _invitationSendController.sendInvitation(playerId: playerId , tournamentId: smallTournament.sId!, tournamentType: 'small');
+              }
+            },
             borderRadius: BorderRadius.all(Radius.circular(10.r)),
             child: CustomCard(
               elevation: 3,

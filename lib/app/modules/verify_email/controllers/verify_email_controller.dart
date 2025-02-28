@@ -37,7 +37,6 @@ class VerifyEmailController extends GetxController {
 
     try {
       final streamedResponse = await request.send();
-
       // Convert streamed response to a regular response
       final response = await http.Response.fromStream(streamedResponse);
       var responseData = jsonDecode(response.body);

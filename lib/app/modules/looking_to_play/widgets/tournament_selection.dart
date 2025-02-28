@@ -5,15 +5,16 @@ import 'package:get/get.dart';
 import 'package:golf_game_play/app/modules/looking_to_play/controllers/tournament_selection_controller.dart';
 import 'package:golf_game_play/app/modules/looking_to_play/model/tournament_selection_model.dart';
 import 'package:golf_game_play/app/modules/looking_to_play/widgets/small_tournament_card_item.dart';
-import 'package:golf_game_play/app/modules/looking_to_play/widgets/tournament_selection_cartitem.dart';
+import 'package:golf_game_play/app/modules/looking_to_play/widgets/big_tournament_selection_cartitem.dart';
 import 'package:golf_game_play/common/app_string/app_string.dart';
 import 'package:golf_game_play/common/app_text_style/style.dart';
 import 'package:golf_game_play/common/widgets/bottomSheet_top_line.dart';
 import 'package:golf_game_play/common/widgets/spacing.dart';
 
 class TournamentSelection extends StatefulWidget {
+ final String playerId;
   const TournamentSelection({
-    super.key,
+    super.key, required this.playerId,
   });
 
   @override
@@ -60,7 +61,7 @@ class _TournamentSelectionState extends State<TournamentSelection> {
               shrinkWrap: true,
               itemBuilder: (BuildContext context, int index) {
                final bigTournamentIndex = bigTournament[index];
-                return ClubTournamentSelectionCardItem(bigTournament: bigTournamentIndex,);
+                return ClubTournamentSelectionCardItem(bigTournament: bigTournamentIndex, playerId: widget.playerId,);
               },
             ),
           );
@@ -84,7 +85,7 @@ class _TournamentSelectionState extends State<TournamentSelection> {
               shrinkWrap: true,
               itemBuilder: (BuildContext context, int index) {
                 final bigTournamentIndex=bigTournament[index];
-                return SmallTournamentSelectionCardItem(smallTournament: bigTournamentIndex,);
+                return SmallTournamentSelectionCardItem(smallTournament: bigTournamentIndex, playerId: widget.playerId,);
               },
             ),
           );

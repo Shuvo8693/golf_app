@@ -3,16 +3,17 @@ import 'dart:io';
 
 import 'package:get/get.dart';
 import 'package:golf_game_play/app/data/api_constants.dart';
-import 'package:golf_game_play/app/modules/invitation/model/invitation_model.dart';
+import 'package:golf_game_play/app/modules/invitation/controllers/invitation_controller.dart';
 import 'package:golf_game_play/common/prefs_helper/prefs_helpers.dart';
 import 'package:http/http.dart' as http;
 
-class InvitationController extends GetxController {
-  final Rx<InvitationModel> invitationModel = InvitationModel().obs;
+class InvitationAcceptController extends GetxController {
   RxBool isLoading = false.obs;
+final InvitationController? invitationController;
 
+  InvitationAcceptController({this.invitationController});
 
-  getInvitations() async {
+  acceptRequest(String invitationSid,{required Function() updateFromIndex}) async {
     isLoading.value = true;
     try {
       String token = await PrefsHelper.getString('token');
@@ -23,7 +24,7 @@ class InvitationController extends GetxController {
         'Content-Type': 'application/json'
       };
 
-      var request = http.Request('GET', Uri.parse(ApiConstants.allInvitationUrl));
+      var request = http.Request('PUT', Uri.parse(ApiConstants.invitationAcceptUrl(invitationSid)));
 
       request.headers.addAll(headers);
 
@@ -33,8 +34,18 @@ class InvitationController extends GetxController {
       var decodedBody = jsonDecode(responseBody.body);
 
       if (response.statusCode == 200) {
-        invitationModel.value = InvitationModel.fromJson(decodedBody);
-        print(invitationModel.value);
+      var invitationIndex =  invitationController?.invitationModel.value.data?.attributes?.indexWhere((data)=> data.sId == invitationSid);
+      print(invitationIndex);
+      if(invitationIndex !=null && invitationIndex != -1){
+        final invitation = invitationController?.invitationModel.value.data?.attributes?[invitationIndex];
+        if(invitation !=null){
+          invitation.isAccepted = true;
+          print(invitation.isAccepted );
+          invitationController?.invitationModel.refresh();
+        }
+      }
+        print(decodedBody['message']);
+        Get.snackbar('Success', decodedBody['message']);
       } else {
         print('Error: ${response.statusCode}');
         Get.snackbar('Failed', decodedBody['message']);
@@ -55,10 +66,5 @@ class InvitationController extends GetxController {
     } finally {
       isLoading.value = false;
     }
-  }
-  @override
-  void onReady() async{
-    await getInvitations();
-    super.onReady();
   }
 }

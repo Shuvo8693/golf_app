@@ -17,6 +17,9 @@ import 'package:golf_game_play/app/modules/home/widgets/club_tournament_card.dar
 import 'package:golf_game_play/app/modules/home/widgets/gaggle_rules.dart';
 import 'package:golf_game_play/app/modules/home/widgets/small_tournament_card.dart';
 import 'package:golf_game_play/app/modules/home/widgets/sponsor_content_view.dart';
+import 'package:golf_game_play/app/modules/my_profile/controllers/my_profile_controller.dart';
+import 'package:golf_game_play/app/modules/story_slider/controllers/story_slider_controller.dart';
+import 'package:golf_game_play/app/modules/user_profile/controllers/user_profile_controller.dart';
 import 'package:golf_game_play/app/routes/app_pages.dart';
 import 'package:golf_game_play/common/app_color/app_colors.dart';
 import 'package:golf_game_play/common/app_drawer/app_drawer.dart';
@@ -45,16 +48,18 @@ class _HomeViewState extends State<HomeView> {
   final HomeController _homeController = Get.put(HomeController());
   final SponsorContentController _sponsorContentController= Get.put(SponsorContentController());
   final ScrollController _scrollController = ScrollController();
+  final MyProfileController _myProfileController = MyProfileController();
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((__) async {
+      await _myProfileController.fetchProfile((){});
       await currentLocationController.getCurrentLocation();
       _locationUpdateController = Get.put(LocationUpdateController(currentLocationController: currentLocationController));
       await _locationUpdateController?.updateLocation();
-      await _homeController.fetchClubTournament(() {});
       await _sponsorContentController.fetchSponsorContent();
+      await _homeController.fetchClubTournament((){});
     });
     _scrollController.addListener(() async {
       if (_scrollController.position.pixels >= _scrollController.position.maxScrollExtent - 200 && !_homeController.isClubFetchingMore.value) {
@@ -90,69 +95,80 @@ class _HomeViewState extends State<HomeView> {
           child: Column(
             children: [
               ///City_State_Country
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  CustomCard(
-                    cardHeight: 110,
-                    cardWidth: 120,
-                    elevation: 2,
-                    children: [
-                      Image.asset(
-                        AppImage.cityImg,
-                        height: 20,
-                        width: 40,
-                      ),
-                      Text('City', style: AppStyles.h4()),
-                      SizedBox(
-                        height: 6.h,
-                      ),
-                      Text('New Work', style: AppStyles.h6()),
-                    ],
-                  ),
-                  CustomCard(
-                    cardHeight: 110,
-                    cardWidth: 120,
-                    elevation: 2,
-                    children: [
-                      Image.asset(
-                        AppImage.stateImg,
-                        height: 20,
-                        width: 40,
-                      ),
-                      Text(
-                        'State',
-                        style: AppStyles.h4(),
-                      ),
-                      SizedBox(height: 6.h),
-                      Text(
-                        'New Work',
-                        style: AppStyles.h6(),
-                      ),
-                    ],
-                  ),
-                  CustomCard(
-                    cardHeight: 110,
-                    cardWidth: 120,
-                    elevation: 2,
-                    children: [
-                      Image.asset(
-                        AppImage.countryImg,
-                        height: 20,
-                        width: 40,
-                      ),
-                      Text(
-                        'Country',
-                        style: AppStyles.h4(),
-                      ),
-                      SizedBox(height: 6.h),
-                      Text(
-                        'USA',
-                        style: AppStyles.h6(),
-                      ),
-                    ],
-                  ),
-                ],
+              Obx((){
+               final user = _myProfileController.user.value;
+               if(_myProfileController.isLoading.value){
+                 return Center(child: CircularProgressIndicator());
+               }
+                return  Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    CustomCard(
+                      //cardHeight: 110,
+                      cardWidth: 120,
+                      elevation: 2,
+                      children: [
+                        Image.asset(
+                          AppImage.cityImg,
+                          height: 20,
+                          width: 40,
+                        ),
+                        ///City
+                        Text('City', style: AppStyles.h4()),
+                        SizedBox(
+                          height: 6.h,
+                        ),
+                        Text('${user.city} ', style: AppStyles.h6()),
+                      ],
+                    ),
+                    CustomCard(
+                      //cardHeight: 110,
+                      cardWidth: 120,
+                      elevation: 2,
+                      children: [
+                        Image.asset(
+                          AppImage.stateImg,
+                          height: 20,
+                          width: 40,
+                        ),
+                        ///State
+                        Text(
+                          'State',
+                          style: AppStyles.h4(),
+                        ),
+                        SizedBox(height: 6.h),
+                        Text(
+                          '${user.state} ',
+                          style: AppStyles.h6(),
+                        ),
+                      ],
+                    ),
+                    CustomCard(
+
+                      cardWidth: 120,
+                      elevation: 2,
+                      children: [
+                        Image.asset(
+                          AppImage.countryImg,
+                          height: 20,
+                          width: 40,
+                        ),
+                        /// Country
+                        Text(
+                          'Country',
+                          style: AppStyles.h4(),
+                        ),
+                        SizedBox(height: 6.h),
+                        Text(
+                          '${user.country}',
+                          style: AppStyles.h6(),
+                        ),
+                      ],
+                    ),
+                  ],
+                );
+              }
+
               ),
               SizedBox(height: 10.h),
 
@@ -203,7 +219,7 @@ class _HomeViewState extends State<HomeView> {
                   InkWell(
                     borderRadius: BorderRadius.all(Radius.circular(12)),
                     onTap: () {
-                      Get.toNamed(Routes.SPONSOR_SIGNUP);
+                      Get.offNamed(Routes.SPONSOR_SIGNUP);
                     },
                     child: CustomCard(
                       cardHeight: 50,
@@ -227,12 +243,13 @@ class _HomeViewState extends State<HomeView> {
               SizedBox(height: 10.h),
               Obx((){
                List<SponsorContentAttributes> sponsorContentAttributes = _sponsorContentController.sponsorContentModel.value.data?.attributes??[];
-               if(sponsorContentAttributes.isEmpty){
-                 return Text('No sponsor content are available',style: AppStyles.h4(color: Colors.grey.shade400),);
-               }
                if(_sponsorContentController.isLoading.value){
                  return Center(child: CircularProgressIndicator());
                }
+               if(sponsorContentAttributes.isEmpty){
+                 return Text('No sponsor content are available',style: AppStyles.h4(color: Colors.grey.shade400),);
+               }
+
                 return  CarouselSlider.builder(
                   itemCount: sponsorContentAttributes.length,
                   itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex) {
