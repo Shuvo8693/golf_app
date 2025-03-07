@@ -147,7 +147,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.GAGGLE_DETAIL,
-      page: () => const GaggleDetailView(),
+      page: () =>  GaggleDetailView(),
       binding: GaggleDetailBinding(),
     ),
     GetPage(

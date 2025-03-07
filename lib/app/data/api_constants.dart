@@ -31,6 +31,9 @@ static String smallTournamentUrl= '$baseUrl/small-tournament/getAll-small-tourna
 static String locationUpdateUrl= '$baseUrl/location/update';
 static String requestToPlayUrl= '$baseUrl/invitation';
 static String allInvitationUrl= '$baseUrl/invitation';
+static String myTournamentUrl= '$baseUrl/entered';
+static String myTournamentNameUrl= '$baseUrl/teeSheet/serchTournament';
+static String assignPlayerUrl= '$baseUrl/teeSheet';
 
 static String notificationUrl= '$baseUrl/notification';
 static String sponsorContentUrl= '$baseUrl/sponser-tournament';
@@ -43,6 +46,8 @@ static String sponsorContentUrl= '$baseUrl/sponser-tournament';
   static String requestToPlayRejectUrl(dynamic id) => '$baseUrl/request-to-play/cancleRequest?id=$id';
   static String userProfileByIdUrl(dynamic userID) => '$baseUrl/users/$userID';
   static String requestToPlaylistUrl(String type,int page,int limit) => '$baseUrl/request-to-play?typename=big&page=$page&limit=$limit';
+  static String tournamentDetailsUrl(String type,String tournamentId) => '$baseUrl/entered/details?id=$tournamentId&type=$type';
+  static String tournamentPlayerUrl(String type,String tournamentId) => '$baseUrl/teeSheet/showTournamentById?id=$tournamentId&typeName=$type';
 
 
 

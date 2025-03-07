@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:golf_game_play/app/modules/bottom_menu/bottom_menu..dart';
 import 'package:golf_game_play/app/modules/my_tournament/controllers/my_tournament_controller.dart';
+import 'package:golf_game_play/app/modules/my_tournament/model/my_tournaments_modal.dart';
 import 'package:golf_game_play/app/routes/app_pages.dart';
 import 'package:golf_game_play/common/app_drawer/app_drawer.dart';
 import 'package:golf_game_play/common/app_string/app_string.dart';
@@ -11,12 +12,26 @@ import 'package:golf_game_play/common/app_text_style/style.dart';
 import 'package:golf_game_play/common/widgets/app_button.dart';
 import 'package:golf_game_play/common/widgets/custom_card.dart';
 import 'package:golf_game_play/common/widgets/golf_logo.dart';
+import 'package:intl/intl.dart';
 
-class MyTournamentView extends StatelessWidget {
-  MyTournamentView({super.key});
+class MyTournamentView extends StatefulWidget {
+  const MyTournamentView({super.key});
 
-  final MyTournamentController _myTournamentController =
-      Get.put(MyTournamentController());
+  @override
+  State<MyTournamentView> createState() => _MyTournamentViewState();
+}
+
+class _MyTournamentViewState extends State<MyTournamentView> {
+  final MyTournamentController _myTournamentController = Get.put(MyTournamentController());
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((__)async{
+      await _myTournamentController.fetchJoinedTournament();
+    });
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,14 +52,25 @@ class MyTournamentView extends StatelessWidget {
           children: [
             Text(AppString.myTournamentText, style: AppStyles.h1()),
             SizedBox(height: 20.h),
-            Expanded(
-              child: ListView.builder(
-                itemCount: 3,
-                shrinkWrap: true,
-                itemBuilder: (BuildContext context, int index) {
-                  return buildMyTournament(context);
-                },
-              ),
+            Obx((){
+              List<MyTournamentAttributes> myTournamentAttributes =_myTournamentController.myTournamentModel.value.data?.attributes??[];
+              if(_myTournamentController.isLoading.value){
+                return Center(child: CircularProgressIndicator());
+              } else if(myTournamentAttributes.isEmpty){
+                return Center(child: Text('No tournament available',style: AppStyles.h5(),));
+              }
+              return  Expanded(
+                child: ListView.builder(
+                  itemCount: myTournamentAttributes.length,
+                  shrinkWrap: true,
+                  itemBuilder: (BuildContext context, int index) {
+                    final myTournamentAttributesIndex  = myTournamentAttributes[index];
+                    return buildMyTournament(context,myTournamentAttributesIndex);
+                  },
+                ),
+              );
+            }
+
             )
           ],
         ),
@@ -52,29 +78,29 @@ class MyTournamentView extends StatelessWidget {
     );
   }
 
-  CustomCard buildMyTournament(BuildContext context) {
+  CustomCard buildMyTournament(BuildContext context,MyTournamentAttributes myTournamentsAttributes) {
     return CustomCard(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('User Name : Stan1', style: AppStyles.h5()),
+        Text('User Name : ${myTournamentsAttributes.tournamentCreator?.name}', style: AppStyles.h5()),
         SizedBox(height: 6.h),
-        Text('Tournament : Booz', style: AppStyles.h5()),
+        Text('Tournament : ${myTournamentsAttributes.tournamentName?? myTournamentsAttributes.clubName}', style: AppStyles.h5()),
         SizedBox(height: 6.h),
-        Text('Date & time: May 29, 2024 10:00 AM', style: AppStyles.h5()),
+        Text('Date & time: ${myTournamentsAttributes.date}, ${myTournamentsAttributes.time}', style: AppStyles.h5()),
+        // SizedBox(height: 6.h),
+        // Text('Tee Time : 00:00:00', style: AppStyles.h5()),
         SizedBox(height: 6.h),
-        Text('Tee Time : 00:00:00', style: AppStyles.h5()),
-        SizedBox(height: 6.h),
-        Text('Location : Lorem ipsum dolor sit, consectetur elit, sed doadipisicing eiusmod tempor ', style: AppStyles.h5()),
-        SizedBox(height: 6.h),
-        Text('Group: 1, 2 ', style: AppStyles.h5()),
+        Text('Location : ${myTournamentsAttributes.courseName} ', style: AppStyles.h5()),
+        // SizedBox(height: 6.h),
+        // Text('Group: 1, 2 ', style: AppStyles.h5()),
         Align(
           alignment: Alignment.centerRight,
           child: Padding(
             padding: EdgeInsets.symmetric(vertical: 8.h),
             child: AppButton(
-              text: 'Details',
+              text: 'Tournament home page',
               onTab: () {
-                Get.toNamed(Routes.TOURNAMENT_DETAIL);
+                Get.toNamed(Routes.TOURNAMENT_DETAIL,arguments: {'myTournamentId':myTournamentsAttributes.sId,'tournamentType':myTournamentsAttributes.typeName});
               },
             ),
           ),
