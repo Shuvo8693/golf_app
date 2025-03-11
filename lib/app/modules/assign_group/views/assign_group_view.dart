@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:get/get_connect/sockets/src/socket_notifier.dart';
 import 'package:golf_game_play/app/modules/assign_group/controllers/assign_group_controller.dart';
 import 'package:golf_game_play/app/modules/assign_group/model/tournament_name_model.dart';
 import 'package:golf_game_play/app/modules/assign_group/model/tournament_player_list_model.dart';
@@ -91,62 +92,63 @@ class _AssignGroupViewState extends State<AssignGroupView> {
               }
 
               ),
-              ///Date time
-              SizedBox(width: 12.h),
-               Text('Date time', style: AppStyles.h4(family: "Schuyler")),
-              Padding(
-                padding:  EdgeInsets.all(8.0.sp),
-                child: Row(
-                  children: [
-                    /// Select Date
-                    // SizedBox(height: 10.h),
-                    // Text(AppString.dateText, style: AppStyles.h4(family: "Schuyler")),
-                    // SizedBox(height: 10.h),
-                    Obx(() => Expanded(
-                      child: GestureDetector(
-                        onTap: () async {
-                          _assignGroupController.selectDate(context);
-                        },
-                        child: Container(
-                          height: 50.h,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                                  color: Get.theme.primaryColor.withOpacity(0.1)),
-                              borderRadius: BorderRadius.circular(14.r),
-                              color: AppColors.fillColor),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 15),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(_assignGroupController.selectedDate.value.isNotEmpty
-                                    ? _assignGroupController.selectedDate.value
-                                    : 'Select Date',
-                                  // age(),style: TextStyle(fontSize: 12,fontWeight: FontWeight.normal)
-                                ),
-                                SvgPicture.asset(AppIcons.calenderIcon)
-                              ],
-                            ),
-                            ),
-                          ),
-                        ),
-                    ),
-                    ),
-                    /// Time
-                     SizedBox(width: 10.h),
-                    // Text('Time', style: AppStyles.h4(family: "Schuyler")),
-                    // SizedBox(height: 10.h),
-                    Expanded(
-                      child: CustomTextField(
-                        contentPaddingVertical: 12.h,
-                        hintText: "08:30 pm",
-                        controller: _assignGroupController.timeTec,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              // ///Date time
+              // SizedBox(width: 12.h),
+              //  Text('Date time', style: AppStyles.h4(family: "Schuyler")),
+              // Padding(
+              //   padding:  EdgeInsets.all(8.0.sp),
+              //   child: Row(
+              //     children: [
+              //       /// Select Date
+              //       // SizedBox(height: 10.h),
+              //       // Text(AppString.dateText, style: AppStyles.h4(family: "Schuyler")),
+              //       // SizedBox(height: 10.h),
+              //       Obx(() => Expanded(
+              //         child: GestureDetector(
+              //           onTap: () async {
+              //             _assignGroupController.selectDate(context);
+              //           },
+              //           child: Container(
+              //             height: 50.h,
+              //             width: double.infinity,
+              //             decoration: BoxDecoration(
+              //                 border: Border.all(
+              //                     color: Get.theme.primaryColor.withOpacity(0.1)),
+              //                 borderRadius: BorderRadius.circular(14.r),
+              //                 color: AppColors.fillColor),
+              //             child: Padding(
+              //               padding: const EdgeInsets.symmetric(horizontal: 15),
+              //               child: Row(
+              //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //                 children: [
+              //                   Text(_assignGroupController.selectedDate.value.isNotEmpty
+              //                       ? _assignGroupController.selectedDate.value
+              //                       : 'Select Date',
+              //                     // age(),style: TextStyle(fontSize: 12,fontWeight: FontWeight.normal)
+              //                   ),
+              //                   SvgPicture.asset(AppIcons.calenderIcon)
+              //                 ],
+              //               ),
+              //               ),
+              //             ),
+              //           ),
+              //       ),
+              //       ),
+              //       /// Time
+              //        SizedBox(width: 10.h),
+              //       // Text('Time', style: AppStyles.h4(family: "Schuyler")),
+              //       // SizedBox(height: 10.h),
+              //       Expanded(
+              //         child: CustomTextField(
+              //           contentPaddingVertical: 12.h,
+              //           hintText: "08:30 pm",
+              //           keyboardType: TextInputType.text,
+              //           controller: _assignGroupController.timeTec,
+              //         ),
+              //       ),
+              //     ],
+              //   ),
+              // ),
 
               /// Players
               SizedBox(height: 10.h),
@@ -191,7 +193,7 @@ class _AssignGroupViewState extends State<AssignGroupView> {
                     itemCount: groupPlayer.length,
                     itemBuilder: (BuildContext context, int index) {
                       final playerIndex =groupPlayer[index];
-                      return buildNoOfGroup(playerIndex);
+                      return buildNoOfGroup(playerIndex,index);
                     },
                   ),
                 );
@@ -238,29 +240,35 @@ class _AssignGroupViewState extends State<AssignGroupView> {
       final buttonPosition = currentRenderObject.localToGlobal(Offset.zero);
 
       int fixedItemCount = calculateFixedItemCount(playerLength);
-      List groupNumberList = ['Group 1','Group 2', 'Group 3','Group 4','Group 5','Group 6','Group 6'];
+      List<String> groupNumberList = List.generate(fixedItemCount, (index)=> "Group ${index+1}");
       print(fixedItemCount);
       showMenu(
         context: context,
         position: RelativeRect.fromLTRB(buttonPosition.dx.w, buttonPosition.dy.h + 98.h, 0, 0),
-        items:groupNumberList.sublist(0,fixedItemCount).map((group) => PopupMenuItem(
+        items:groupNumberList.map((group) => PopupMenuItem(
             child: Text(group),
             onTap: () {
               Text(group);
+              _assignGroupController.addGroup();
                 int playerIndex = _assignGroupController.groupPlayer.indexWhere((item) => item.tournamentId==tournamentId && item.groupName==group);
+
               if(playerIndex !=-1){
-                if(_assignGroupController.groupPlayer[playerIndex].playerName.length==4){
-                  Get.snackbar('Group Is Full', '$group is filled with player');
+                if(_assignGroupController.groupPlayer[playerIndex].playerName.indexWhere((item)=> item.id == playerName.id) != -1){
+                  Get.snackbar('Player already selected in $group', '');
                 }else{
-                  _assignGroupController.groupPlayer[playerIndex].playerName.add(playerName);
+                  if(_assignGroupController.groupPlayer[playerIndex].playerName.length==4){
+                    Get.snackbar('Group Is Full', '$group is filled with player');
+                  }else{
+                    _assignGroupController.groupPlayer[playerIndex].playerName.add(playerName);
+                  }
                 }
 
                 print(_assignGroupController.groupPlayer);
               }else{
-                _assignGroupController.groupPlayer.add(GroupPlayer(_assignGroupController.timeTec.text, _assignGroupController.selectedDate.value, [playerName] , group, tournamentId,tournamentType));
+                _assignGroupController.groupPlayer.add(GroupPlayer([playerName] , group, tournamentId,tournamentType));
               }
-              print(_assignGroupController.groupPlayer);
-              _assignGroupController.tournamentPlayerListModel.value.data?.attributes?.tournamentPlayersList?.removeWhere((player)=>player.id==playerName.id);
+               print(_assignGroupController.groupPlayer);
+              // _assignGroupController.tournamentPlayerListModel.value.data?.attributes?.tournamentPlayersList?.removeWhere((player)=>player.id==playerName.id);
               setState(() {
                 _assignGroupController.tournamentPlayerListModel.refresh();
               });
@@ -280,21 +288,22 @@ class _AssignGroupViewState extends State<AssignGroupView> {
       return result.floor();
     }
   }
-
-  CustomCard buildNoOfGroup(GroupPlayer groupPlayer) {
+/// Group Section
+  CustomCard buildNoOfGroup(GroupPlayer groupPlayer,int index) {
     return CustomCard(
       cardWidth: double.infinity,
       padding: 4.sp,
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      cardHeight: 220,
+      //cardHeight: 220,
       children: [
         CustomCard(
           isRow: true,
           cardColor: AppColors.primaryColor,
           cardWidth: double.infinity,
           children: [
-            Text('Name', style: AppStyles.h4(family: "Schuyler")),
+            Text(groupPlayer.groupName, style: AppStyles.h4(family: "Schuyler")),
+            SizedBox(width: 8.w,),
             Icon(Icons.star_outlined),
           ],
         ),
@@ -304,7 +313,7 @@ class _AssignGroupViewState extends State<AssignGroupView> {
           children: [
             SizedBox(
               height: 25.h,
-              width: 150.w,
+              width: 160.w,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 shrinkWrap: true,
@@ -329,13 +338,25 @@ class _AssignGroupViewState extends State<AssignGroupView> {
                             position: RelativeRect.fromLTRB(buttonPosition.dx.w, buttonPosition.dy.h + 20.h, 150.w, 0),
                             items: [
                               PopupMenuItem(
-                                height: 20,
+                                height: 20.h,
                                 value: 'UserInfo',
-                                child: Text(playerIndex.name,style: AppStyles.h4(),),
+                                onTap: (){
+                                  setState(() {
+                                    groupPlayer.playerName.removeAt(index);
+                                  });
+                                },
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(
+                                      '${playerIndex.name} adsdasdads'.substring(0,playerIndex.name.length>12?12:playerIndex.name.length),style: AppStyles.h4(),),
+                                    SizedBox(width: 8,),
+                                    Expanded(child: Icon(Icons.close,color: Colors.redAccent,))
+                                  ],
+                                ),
                               )
                             ],
                           );
-
 
                       },
                     ),
@@ -346,20 +367,86 @@ class _AssignGroupViewState extends State<AssignGroupView> {
             AppButton(
               text: AppString.enterText,
               onTab: ()async {
-                if(_assignGroupController.selectedDate.value.isNotEmpty && _assignGroupController.timeTec.text.isNotEmpty ){
-                 await _assignGroupController.assignPlayer(groupPlayer);
+                if(_assignGroupController.selectedDate[index].isNotEmpty && _assignGroupController.timeTec[index].text.isNotEmpty ){
+                 await _assignGroupController.assignPlayer(groupPlayer,index);
+                }else{
+                  Get.snackbar('Empty Date or Time', 'Please select date & time');
                 }
-
               },
               containerVerticalPadding: 0,
             )
           ],
         ),
-        Text('${AppString.dateAndTimeText} : ${groupPlayer.date} & ${groupPlayer.time}', style: AppStyles.h4(),
-        )
+        Obx(() {
+          return Text(
+              '${AppString.dateAndTimeText} : ${_assignGroupController.selectedDate[index]} & ${_assignGroupController.timeTec[index].text}',
+              style: AppStyles.h4());
+        }),
+
+        ///Date time
+        SizedBox(width: 12.h),
+        Text('Date time', style: AppStyles.h4(family: "Schuyler")),
+        Padding(
+          padding:  EdgeInsets.all(8.0.sp),
+          child: Row(
+            children: [
+              /// Select Date
+              // SizedBox(height: 10.h),
+              // Text(AppString.dateText, style: AppStyles.h4(family: "Schuyler")),
+              // SizedBox(height: 10.h),
+              Obx(() => Expanded(
+                child: GestureDetector(
+                  onTap: () async {
+                    _assignGroupController.selectDate(context,index);
+                  },
+                  child: Container(
+                    height: 50.h,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                        border: Border.all(
+                            color: Get.theme.primaryColor.withOpacity(0.1)),
+                        borderRadius: BorderRadius.circular(14.r),
+                        color: AppColors.fillColor),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(_assignGroupController.selectedDate[index].isNotEmpty
+                              ? _assignGroupController.selectedDate[index]
+                              : 'Select Date',
+                            // age(),style: TextStyle(fontSize: 12,fontWeight: FontWeight.normal)
+                          ),
+                          SvgPicture.asset(AppIcons.calenderIcon)
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              ),
+              /// Time
+              SizedBox(width: 10.h),
+              // Text('Time', style: AppStyles.h4(family: "Schuyler")),
+              // SizedBox(height: 10.h),
+              Expanded(
+                child: CustomTextField(
+                  contentPaddingVertical: 12.h,
+                  hintText: "08:30 pm",
+                  keyboardType: TextInputType.text,
+                  controller:_assignGroupController.timeTec[index],
+                ),
+              ),
+            ],
+          ),
+        ),
       ],
     );
   }
-
+@override
+  void dispose() {
+  _assignGroupController.tournamentPlayerListModel.close();
+    super.dispose();
+  }
 
 }

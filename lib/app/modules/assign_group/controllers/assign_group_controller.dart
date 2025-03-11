@@ -12,21 +12,22 @@ import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 
 class AssignGroupController extends GetxController {
-  final TextEditingController timeTec= TextEditingController();
+   RxList<TextEditingController> timeTec = <TextEditingController>[].obs;
 
-  List groupNumberList = ['Group 1','Group 2', 'Group 3','Group 4','Group 5','Group 6'];
-  List<Map<String,int>> groupNumbers = [];
   RxString? selectType;
   String? groupNumber;
-  RxString selectedDate = 'Select Date'.obs;
+  RxList<String> selectedDate = <String>[].obs;
 
   Rx<TournamentNameModel> myTournamentNameModel = TournamentNameModel().obs;
   Rx<TournamentNameAttributes> tournamentNameAttributes = TournamentNameAttributes().obs;
   RxBool isLoading= false.obs;
 
-
+ addGroup(){
+   selectedDate.add('');
+   timeTec.add(TextEditingController());
+ }
   /// Date picker
-  Future<void> selectDate(BuildContext context) async {
+  Future<void> selectDate(BuildContext context,int index) async {
     final DateTime? picked = await showDatePicker(
         context: context,
         initialDate: DateTime.now(),
@@ -34,8 +35,8 @@ class AssignGroupController extends GetxController {
         lastDate: DateTime(2050));
     // DateTime selectedDates = DateTime.parse(selectedDate.value);
 
-    if (picked != null && picked != selectedDate.value) {
-      selectedDate.value = DateFormat('dd/MM/yyyy').format(picked);
+    if (picked != null && picked != selectedDate[index]) {
+      selectedDate[index] = DateFormat('dd/MM/yyyy').format(picked);
       print('dateTime:$selectedDate');
     }
   }
@@ -150,7 +151,7 @@ class AssignGroupController extends GetxController {
   ///
   RxBool isLoading3= false.obs;
 
-  assignPlayer(GroupPlayer groupPlayer) async {
+  assignPlayer(GroupPlayer groupPlayer,int index) async {
     isLoading3.value = true;
     try {
       String token = await PrefsHelper.getString('token');
@@ -166,9 +167,8 @@ class AssignGroupController extends GetxController {
         "groupName":groupPlayer.groupName,
         "type":groupPlayer.tournamentType,
         "tournamentId":groupPlayer.tournamentId,
-        "dateTime":"${groupPlayer.date} & ${groupPlayer.time} "
+        "dateTime":"${selectedDate[index]} & ${timeTec[index].text} "
       };
-
 
       var request = http.Request('POST', Uri.parse(ApiConstants.assignPlayerUrl));
 
@@ -211,10 +211,10 @@ class GroupPlayer{
   String tournamentType;
   String groupName;
   List<Player> playerName;
-  String date;
-  String time;
+  String? date;
+  String? time;
 
-  GroupPlayer(this.time,this.date,this.playerName,this.groupName,this.tournamentId,this.tournamentType);
+  GroupPlayer(/*this.time,this.date,*/this.playerName,this.groupName,this.tournamentId,this.tournamentType);
 
 }
 
