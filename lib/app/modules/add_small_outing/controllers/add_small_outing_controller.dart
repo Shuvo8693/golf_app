@@ -22,11 +22,12 @@ class AddSmallOutingController extends GetxController {
   final TextEditingController slopeRatingCtrl = TextEditingController();
   final TextEditingController timeCtrl = TextEditingController();
 
-  late final TextEditingController searchCourseNameCtrl = TextEditingController();
+  late final TextEditingController searchCourseNameCtrl =
+      TextEditingController();
   LatLng? latLng;
 
   List outingTypeList = ['Type1', 'Type2', 'Type3'];
-  List numberOfPlayerList = ['2', '3', '4', '5', '6'];
+  List numberOfPlayerList = ['2', '3', '4', '5', '6', '7', '8'];
 
   RxBool isLoading = false.obs;
 
@@ -104,12 +105,13 @@ class AddSmallOutingController extends GetxController {
       };
 
       // Create a MultipartRequest for the profile update
-      var request = http.MultipartRequest('POST', Uri.parse(ApiConstants.createSmallTournamentUrl));
+      var request = http.MultipartRequest(
+          'POST', Uri.parse(ApiConstants.createSmallTournamentUrl));
 
       request.headers.addAll(headers);
       // Check if an image is selected for upload
       if (selectedFile != null && selectedFile!.path.isNotEmpty) {
-       await addFileToRequest(request, selectedFile!, 'tournamentImage');
+        await addFileToRequest(request, selectedFile!, 'tournamentImage');
       }
       request.fields.assignAll(body);
       var response = await request.send();
@@ -141,7 +143,8 @@ class AddSmallOutingController extends GetxController {
   }
 
   // Helper method to add file based on its type
- Future<void> addFileToRequest(http.MultipartRequest request, File file, String fileKey) async {
+  Future<void> addFileToRequest(
+      http.MultipartRequest request, File file, String fileKey) async {
     String fileName = file.path.split('/').last;
     String fileType = fileName.split('.').last.toLowerCase();
 

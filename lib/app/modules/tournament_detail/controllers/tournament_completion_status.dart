@@ -2,30 +2,20 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
 import 'package:golf_game_play/app/data/api_constants.dart';
-import 'package:golf_game_play/app/modules/assign_group/controllers/assign_group_controller.dart';
-import 'package:golf_game_play/app/modules/assign_group/model/tournament_player_list_model.dart';
 import 'package:golf_game_play/common/prefs_helper/prefs_helpers.dart';
 import 'package:http/http.dart' as http;
 
-class CreateChallengeController extends GetxController {
+class TournamentCompletionStatus extends GetxController {
 
-  List tournamentNameList = ['Spring', 'Summer', 'Winter'];
-  List player1List = ['Player 1','Player 2', 'Player 3','Player 4','Player 5','Player 6'];
-  List player2List = ['Player A','Player B', 'Player C','Player D','Player E','Player F'];
-  String? tournamentName;
-  String? player1;
-  String? player2;
+  RxBool isLoading= false.obs;
 
-  Rx<TournamentPlayerListModel> tournamentPlayerListModel = TournamentPlayerListModel().obs;
-  RxBool isLoading2= false.obs;
+  bool? isActive;
 
-  RxList<GroupPlayer> groupPlayer = <GroupPlayer>[].obs;
-
-  fetchTournamentPlayer(String tournamentType, String tournamentId) async {
-    isLoading2.value = true;
+  changeStatus(String tournamentId,String tournamentType, Callback callback ) async {
+    isLoading.value = true;
     try {
       String token = await PrefsHelper.getString('token');
       String userId = await PrefsHelper.getString('userId');
@@ -35,7 +25,8 @@ class CreateChallengeController extends GetxController {
         'Content-Type': 'application/json'
       };
 
-      var request = http.Request('GET', Uri.parse(ApiConstants.tournamentPlayerUrl(tournamentType, tournamentId)));
+
+      var request = http.Request('PUT', Uri.parse(ApiConstants.tournamentCompletionStatusUrl(tournamentType, tournamentId)));
 
       request.headers.addAll(headers);
       var response = await request.send();
@@ -44,8 +35,9 @@ class CreateChallengeController extends GetxController {
       Map<String,dynamic> decodedBody = jsonDecode(responseBody.body);
 
       if (response.statusCode == 200) {
-        tournamentPlayerListModel.value= TournamentPlayerListModel.fromJson(decodedBody);
-        print(tournamentPlayerListModel.value);
+        callback();
+        Get.snackbar('Success', decodedBody['message']);
+
       } else {
         print('Error: ${response.statusCode}');
         Get.snackbar('Failed', decodedBody['message']);
@@ -64,9 +56,7 @@ class CreateChallengeController extends GetxController {
       );
       print(e);
     } finally {
-      isLoading2.value = false;
+      isLoading.value = false;
     }
   }
-
-
 }

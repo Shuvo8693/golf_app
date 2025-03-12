@@ -92,64 +92,6 @@ class _AssignGroupViewState extends State<AssignGroupView> {
               }
 
               ),
-              // ///Date time
-              // SizedBox(width: 12.h),
-              //  Text('Date time', style: AppStyles.h4(family: "Schuyler")),
-              // Padding(
-              //   padding:  EdgeInsets.all(8.0.sp),
-              //   child: Row(
-              //     children: [
-              //       /// Select Date
-              //       // SizedBox(height: 10.h),
-              //       // Text(AppString.dateText, style: AppStyles.h4(family: "Schuyler")),
-              //       // SizedBox(height: 10.h),
-              //       Obx(() => Expanded(
-              //         child: GestureDetector(
-              //           onTap: () async {
-              //             _assignGroupController.selectDate(context);
-              //           },
-              //           child: Container(
-              //             height: 50.h,
-              //             width: double.infinity,
-              //             decoration: BoxDecoration(
-              //                 border: Border.all(
-              //                     color: Get.theme.primaryColor.withOpacity(0.1)),
-              //                 borderRadius: BorderRadius.circular(14.r),
-              //                 color: AppColors.fillColor),
-              //             child: Padding(
-              //               padding: const EdgeInsets.symmetric(horizontal: 15),
-              //               child: Row(
-              //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //                 children: [
-              //                   Text(_assignGroupController.selectedDate.value.isNotEmpty
-              //                       ? _assignGroupController.selectedDate.value
-              //                       : 'Select Date',
-              //                     // age(),style: TextStyle(fontSize: 12,fontWeight: FontWeight.normal)
-              //                   ),
-              //                   SvgPicture.asset(AppIcons.calenderIcon)
-              //                 ],
-              //               ),
-              //               ),
-              //             ),
-              //           ),
-              //       ),
-              //       ),
-              //       /// Time
-              //        SizedBox(width: 10.h),
-              //       // Text('Time', style: AppStyles.h4(family: "Schuyler")),
-              //       // SizedBox(height: 10.h),
-              //       Expanded(
-              //         child: CustomTextField(
-              //           contentPaddingVertical: 12.h,
-              //           hintText: "08:30 pm",
-              //           keyboardType: TextInputType.text,
-              //           controller: _assignGroupController.timeTec,
-              //         ),
-              //       ),
-              //     ],
-              //   ),
-              // ),
-
               /// Players
               SizedBox(height: 10.h),
               Text('Players', style: AppStyles.h4(family: "Schuyler")),
@@ -308,6 +250,7 @@ class _AssignGroupViewState extends State<AssignGroupView> {
           ],
         ),
         Text('Group Name : ${groupPlayer.groupName}', style: AppStyles.h4(family: "Schuyler")),
+        SizedBox(height: 8.h),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -377,6 +320,7 @@ class _AssignGroupViewState extends State<AssignGroupView> {
             )
           ],
         ),
+        SizedBox(height: 8.h),
         Obx(() {
           return Text(
               '${AppString.dateAndTimeText} : ${_assignGroupController.selectedDate[index]} & ${_assignGroupController.timeTec[index].text}',
@@ -384,8 +328,8 @@ class _AssignGroupViewState extends State<AssignGroupView> {
         }),
 
         ///Date time
-        SizedBox(width: 12.h),
-        Text('Date time', style: AppStyles.h4(family: "Schuyler")),
+        SizedBox(height: 8.h),
+        //Text('Date time', style: AppStyles.h4(family: "Schuyler")),
         Padding(
           padding:  EdgeInsets.all(8.0.sp),
           child: Row(
@@ -435,6 +379,12 @@ class _AssignGroupViewState extends State<AssignGroupView> {
                   hintText: "08:30 pm",
                   keyboardType: TextInputType.text,
                   controller:_assignGroupController.timeTec[index],
+                  onChange: (value){
+
+                    setState(() {
+                      _assignGroupController.timeTec[index].text = value!;
+                    });
+                  },
                 ),
               ),
             ],

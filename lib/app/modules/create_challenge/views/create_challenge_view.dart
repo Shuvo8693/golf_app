@@ -49,8 +49,7 @@ class _CreateChallengeViewState extends State<CreateChallengeView> {
                   value: gender,
                   child: Text(gender),
                 ),
-              )
-                  .toList(),
+              ).toList(),
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return 'Select Tournament Name';
@@ -58,8 +57,7 @@ class _CreateChallengeViewState extends State<CreateChallengeView> {
                 return null;
               },
               onChanged: (newValue) {
-                setState(
-                      () {
+                setState((){
                         _createChallengeController.tournamentName = newValue;
                     print('Tournament Name>>>${_createChallengeController.tournamentName}');
                   },

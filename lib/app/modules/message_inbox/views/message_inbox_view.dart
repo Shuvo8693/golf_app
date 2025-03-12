@@ -29,9 +29,7 @@ class _MessageInboxViewState extends State<MessageInboxView> {
   final List<String> menuOptions = [/*'Delete Message',*/ 'View Profile'];
 
   void scrollToBottom() {
-    if (_scrollController.hasClients) {
-      _scrollController.animateTo(
-        _scrollController.position.maxScrollExtent,
+    if (_scrollController.hasClients) {_scrollController.animateTo(_scrollController.position.maxScrollExtent,
         duration: const Duration(milliseconds: 300),
         curve: Curves.easeOut,
       );

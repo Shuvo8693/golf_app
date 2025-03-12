@@ -49,6 +49,7 @@ class TournamentDetailAttributes {
   String? updatedAt;
   int? iV;
   bool? isClose;
+  bool? isCompleted;
 
   TournamentDetailAttributes(
       {this.courseLocation,
@@ -73,7 +74,9 @@ class TournamentDetailAttributes {
         this.createdAt,
         this.updatedAt,
         this.iV,
-        this.isClose});
+        this.isClose,
+        this.isCompleted
+      });
 
   TournamentDetailAttributes.fromJson(Map<String, dynamic> json) {
     courseLocation = json['courseLocation'] != null
@@ -127,6 +130,7 @@ class TournamentDetailAttributes {
     updatedAt = json['updatedAt'];
     iV = json['__v'];
     isClose = json['isClose'];
+    isCompleted = json['isCompleted'];
   }
 
 }
