@@ -25,7 +25,6 @@ class TournamentCompletionStatus extends GetxController {
         'Content-Type': 'application/json'
       };
 
-
       var request = http.Request('PUT', Uri.parse(ApiConstants.tournamentCompletionStatusUrl(tournamentType, tournamentId)));
 
       request.headers.addAll(headers);

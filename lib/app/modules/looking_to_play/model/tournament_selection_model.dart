@@ -60,11 +60,13 @@ class SmallTournament {
   String? courseName;
   bool? isApproved;
   bool? isRejected;
-  int? courseRating;
-  int? slopeRating;
+  bool? isClose;
+  bool? isComplete;
+  double? courseRating;
+  double? slopeRating;
   int? numberOfPlayers;
-  int? handicapFromRange;
-  int? handicapToRange;
+  double? handicapFromRange;
+  double? handicapToRange;
   TournamentImage? tournamentImage;
   String? createdAt;
   String? updatedAt;
@@ -84,6 +86,8 @@ class SmallTournament {
         this.courseName,
         this.isApproved,
         this.isRejected,
+        this.isClose,
+        this.isComplete,
         this.courseRating,
         this.slopeRating,
         this.numberOfPlayers,
@@ -110,11 +114,33 @@ class SmallTournament {
     courseName = json['courseName'];
     isApproved = json['isApproved'];
     isRejected = json['isRejected'];
-    courseRating = json['courseRating'];
-    slopeRating = json['slopeRating'];
+    isClose = json['isClose'];
+    isComplete = json['isCompleted'];
+     if(json['courseRating'] is int){
+       courseRating = double.tryParse(json['courseRating'].toString());
+     }else{
+       courseRating = json['courseRating'];
+     }
+
+    if (json['slopeRating'] is int) {
+      slopeRating = double.tryParse(json['slopeRating'].toString());
+    } else {
+      slopeRating = json['slopeRating'];
+    }
+
+    if (json['handicapFromRange'] is int) {
+      handicapFromRange = double.tryParse(json['handicapFromRange'].toString());
+    } else {
+      handicapFromRange = json['handicapFromRange'];
+    }
+
+    if (json['handicapToRange'] is int) {
+      handicapToRange = double.tryParse(json['handicapToRange'].toString());
+    } else {
+      handicapToRange = json['handicapToRange'];
+    }
+
     numberOfPlayers = json['numberOfPlayers'];
-    handicapFromRange = json['handicapFromRange'];
-    handicapToRange = json['handicapToRange'];
     tournamentImage = json['tournamentImage'] != null
         ? TournamentImage.fromJson(json['tournamentImage'])
         : null;
@@ -162,10 +188,12 @@ class BigTournament {
   String? courseName;
   bool? isApproved;
   bool? isRejected;
-  int? courseRating;
+  bool? isClose;
+  bool? isComplete;
+  double? courseRating;
   double? slopeRating;
   int? numberOfPlayers;
-  int? gaggleLength;
+  double? gaggleLength;
   TournamentImage? tournamentImage;
   String? createdAt;
   String? updatedAt;
@@ -185,6 +213,8 @@ class BigTournament {
         this.courseName,
         this.isApproved,
         this.isRejected,
+        this.isClose,
+        this.isComplete,
         this.courseRating,
         this.slopeRating,
         this.numberOfPlayers,
@@ -210,10 +240,27 @@ class BigTournament {
     courseName = json['courseName'];
     isApproved = json['isApproved'];
     isRejected = json['isRejected'];
-    courseRating = json['courseRating'];
-    slopeRating = json['slopeRating'];
+    isClose = json['isClose'];
+    isComplete = json['isCompleted'];
+    if(json['courseRating'] is int){
+      courseRating = double.tryParse(json['courseRating'].toString());
+    }else{
+      courseRating = json['courseRating'];
+    }
+
+    if (json['slopeRating'] is int) {
+      slopeRating = double.tryParse(json['slopeRating'].toString());
+    } else {
+      slopeRating = json['slopeRating'];
+    }
+
+    if (json['gaggleLength'] is int) {
+      gaggleLength = double.tryParse(json['gaggleLength'].toString());
+    } else {
+      gaggleLength = json['gaggleLength'];
+    }
+
     numberOfPlayers = json['numberOfPlayers'];
-    gaggleLength = json['gaggleLength'];
     tournamentImage = json['tournamentImage'] != null
         ? TournamentImage.fromJson(json['tournamentImage'])
         : null;

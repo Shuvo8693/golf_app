@@ -36,6 +36,7 @@ static String myTournamentNameUrl= '$baseUrl/teeSheet/serchTournament';
 static String assignPlayerUrl= '$baseUrl/teeSheet';
 
 static String notificationUrl= '$baseUrl/notification';
+static String createChallengeUrl= '$baseUrl/chaleng';
 static String sponsorContentUrl= '$baseUrl/sponser-tournament';
   static String sendRequestToPlayUrl = '$baseUrl/request-to-play';
   static String smallOutingRequestToPlayUrl(dynamic tournamentId) => '$baseUrl/small-tournament/makerequest-toplay';
@@ -48,6 +49,8 @@ static String sponsorContentUrl= '$baseUrl/sponser-tournament';
   static String requestToPlaylistUrl(String type,int page,int limit) => '$baseUrl/request-to-play?typename=big&page=$page&limit=$limit';
   static String tournamentDetailsUrl(String type,String tournamentId) => '$baseUrl/entered/details?id=$tournamentId&type=$type';
   static String tournamentPlayerUrl(String type,String tournamentId) => '$baseUrl/teeSheet/showTournamentById?id=$tournamentId&typeName=$type';
+  static String showAllPlayerUrl(String type,String tournamentId) => '$baseUrl/chaleng/showAllplayer?type=$type&id=$tournamentId';
+  static String showAllMatchesUrl(String type,String tournamentId) => '$baseUrl/chaleng?id=$tournamentId&type=$type';
   static String tournamentCompletionStatusUrl(String type,String tournamentId) => '$baseUrl/small-tournament/make-tournament-complete?id=$tournamentId&type=$type';
 
 

@@ -161,7 +161,7 @@ class _GaggleDetailViewState extends State<GaggleDetailView> {
                   SizedBox(height: 16.h),
                   CustomButton(
                       onTap: () {
-                        Get.toNamed(Routes.CHALLENGE_MATCHES);
+                        Get.toNamed(Routes.CHALLENGE_MATCHES,arguments: {'tournamentDetailsAttributes': tournamentDetailAttributes});
                       }, text: AppString.challengeMatchesText),
                   SizedBox(height: 10.h),
                 ],

@@ -147,26 +147,6 @@ class AppDrawer extends StatelessWidget {
             ),
             Divider(height: 2,color: Colors.black54,),
             ListTile(
-              title: Text(AppString.createChallengeText,style: AppStyles.h3(),),
-              onTap: () {
-                Navigator.pop(context);
-                  Get.toNamed(Routes.CREATE_CHALLENGE);
-                // Navigate to settings or handle logic
-              },
-              trailing: Icon(Icons.arrow_forward_ios_outlined,size: 20.sp,),
-            ),
-            Divider(height: 2,color: Colors.black54,),
-            ListTile(
-              title: Text(AppString.singleMatchText,style: AppStyles.h3(),),
-              onTap: () {
-                Navigator.pop(context);
-                Get.toNamed(Routes.SINGLE_MATCHES);
-              },
-              trailing: Icon(Icons.arrow_forward_ios_outlined,size: 20.sp,),
-            ),
-
-            Divider(height: 2,color: Colors.black54,),
-            ListTile(
               title: Text(AppString.paymentText,style: AppStyles.h3(),),
               onTap: () {
                 Navigator.pop(context);

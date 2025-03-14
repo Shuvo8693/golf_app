@@ -246,7 +246,7 @@ class _HomeViewState extends State<HomeView> {
                if(_sponsorContentController.isLoading.value){
                  return Center(child: CircularProgressIndicator());
                }
-               if(sponsorContentAttributes.isEmpty){
+               else if(sponsorContentAttributes.isEmpty){
                  return Text('No sponsor content are available',style: AppStyles.h4(color: Colors.grey.shade400),);
                }
 
