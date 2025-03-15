@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 
 import 'package:get/get.dart';
 import 'package:golf_game_play/app/modules/assign_group/model/tournament_player_list_model.dart';
+import 'package:golf_game_play/app/modules/challenge_matches/controllers/challenge_matches_controller.dart';
 import 'package:golf_game_play/app/modules/tournament_detail/model/tournament_detail_model.dart';
 import 'package:golf_game_play/common/app_color/app_colors.dart';
 import 'package:golf_game_play/common/app_icons/app_icons.dart';
@@ -25,6 +26,7 @@ class CreateChallengeView extends StatefulWidget {
 
 class _CreateChallengeViewState extends State<CreateChallengeView> {
   final CreateChallengeController _createChallengeController=Get.put(CreateChallengeController());
+  final ChallengeMatchesController _challengeMatchesController=Get.find();
   TournamentDetailAttributes? tournamentDetailAttributes;
   @override
   void initState() {
@@ -203,8 +205,9 @@ class _CreateChallengeViewState extends State<CreateChallengeView> {
                   loading: _createChallengeController.isLoading2.value,
                     onTap: () async {
                       if (tournamentDetailAttributes != null) {
-                        await _createChallengeController
-                            .createChallenge(tournamentDetailAttributes!);
+                        await _createChallengeController.createChallenge(tournamentDetailAttributes!,()async{
+                         await _challengeMatchesController.fetchMatches(tournamentDetailAttributes!.typeName!, tournamentDetailAttributes!.sId!);
+                        });
                       }
                     },
                     text: AppString.submitText);

@@ -3,17 +3,18 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:get/get.dart';
+import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
 import 'package:golf_game_play/app/data/api_constants.dart';
 import 'package:golf_game_play/app/modules/challenge_matches/model/challenge_match_model.dart';
 import 'package:golf_game_play/common/prefs_helper/prefs_helpers.dart';
 import 'package:http/http.dart' as http;
 
-class ChallengeMatchesController extends GetxController {
-  Rx<ChallengeMatchModel> challengeMatchModel = ChallengeMatchModel().obs;
+class ChallengeRemoveController extends GetxController {
+
   RxBool isLoading1= false.obs;
 
 
-  fetchMatches(String tournamentType, String tournamentId) async {
+  removeChallenge( String challengeId,Callback callback) async {
     isLoading1.value = true;
     try {
       String token = await PrefsHelper.getString('token');
@@ -24,7 +25,7 @@ class ChallengeMatchesController extends GetxController {
         'Content-Type': 'application/json'
       };
 
-      var request = http.Request('GET', Uri.parse(ApiConstants.showAllMatchesUrl(tournamentType, tournamentId)));
+      var request = http.Request('DELETE', Uri.parse(ApiConstants.challengeDeleteUrl( challengeId)));
 
       request.headers.addAll(headers);
       var response = await request.send();
@@ -33,8 +34,8 @@ class ChallengeMatchesController extends GetxController {
       Map<String,dynamic> decodedBody = jsonDecode(responseBody.body);
 
       if (response.statusCode == 200) {
-        challengeMatchModel.value = ChallengeMatchModel.fromJson(decodedBody);
-        print(challengeMatchModel.value);
+        Get.snackbar('Success', decodedBody['message']);
+        callback();
       } else {
         print('Error: ${response.statusCode}');
         Get.snackbar('Failed', decodedBody['message']);

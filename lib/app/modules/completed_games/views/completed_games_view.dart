@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
+import 'package:golf_game_play/app/modules/completed_games/model/complete_game_model.dart';
 import 'package:golf_game_play/app/routes/app_pages.dart';
 import 'package:golf_game_play/common/app_color/app_colors.dart';
 import 'package:golf_game_play/common/app_icons/app_icons.dart';
@@ -9,104 +10,121 @@ import 'package:golf_game_play/common/app_string/app_string.dart';
 import 'package:golf_game_play/common/app_text_style/style.dart';
 import 'package:golf_game_play/common/widgets/app_button.dart';
 import 'package:golf_game_play/common/widgets/custom_card.dart';
-import 'package:golf_game_play/common/widgets/custom_text_field.dart';
 
 import '../controllers/completed_games_controller.dart';
 
 class CompletedGamesView extends StatelessWidget {
    CompletedGamesView({super.key});
 
-  final CompletedGamesController _completedGamesController=Get.put(CompletedGamesController());
+  final CompletedGamesController _completedGamesController = Get.put(CompletedGamesController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body:SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 8.w),
-          child: Center(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Align(
-                  alignment: Alignment.center,
-                  child: Text(AppString.completedTournamentText, style: AppStyles.h1()),
-                ),
-                SizedBox(height: 12.h),
-                Row(
-                  children: [
-                    Expanded(
-                      child: CustomTextField(
-                        filColor: AppColors.grayLight,
-                        contentPaddingVertical: 20.h,
-                        prefixIcon: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Icon(
-                            Icons.search_outlined,
-                            size: 25,
-                          ),
+      body:Padding(
+        padding: EdgeInsets.symmetric(horizontal: 8.w),
+        child: Center(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Align(
+                alignment: Alignment.center,
+                child: Text(AppString.completedTournamentText, style: AppStyles.h1()),
+              ),
+            /*  SizedBox(height: 12.h),
+              Row(
+                children: [
+                  Expanded(
+                    child: CustomTextField(
+                      filColor: AppColors.grayLight,
+                      contentPaddingVertical: 20.h,
+                      prefixIcon: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Icon(
+                          Icons.search_outlined,
+                          size: 25,
                         ),
-                        hintText: 'Search...',
-                        controller: _completedGamesController.searchCtrl,
-                        onChange: (value) {},
                       ),
+                      hintText: 'Search...',
+                      controller: _completedGamesController.searchCtrl,
+                      onChange: (value) {},
                     ),
-                    SizedBox(width: 6.w),
-                    GestureDetector(
-                      onTap: () {},
-                      child: CustomCard(
-                          cardColor: AppColors.grayLight,
-                          borderSideColor: AppColors.primaryColor,
-                          cardHeight: 75,
-                          cardWidth: 100,
-                          padding: 18,
-                          children: [
-                            Text('Search', style: AppStyles.h4(),
-                            )
-                          ],
-                      ),
-                    )
-                  ],
-                ),
-                SizedBox(height: 30.h),
-                Text('80+ Results'),
-                SizedBox(height: 8.h),
-                CustomCard(
-                  cardWidth: double.infinity,
-                  borderSideColor:  AppColors.primaryColor.withOpacity(0.4),
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('${AppString.tournamentText} : Spring Swing Classic ', style: AppStyles.h4()), SizedBox(height: 10.h),
-                        SizedBox(height: 7.h),
-                        Text('${AppString.tournamentTypeText} :  Stroke Play', style: AppStyles.h4()), SizedBox(height: 10.h),
-                        SizedBox(height: 7.h),
-                        Text('${AppString.dateAndTimeText} : May 28, 2024 8:00 AM', style: AppStyles.h4()), SizedBox(height: 10.h),
-                        SizedBox(height: 7.h),
-                        Text('${AppString.locationText} : Dhaka', style: AppStyles.h4()), SizedBox(height: 10.h),
-
-                        Row(
-                          children: [
-                           AppButton(text: AppString.winnerText, onTab: (){
-                             Get.toNamed(Routes.WINNERS);
-                           },isIconWithTextActive: true,iconPath: AppIcons.winnerLogo,),
-                          /*  SizedBox(width: 8.h),
-                           AppButton(text:  AppString.chatText, onTab: ()=>_showChatBottomSheet(context),isIconWithTextActive: true,iconPath: AppIcons.chatLogo,),*/
-                           //  SizedBox(width: 8.h),
-                           // AppButton(text:  AppString.editText, onTab: (){},isIconWithTextActive: true,iconPath: AppIcons.editLogo,),
-                            SizedBox(width: 8.h),
-                           AppButton(text:  AppString.deleteText, onTab: (){},isIconWithTextActive: true,iconPath: AppIcons.deleteLogo,),
+                  ),
+                  SizedBox(width: 6.w),
+                  GestureDetector(
+                    onTap: () {},
+                    child: CustomCard(
+                        cardColor: AppColors.grayLight,
+                        borderSideColor: AppColors.primaryColor,
+                        cardHeight: 75,
+                        cardWidth: 100,
+                        padding: 18,
+                        children: [
+                          Text('Search', style: AppStyles.h4(),
+                          )
                         ],
-                        )
-                      ],
                     ),
-                  ],
-                ),
-                SizedBox(height: 25.h),
-              ],
-            ),
+                  )
+                ],
+              ),*/
+              SizedBox(height: 30.h),
+              Obx((){
+                List<CompleteTournamentAttributes> completeTournamentsAttributes =_completedGamesController.completeTournamentModel.value.data?.attributes??[];
+                if(_completedGamesController.isLoading1.value){
+                  return Center(child: CircularProgressIndicator());
+                } else if(completeTournamentsAttributes.isEmpty){
+                  return Center(child: Text('No completed Tournament available'));
+                }
+
+                return Expanded(
+                  child: ListView.builder(
+                    itemCount: completeTournamentsAttributes.length,
+                    shrinkWrap: true,
+                    itemBuilder: (BuildContext context, int index) {
+                     final completeTournamentIndex= completeTournamentsAttributes[index];
+                      return  CustomCard(
+                        cardWidth: double.infinity,
+                        borderSideColor:  AppColors.primaryColor.withOpacity(0.4),
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('${AppString.tournamentText} : ${completeTournamentIndex.clubName??completeTournamentIndex.tournamentName}', style: AppStyles.h4()), SizedBox(height: 10.h),
+                              SizedBox(height: 7.h),
+                              Text('${AppString.tournamentTypeText} :  ${completeTournamentIndex.tournamentType}', style: AppStyles.h4()), SizedBox(height: 10.h),
+                              SizedBox(height: 7.h),
+                              Text('${AppString.dateAndTimeText} : ${completeTournamentIndex.date} ${completeTournamentIndex.time}', style: AppStyles.h4()), SizedBox(height: 10.h),
+                              SizedBox(height: 7.h),
+                              Text('${AppString.locationText} : ${completeTournamentIndex.courseName}', style: AppStyles.h4()), SizedBox(height: 10.h),
+
+                              Row(
+                                children: [
+                                  AppButton(
+                                    text: AppString.winnerText,
+                                    onTab: (){
+                                    Get.toNamed(Routes.WINNERS);
+                                  },isIconWithTextActive: true,iconPath: AppIcons.winnerLogo,),
+                                  /*  SizedBox(width: 8.h),
+                               AppButton(text:  AppString.chatText, onTab: ()=>_showChatBottomSheet(context),isIconWithTextActive: true,iconPath: AppIcons.chatLogo,),*/
+                                  //  SizedBox(width: 8.h),
+                                  // AppButton(text:  AppString.editText, onTab: (){},isIconWithTextActive: true,iconPath: AppIcons.editLogo,),
+                                  // SizedBox(width: 8.h),
+                                  // AppButton(text:  AppString.deleteText, onTab: (){},isIconWithTextActive: true,iconPath: AppIcons.deleteLogo,),
+                                ],
+                              )
+                            ],
+                          ),
+                        ],
+                      );
+                    },
+                  ),
+                );
+              }
+
+              ),
+              SizedBox(height: 25.h),
+            ],
           ),
         ),
       ),

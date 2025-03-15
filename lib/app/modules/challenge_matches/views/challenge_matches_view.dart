@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:golf_game_play/app/data/api_constants.dart';
 import 'package:golf_game_play/app/modules/challenge_matches/controllers/challenge_matches_controller.dart';
+import 'package:golf_game_play/app/modules/challenge_matches/controllers/challenge_remove_controller.dart';
 import 'package:golf_game_play/app/modules/challenge_matches/widgets/challenge_matchPlayer_details.dart';
 import 'package:golf_game_play/app/modules/tournament_detail/model/tournament_detail_model.dart';
 import 'package:golf_game_play/app/routes/app_pages.dart';
@@ -28,6 +30,7 @@ class ChallengeMatchesView extends StatefulWidget {
 
 class _ChallengeMatchesViewState extends State<ChallengeMatchesView> {
   final ChallengeMatchesController _challengeMatchesController= Get.put(ChallengeMatchesController());
+  final ChallengeRemoveController _challengeRemoveController =Get.put(ChallengeRemoveController());
 
   TournamentDetailAttributes? tournamentDetailAttributes;
   String? userId;
@@ -92,7 +95,8 @@ class _ChallengeMatchesViewState extends State<ChallengeMatchesView> {
             List<ChallengeMatchAttributes>  matchList = _challengeMatchesController.challengeMatchModel.value.data?.attributes??[];
             if(_challengeMatchesController.isLoading1.value){
               return Center(child: CircularProgressIndicator());
-            }else if(matchList.isEmpty){
+            }
+            if(matchList.isEmpty){
               Center(child: Text('Player Challenges is Empty'));
             }
             return  Expanded(
@@ -108,6 +112,7 @@ class _ChallengeMatchesViewState extends State<ChallengeMatchesView> {
                       children: [
                         /// >>>>This Delete Button only visible to Tournament creator <<<<
                         /// Delete Button
+                        if(tournamentDetailAttributes?.tournamentCreator?.sId==userId)
                         Align(
                           alignment: Alignment.centerRight,
                           child: GestureDetector(
@@ -115,7 +120,20 @@ class _ChallengeMatchesViewState extends State<ChallengeMatchesView> {
                               showDialog(
                                 context: context,
                                 builder: (BuildContext context) {
-                                  return DeleteAlertDialogue();
+                                  final challengeId = matchItemIndex.id;
+                                  if(challengeId != null && challengeId.isNotEmpty){
+                                    return DeleteAlertDialogue(
+                                      callback: () async{
+                                        Get.back();
+                                       await _challengeRemoveController.removeChallenge(challengeId, (){
+                                         _challengeMatchesController.challengeMatchModel.value.data?.attributes?.removeAt(index);
+                                         _challengeMatchesController.challengeMatchModel.refresh();
+                                         setState(() {});
+                                        });
+                                    },);
+                                  }else{
+                                    return Text('Challenge id not found');
+                                  }
                                 },
                               );
                             },
@@ -136,7 +154,7 @@ class _ChallengeMatchesViewState extends State<ChallengeMatchesView> {
                           children: [
                             //player 1
                             ChallengeMatchPlayerDetails(
-                              imageUrl: AppNetworkImage.golfPlayerImg,
+                              imageUrl: '${ApiConstants.imageBaseUrl}/${matchItemIndex.player1?.image?.url}',
                               playerName: '${matchItemIndex.player1?.name}',
                               playerHandicap: '${matchItemIndex.player1?.clubHandicap!.isNotEmpty==true? matchItemIndex.player1?.clubHandicap :matchItemIndex.player1?.handicap}',
                             ),
@@ -146,7 +164,7 @@ class _ChallengeMatchesViewState extends State<ChallengeMatchesView> {
                             ),
                             //player 2
                             ChallengeMatchPlayerDetails(
-                              imageUrl: AppNetworkImage.golfPlayerImg,
+                              imageUrl: '${ApiConstants.imageBaseUrl}/${matchItemIndex.player2?.image?.url}',
                               playerName: '${matchItemIndex.player2?.name}',
                               playerHandicap: '${matchItemIndex.player2?.clubHandicap!.isNotEmpty==true? matchItemIndex.player2?.clubHandicap :matchItemIndex.player2?.handicap}',
                             ),
@@ -165,10 +183,12 @@ class _ChallengeMatchesViewState extends State<ChallengeMatchesView> {
                                   horizontalSpacing(6.w),
                                   SizedBox(
                                       width: 170.w,
-                                      child: Text('Banasree,Dhaka',softWrap: true,overflow: TextOverflow.fade,style: AppStyles.h5(color: AppColors.white),)),
+                                      child: Text('${matchItemIndex.courseName}',softWrap: true,overflow: TextOverflow.fade,style: AppStyles.h5(color: AppColors.white),)),
                                 ],
                               ),
-                              Text('Wed 12/16  8:30 PM',style: AppStyles.h5(color: AppColors.white),),
+                              //VerticalDivider(width: 5.w,color: Colors.redAccent,),
+                              SizedBox(width: 8.w,),
+                              Expanded(child: Text('${matchItemIndex.date}\n  ${matchItemIndex.time}',maxLines: 2,overflow: TextOverflow.ellipsis,style: AppStyles.h5(color: AppColors.primaryColor),)),
 
                             ],
                           ),

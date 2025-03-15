@@ -41,12 +41,12 @@ class SingleMatchesView extends StatelessWidget {
                   alignment: Alignment.centerRight,
                   child: GestureDetector(
                     onTap: () {
-                      showDialog(
+                     /* showDialog(
                         context: context,
                         builder: (BuildContext context) {
-                          return DeleteAlertDialogue();
+                          return DeleteAlertDialogue(challengeId: '',);
                         },
-                      );
+                      );*/
                     },
                     child: Padding(
                       padding: EdgeInsets.only(right: 8.w),

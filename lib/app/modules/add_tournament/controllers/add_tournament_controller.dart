@@ -22,7 +22,23 @@ class AddTournamentController extends GetxController {
   final TextEditingController numberOfPlayerCtrl = TextEditingController();
   late final TextEditingController searchCourseNameCtrl = TextEditingController();
 
-  List tournamentTypeList = ['Type1', 'Type2', 'Type3'];
+  List tournamentTypeList =  [
+    'Skins',
+    'Stroke Play',
+    'Match Play',
+    'Best Ball',
+    'Alternate Shot',
+    'Scramble',
+    'Shamble',
+    'Stableford',
+    'Ryder Cup',
+    'Four Ball',
+    'Bingo Bango Bongo',
+    'Flags',
+    'Money Ball',
+    'Quota',
+    'Peoria System',
+  ];
   List groupLengthList = ['2', '3', '4', '8'];
   String? tournamentType;
   String? groupLength;

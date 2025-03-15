@@ -87,7 +87,7 @@ class CreateChallengeController extends GetxController {
     }
   }
 
-  createChallenge(TournamentDetailAttributes tournamentDetailAttributes) async {
+  createChallenge(TournamentDetailAttributes tournamentDetailAttributes,VoidCallback callBack) async {
     isLoading2.value = true;
     try {
       String token = await PrefsHelper.getString('token');
@@ -120,6 +120,7 @@ class CreateChallengeController extends GetxController {
 
       if (response.statusCode == 201) {
         Get.snackbar('Success', decodedBody['message']);
+        callBack();
       } else {
         print('Error: ${response.statusCode}');
         Get.snackbar('Failed', decodedBody['message']);

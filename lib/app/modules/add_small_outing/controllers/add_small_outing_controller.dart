@@ -22,11 +22,27 @@ class AddSmallOutingController extends GetxController {
   final TextEditingController slopeRatingCtrl = TextEditingController();
   final TextEditingController timeCtrl = TextEditingController();
 
-  late final TextEditingController searchCourseNameCtrl =
-      TextEditingController();
+  late final TextEditingController searchCourseNameCtrl = TextEditingController();
   LatLng? latLng;
 
-  List outingTypeList = ['Type1', 'Type2', 'Type3'];
+  List<String> outingTypeList = [
+    'Skins',
+    'Stroke Play',
+    'Match Play',
+    'Best Ball',
+    'Alternate Shot',
+    'Scramble',
+    'Shamble',
+    'Stableford',
+    'Ryder Cup',
+    'Four Ball',
+    'Bingo Bango Bongo',
+    'Flags',
+    'Money Ball',
+    'Quota',
+    'Peoria System',
+  ];
+
   List numberOfPlayerList = ['2', '3', '4', '5', '6', '7', '8'];
 
   RxBool isLoading = false.obs;

@@ -192,7 +192,7 @@ class _AssignGroupViewState extends State<AssignGroupView> {
             onTap: () {
               Text(group);
               _assignGroupController.addGroup();
-                int playerIndex = _assignGroupController.groupPlayer.indexWhere((item) => item.tournamentId==tournamentId && item.groupName==group);
+                int playerIndex = _assignGroupController.groupPlayer.indexWhere((item) => item.tournamentId == tournamentId && item.groupName == group);
 
               if(playerIndex !=-1){
                 if(_assignGroupController.groupPlayer[playerIndex].playerName.indexWhere((item)=> item.id == playerName.id) != -1){
@@ -207,6 +207,7 @@ class _AssignGroupViewState extends State<AssignGroupView> {
 
                 print(_assignGroupController.groupPlayer);
               }else{
+                /// here will be filter the existing group player
                 _assignGroupController.groupPlayer.add(GroupPlayer([playerName] , group, tournamentId,tournamentType));
               }
                print(_assignGroupController.groupPlayer);
