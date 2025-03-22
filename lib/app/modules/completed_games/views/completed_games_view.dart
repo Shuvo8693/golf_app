@@ -103,7 +103,7 @@ class CompletedGamesView extends StatelessWidget {
                                   AppButton(
                                     text: AppString.winnerText,
                                     onTab: (){
-                                    Get.toNamed(Routes.WINNERS);
+                                    Get.toNamed(Routes.WINNERS,arguments: {'completedTournamentId':completeTournamentIndex.sId });
                                   },isIconWithTextActive: true,iconPath: AppIcons.winnerLogo,),
                                   /*  SizedBox(width: 8.h),
                                AppButton(text:  AppString.chatText, onTab: ()=>_showChatBottomSheet(context),isIconWithTextActive: true,iconPath: AppIcons.chatLogo,),*/

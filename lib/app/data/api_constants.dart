@@ -4,9 +4,9 @@ class ApiConstants{
   static String googleBaseUrl="https://maps.googleapis.com/maps/api/place/autocomplete/json";
   static String estimatedTimeUrl="https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&";
    /// App Url
-    static String baseUrl="http://10.0.60.205:9090/v1";
-    static String  imageBaseUrl="http://10.0.60.205:9090";
-    static String socketUrl="http://10.0.60.205:9090";
+    static String baseUrl="http://10.0.80.205:9090/v1";
+    static String  imageBaseUrl="http://10.0.80.205:9090";
+    static String socketUrl="http://10.0.80.205:9090";
 
   static String googleApiKey="AIzaSyBFi80uuJIWkkLCpodFa8oXmD8XD_h8LMc";
 
@@ -40,6 +40,9 @@ static String sponsorContentUrl= '$baseUrl/sponser-tournament';
   static String sendRequestToPlayUrl = '$baseUrl/request-to-play';
   static String completeGamerUrl = '$baseUrl/complite-tournament';
   static String smallOutingRequestToPlayUrl(dynamic tournamentId) => '$baseUrl/small-tournament/makerequest-toplay';
+  static String winnersUrl(dynamic completeTourId) => '$baseUrl/winner?id=$completeTourId';
+  static String postWinnersUrl(String sectionName) => '$baseUrl/winner-$sectionName';
+  static String playerListUrl(String tournamentId,String sectionName) => '$baseUrl/winner-$sectionName/allUser?id=$tournamentId';
   static String markAsReadNotificationUrl(dynamic notificationId) => '$baseUrl/notification?id=$notificationId';
   static String invitationDeleteUrl(dynamic invitationId) => '$baseUrl/invitation/delete?id=$invitationId';
   static String invitationAcceptUrl(dynamic invitationId) => '$baseUrl/invitation/accept?id=$invitationId';

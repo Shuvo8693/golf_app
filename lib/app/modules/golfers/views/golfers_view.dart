@@ -36,7 +36,7 @@ class GolfersView extends StatelessWidget {
             CustomSearchField(
               searchCtrl: searchCtrl,
               onTab: () {},
-              onChanged: (changedValue) {},
+              onChanged: (changedValue){},
             ),
             verticalSpacing(20.h),
             Expanded(

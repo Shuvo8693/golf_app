@@ -1,4 +1,8 @@
 import 'package:get/get.dart';
+import 'package:golf_game_play/app/modules/create_winner_details/views/challenge_match_view.dart';
+import 'package:golf_game_play/app/modules/create_winner_details/views/kps_view.dart';
+import 'package:golf_game_play/app/modules/create_winner_details/views/score_view.dart';
+import 'package:golf_game_play/app/modules/create_winner_details/views/skin_view.dart';
 
 import '../modules/add_small_outing/bindings/add_small_outing_binding.dart';
 import '../modules/add_small_outing/views/add_small_outing_view.dart';
@@ -309,6 +313,27 @@ class AppPages {
       name: _Paths.STORY_SLIDER,
       page: () => StorySliderView(),
       binding: StorySliderBinding(),
+    ),
+
+    GetPage(
+      name: _Paths.SKIN,
+      page: () => SkinView(),
+      binding: CreateWinnerDetailsBinding(),
+    ),
+    GetPage(
+      name: _Paths.KPS,
+      page: () => KpsView(),
+      binding: CreateWinnerDetailsBinding(),
+    ),
+    GetPage(
+      name: _Paths.TOP_WINNER,
+      page: () => TopWinnerView(),
+      binding: CreateWinnerDetailsBinding(),
+    ),
+    GetPage(
+      name: _Paths.SCORE,
+      page: () => ScoreView(),
+      binding: CreateWinnerDetailsBinding(),
     ),
   ];
 }

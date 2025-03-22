@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 
 class CustomDropdownField extends StatelessWidget {
-  const CustomDropdownField({super.key, required this.items, this.onChange, this.hintText});
+  const CustomDropdownField({super.key, required this.items, this.onChange, this.hintText,  this.isDataTypeString});
 
-  final List<dynamic> items;
-  final Function(String?)? onChange;
+  final List<String> items;
+  final Function(dynamic)? onChange;
   final String? hintText;
+  final bool? isDataTypeString;
 
   @override
   Widget build(BuildContext context) {
