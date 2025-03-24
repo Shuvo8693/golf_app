@@ -166,7 +166,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.TEE_SHEET,
-      page: () => const TeeSheetView(),
+      page: () =>  TeeSheetView(),
       binding: TeeSheetBinding(),
     ),
     GetPage(

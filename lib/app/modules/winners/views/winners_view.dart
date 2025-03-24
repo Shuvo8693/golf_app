@@ -14,7 +14,7 @@ import 'package:golf_game_play/common/widgets/app_button.dart';
 import 'package:golf_game_play/common/widgets/custom_card.dart';
 
 class WinnersView extends StatefulWidget {
-   WinnersView({super.key});
+   const WinnersView({super.key});
 
   @override
   State<WinnersView> createState() => _WinnersViewState();
@@ -113,11 +113,13 @@ String? completeTourId;
                 children: [
                   Row(
                     children: [
-                      Expanded(child: Text('${skinIndex.skinWinner?.name}', overflow: TextOverflow.ellipsis,style: AppStyles.h5())),
+                      Expanded(
+                        flex: 2,
+                          child: Text('${skinIndex.skinWinner?.name}', overflow: TextOverflow.ellipsis,style: AppStyles.h5())),
                       SizedBox(width: 20.w),
                       Text('Hole : ${skinIndex.skinHole}', style: AppStyles.h5()),
                       SizedBox(width: 20.w),
-                      Text('${skinIndex.skinScore}', style: AppStyles.h5()),
+                      Expanded(child: Text('${skinIndex.skinScore}',overflow: TextOverflow.ellipsis, style: AppStyles.h5())),
                       SizedBox(width: 20.w),
                       CustomCard(
                         padding: 4,
@@ -168,11 +170,15 @@ String? completeTourId;
                 children: [
                   Row(
                     children: [
-                      Text(' ${kpsIndex.kpsWinner?.name}', style: AppStyles.h5()),
+                      Expanded(
+                        flex: 2,
+                          child: Text(' ${kpsIndex.kpsWinner?.name}',overflow: TextOverflow.ellipsis, style: AppStyles.h5())),
                       SizedBox(width: 20.w),
-                      Text('Hole # ${kpsIndex.kpsHole}', style: AppStyles.h5()),
+                      Expanded(child: Text('Hole : ${kpsIndex.kpsHole}', style: AppStyles.h5())),
                       SizedBox(width: 20.w),
-                      Text('${kpsIndex.kpsFeet} feet', style: AppStyles.h5()),
+                      Expanded(
+                          flex: 2,
+                          child: Text('${kpsIndex.kpsFeet} feet', style: AppStyles.h5())),
                     ],
                   ),
                   SizedBox(height: 6.h),
@@ -201,9 +207,20 @@ String? completeTourId;
               children: [
                 Row(
                   children: [
-                    Text('${challenge.first.challengeWinner?.name} Vs ${challenge.first.challengeLoser?.name}', style: AppStyles.h5()),
+                    Expanded(
+                        flex: 2,
+                        child: Text('${challenge.first.challengeWinner?.name} ',overflow: TextOverflow.ellipsis, style: AppStyles.h5())),
+                    Expanded(
+                        flex: 1,
+                        child: Text('Vs',overflow: TextOverflow.ellipsis, style: AppStyles.h3())),
+
+                    Expanded(
+                      flex: 2,
+                        child: Text('${challenge.first.challengeLoser?.name}',overflow: TextOverflow.ellipsis, style: AppStyles.h5())),
                     SizedBox(width: 20.w),
-                    Text('${challenge.first.winnerRound} - ${challenge.first.loserRound}', style: AppStyles.h5()),
+                    Expanded(
+                      flex: 1,
+                        child: Text('${challenge.first.winnerRound} - ${challenge.first.loserRound}', style: AppStyles.h5())),
                   ],
                 ),
                 SizedBox(height: 6.h),
@@ -235,12 +252,12 @@ String? completeTourId;
                 children: [
                   Row(
                     children: [
-                      Text(' ${playerIndex.name?.name}', style: AppStyles.h5()),
+                      Expanded(child: Text(' ${playerIndex.name?.name}',overflow: TextOverflow.ellipsis, style: AppStyles.h5())),
                       SizedBox(width: 20.w),
                       InkWell(
                         key: buttonKey,
                         onTap: (){
-                          buildPopUpMenu(buttonKey, _winnersController.teeBoxList, context);
+                          buildPopUpMenu(buttonKey, playerIndex.name?.teeBox??'', context);
                         }, child: Text('TeeBox ▼ ', style: AppStyles.h5())),
                       SizedBox(width: 20.w),
                       Text('Score: ${playerIndex.score}', style: AppStyles.h5()),
@@ -257,21 +274,23 @@ String? completeTourId;
     );
   }
 
-  buildPopUpMenu(GlobalKey buttonKey,List<dynamic> numberList, BuildContext context) {
+  buildPopUpMenu(GlobalKey buttonKey,String teeBox, BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((__) {
       RenderBox currentRenderObject = buttonKey.currentContext?.findRenderObject() as RenderBox;
       final buttonPosition = currentRenderObject.localToGlobal(Offset.zero);
+      Map<String,Color> teeBoxData = _winnersController.teeBoxItem;
       showMenu(
         context: context,
-        position: RelativeRect.fromLTRB(buttonPosition.dx.w, buttonPosition.dy.h -190.h, 150.w, 0),
-        items: numberList.map(
-              (number) => PopupMenuItem(
-            child: Text(number),
-            onTap: () {
-              Text(number);
-            },
+        position: RelativeRect.fromLTRB(buttonPosition.dx.w, buttonPosition.dy.h -20.h, buttonPosition.dx.w, buttonPosition.dy.h),
+        items: [
+          PopupMenuItem(
+          child: CustomCard(
+            cardHeight: 50,
+              cardWidth: 50,
+              cardColor: teeBoxData[teeBox],
+              children: []
           ),
-        ).toList(),
+        )],
       );
     });
   }

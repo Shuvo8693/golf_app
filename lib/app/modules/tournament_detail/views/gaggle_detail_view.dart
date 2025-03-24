@@ -15,7 +15,7 @@ import 'package:golf_game_play/common/widgets/custom_button.dart';
 import 'package:golf_game_play/common/widgets/custom_card.dart';
 
 class GaggleDetailView extends StatefulWidget {
-   GaggleDetailView({super.key});
+   const GaggleDetailView({super.key});
 
   @override
   State<GaggleDetailView> createState() => _GaggleDetailViewState();
@@ -145,7 +145,7 @@ class _GaggleDetailViewState extends State<GaggleDetailView> {
                       ///=====Tee button=====
                       AppButton(
                           onTab: () {
-                            Get.toNamed(Routes.TEE_SHEET);
+                            Get.toNamed(Routes.TEE_SHEET,arguments: {'tournamentId': tournamentDetailAttributes.sId});
                           },
                           text: AppString.teeSheetText,
                           height: 50.h),

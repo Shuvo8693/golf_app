@@ -41,7 +41,7 @@ class CustomCard extends StatelessWidget {
           ),
           borderRadius: BorderRadius.circular(10), // Rounded corners
         ),
-        elevation:elevation?? 5, // Shadow depth
+        elevation:elevation?? 2, // Shadow depth
         //margin: EdgeInsets.all(8.sp), // Space outside the card
         child: Padding(
           padding: EdgeInsets.all(padding?.sp ?? 12.sp),

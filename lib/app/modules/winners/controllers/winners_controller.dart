@@ -10,7 +10,14 @@ import 'package:http/http.dart' as http;
 
 
 class WinnersController extends GetxController {
-  List<String> teeBoxList=['Black', 'Blue', 'White', 'Gold', 'Red'];
+  //'Black', 'Blue', 'White', 'Gold', 'Red'
+  Map<String,Color> teeBoxItem={
+    'black' : Colors.black,
+    'blue' : Colors.blue,
+    'white' : Colors.white,
+    'gold' : Colors.orangeAccent,
+    'red' : Colors.red,
+  };
 
 
   Rx<WinnerModel> winnerModel = WinnerModel().obs;
