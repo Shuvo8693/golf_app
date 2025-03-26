@@ -213,30 +213,39 @@ class _HomeViewState extends State<HomeView> {
               // SizedBox(height: 10.h),
 
               /// Sponsor section
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  InkWell(
-                    borderRadius: BorderRadius.all(Radius.circular(12)),
-                    onTap: () {
-                      Get.offNamed(Routes.SPONSOR_SIGNUP);
-                    },
-                    child: CustomCard(
-                      cardHeight: 50,
-                      cardWidth: 90,
-                      padding: 8,
-                      elevation: 2,
-                      children: [
-                        Text(
-                          'Add',
-                          style: AppStyles.h5(color: AppColors.appGreyColor),
-                        )
-                      ],
-                    ),
-                  ),
-                  Text('Sponsored Tournaments', style: AppStyles.h2(),
-                  )
-                ],
+              Obx((){
+               String? userRole = _myProfileController.user.value.role;
+                if(userRole =='supperUser'){
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      InkWell(
+                        borderRadius: BorderRadius.all(Radius.circular(12)),
+                        onTap: () {
+                          Get.offNamed(Routes.SPONSOR_SIGNUP);
+                        },
+                        child: CustomCard(
+                          cardHeight: 50,
+                          cardWidth: 90,
+                          padding: 8,
+                          elevation: 2,
+                          children: [
+                            Text(
+                              'Add',
+                              style: AppStyles.h5(color: AppColors.appGreyColor),
+                            )
+                          ],
+                        ),
+                      ),
+                      Text('Sponsored Tournaments', style: AppStyles.h2(),
+                      )
+                    ],
+                  );
+                }else{
+                  return SizedBox.shrink();
+                }
+
+               }
               ),
 
               /// Sponsor content List View

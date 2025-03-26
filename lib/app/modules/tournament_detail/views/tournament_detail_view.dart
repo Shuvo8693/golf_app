@@ -14,18 +14,20 @@ import 'package:golf_game_play/common/widgets/casess_network_image.dart';
 import 'package:golf_game_play/common/widgets/custom_button.dart';
 import 'package:golf_game_play/common/widgets/custom_card.dart';
 
-class GaggleDetailView extends StatefulWidget {
-   const GaggleDetailView({super.key});
+class TournamentDetailView extends StatefulWidget {
+   const TournamentDetailView({super.key});
 
   @override
-  State<GaggleDetailView> createState() => _GaggleDetailViewState();
+  State<TournamentDetailView> createState() => _TournamentDetailViewState();
 }
 
-class _GaggleDetailViewState extends State<GaggleDetailView> {
-  final GaggleDetailController _gaggleDetailController = Get.put(GaggleDetailController());
+class _TournamentDetailViewState extends State<TournamentDetailView> {
+  final GaggleDetailController _tournamentDetailController = Get.put(GaggleDetailController());
 
   final TournamentCompletionStatus _tournamentCompletionStatus =Get.put(TournamentCompletionStatus());
+
  bool? isActive;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,8 +38,8 @@ class _GaggleDetailViewState extends State<GaggleDetailView> {
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 10.w),
           child: Obx((){
-            final tournamentDetailAttributes =_gaggleDetailController.tournamentDetailModel.value.data?.attributes;
-            if(_gaggleDetailController.isLoading.value){
+            final tournamentDetailAttributes =_tournamentDetailController.tournamentDetailModel.value.data?.attributes;
+            if(_tournamentDetailController.isLoading.value){
               return Center(child: CircularProgressIndicator());
             } else if(tournamentDetailAttributes ==null){
               return Center(child: Text('Tournament Details are empty'));
@@ -83,8 +85,7 @@ class _GaggleDetailViewState extends State<GaggleDetailView> {
                                     subtitle: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Text(
-                                            'User name : ${tournamentDetailAttributes.tournamentCreator?.name}',
+                                        Text('User name : ${tournamentDetailAttributes.tournamentCreator?.name}',
                                             style: AppStyles.h5()),
                                         SizedBox(height: 6.h),
                                         Text('Gaggle : ${tournamentDetailAttributes.clubName??tournamentDetailAttributes.tournamentName}',
@@ -133,7 +134,7 @@ class _GaggleDetailViewState extends State<GaggleDetailView> {
                           ],
                         ),
                       ),
-                      ///=====Request to Play button=====
+                      ///===== Chat with Tournament creator =====
                       AppButton(
                           onTab: () {
                             Get.toNamed(Routes.MESSAGE_INBOX);
@@ -157,6 +158,17 @@ class _GaggleDetailViewState extends State<GaggleDetailView> {
                       onTap: () {
                         Get.toNamed(Routes.MESSAGE_INBOX);
                       }, text: 'Group Chat'),
+                  if(_tournamentDetailController.myId == tournamentDetailAttributes.tournamentCreator?.sId)
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(height: 16.h),
+                      CustomButton(
+                          onTap: () {
+                            Get.toNamed(Routes.ASSIGN_GROUP);
+                          }, text: 'Assign group'),
+                    ],
+                  ),
 
                   SizedBox(height: 16.h),
                   CustomButton(

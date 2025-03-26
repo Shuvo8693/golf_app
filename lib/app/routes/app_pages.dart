@@ -83,7 +83,7 @@ import '../modules/tee_sheet/views/tee_sheet_view.dart';
 import '../modules/top50/bindings/top50_binding.dart';
 import '../modules/top50/views/top50_view.dart';
 import '../modules/tournament_detail/bindings/gaggle_detail_binding.dart';
-import '../modules/tournament_detail/views/gaggle_detail_view.dart';
+import '../modules/tournament_detail/views/tournament_detail_view.dart';
 import '../modules/user_profile/bindings/user_profile_binding.dart';
 import '../modules/user_profile/views/user_profile_view.dart';
 import '../modules/verify_email/bindings/verify_email_binding.dart';
@@ -151,7 +151,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.GAGGLE_DETAIL,
-      page: () =>  GaggleDetailView(),
+      page: () =>  TournamentDetailView(),
       binding: GaggleDetailBinding(),
     ),
     GetPage(

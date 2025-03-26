@@ -36,6 +36,8 @@ class CompleteTournamentAttributes {
   String? time;
   String? courseName;
   String? tournamentName;
+  String? tournamentCreator;
+  bool? isWinnerView;
 
   CompleteTournamentAttributes(
       {this.sId,
@@ -45,7 +47,10 @@ class CompleteTournamentAttributes {
         this.date,
         this.time,
         this.courseName,
-        this.tournamentName});
+        this.tournamentName,
+        this.tournamentCreator,
+        this.isWinnerView
+      });
 
   CompleteTournamentAttributes.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
@@ -56,5 +61,8 @@ class CompleteTournamentAttributes {
     time = json['time'];
     courseName = json['courseName'];
     tournamentName = json['tournamentName'];
+    tournamentCreator = json['tournamentCreator'];
+    isWinnerView = json['iswinner'];
+
   }
 }

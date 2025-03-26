@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
-import 'package:golf_game_play/app/modules/create_winner_details/controllers/create_winner_details_controller.dart';
+import 'package:golf_game_play/app/modules/winners/controllers/winners_controller.dart';
 import 'package:golf_game_play/app/routes/app_pages.dart';
+import 'package:golf_game_play/common/prefs_helper/prefs_helpers.dart';
 import 'package:golf_game_play/common/widgets/custom_button.dart';
 import 'package:golf_game_play/common/widgets/spacing.dart';
 
@@ -16,6 +17,7 @@ class CreateWinnerDetailsView extends StatefulWidget {
 }
 
 class _CreateWinnerDetailsViewState extends State<CreateWinnerDetailsView> {
+  final WinnersController _winnersController = Get.find();
 
   final List<String> steps = [
     "SKIN",
@@ -28,7 +30,16 @@ class _CreateWinnerDetailsViewState extends State<CreateWinnerDetailsView> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        leading: GestureDetector(
+          onTap: ()async{
+            String completeTourId = await PrefsHelper.getString('completeTourID');
+            await _winnersController.fetchWinner(completeTourId);
+            Get.back();
+          },
+          child: Icon(Icons.arrow_back_ios),
+        ),
+      ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 8.w),
         child: Center(
