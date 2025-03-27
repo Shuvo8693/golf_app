@@ -1,20 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 
 import 'package:get/get.dart';
+import 'package:golf_game_play/app/modules/subscription/model/subscription_model.dart';
 import 'package:golf_game_play/app/modules/subscription/widgets/subscription_card_item.dart';
-import 'package:golf_game_play/common/app_color/app_colors.dart';
-import 'package:golf_game_play/common/app_icons/app_icons.dart';
 import 'package:golf_game_play/common/app_text_style/style.dart';
-import 'package:golf_game_play/common/widgets/custom_button.dart';
 
 import '../controllers/subscription_controller.dart';
 
 class SubscriptionView extends StatelessWidget {
   SubscriptionView({super.key});
 
-  final ScrollController _scrollController = ScrollController();
+  final SubscriptionController _subscriptionController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -31,16 +28,24 @@ class SubscriptionView extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Expanded(
-              child: ListView.builder(
-                controller: _scrollController,
-                itemCount: 2,
-                shrinkWrap: true,
-                itemBuilder: (BuildContext context, int index) {
-                  return SubscriptionCard();
-                },
-              ),
-            ),
+            Obx(() {
+              List<SubscriptionAttributes>  subscriptionAttributes =  _subscriptionController.subscriptionModel.value.data?.attributes??[];
+              if(_subscriptionController.isLoading.value){
+                return  Center(child: CircularProgressIndicator());
+              } else if(subscriptionAttributes.isEmpty){
+                return Center(child: Text('Subscription is not available',style: AppStyles.h4(),));
+              }
+              return Expanded(
+                child: ListView.builder(
+                  itemCount: subscriptionAttributes.length,
+                  shrinkWrap: true,
+                  itemBuilder: (BuildContext context, int index) {
+                   final subscriptionAttributesIndex = subscriptionAttributes[index];
+                    return SubscriptionCard(subscriptionAttributes: subscriptionAttributesIndex,);
+                  },
+                ),
+              );
+            }),
             SizedBox(
               height: 30.h,
             ),
@@ -50,5 +55,3 @@ class SubscriptionView extends StatelessWidget {
     );
   }
 }
-
-

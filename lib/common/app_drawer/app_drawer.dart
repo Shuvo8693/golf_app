@@ -36,10 +36,10 @@ class _AppDrawerState extends State<AppDrawer> {
       width: 270.w,
       child: SafeArea(
         child: Obx((){
-          User userValue = _myProfileController.user.value;
+          MyProfile userValue = _myProfileController.myProfile.value;
           if(_myProfileController.isLoading.value){
             return Center(child: CircularProgressIndicator());
-          }else if(userValue == User()){
+          }else if(userValue == MyProfile()){
             return Text('Profile fetching is getting error');
           }
           return  ListView(

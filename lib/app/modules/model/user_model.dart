@@ -25,19 +25,19 @@ class UserData {
 }
 
 class UserAttributes {
-  User? user;
+  MyProfile? user;
   Tokens? tokens;
 
   UserAttributes({this.user, this.tokens});
 
   UserAttributes.fromJson(Map<String, dynamic> json) {
-    user = json['user'] != null ? User.fromJson(json['user']) : null;
+    user = json['user'] != null ? MyProfile.fromJson(json['user']) : null;
     tokens =
     json['tokens'] != null ? Tokens.fromJson(json['tokens']) : null;
   }
 }
 
-class User {
+class MyProfile {
   MyLocation? myLocation;
   MyLocation? currentLocation;
   String? name;
@@ -68,7 +68,7 @@ class User {
   bool? isResetPassword;
   String? id;
 
-  User(
+  MyProfile(
       {this.myLocation,
         this.currentLocation,
         this.name,
@@ -100,7 +100,7 @@ class User {
         this.id
       });
 
-  User.fromJson(Map<String, dynamic> json) {
+  MyProfile.fromJson(Map<String, dynamic> json) {
     myLocation = json['myLocation'] != null
         ? MyLocation.fromJson(json['myLocation'])
         : null;

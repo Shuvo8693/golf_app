@@ -40,6 +40,7 @@ static String sponsorContentUrl= '$baseUrl/sponser-tournament';
   static String sendRequestToPlayUrl = '$baseUrl/request-to-play';
   static String completeGamerUrl = '$baseUrl/complite-tournament';
   static String to50GolfersUrl = '$baseUrl/top-playear';
+  static String subscribeUrl = '$baseUrl/subscrib';
   static String smallOutingRequestToPlayUrl(dynamic tournamentId) => '$baseUrl/small-tournament/makerequest-toplay';
   static String teeSheetUrl(String tournamentId) => '$baseUrl/teeSheet?id=$tournamentId';
   static String winnersUrl(dynamic completeTourId) => '$baseUrl/winner?id=$completeTourId';

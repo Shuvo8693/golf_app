@@ -12,7 +12,7 @@ import 'package:http/http.dart' as http;
 import 'package:mime/mime.dart';
 
 class ProfileUpdateController extends GetxController {
-  User? user;
+  MyProfile? user;
 
   ProfileUpdateController({this.user});
 

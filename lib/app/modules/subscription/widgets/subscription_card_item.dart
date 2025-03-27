@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:golf_game_play/app/modules/subscription/model/subscription_model.dart';
 import 'package:golf_game_play/common/app_color/app_colors.dart';
 import 'package:golf_game_play/common/app_icons/app_icons.dart';
 import 'package:golf_game_play/common/app_text_style/style.dart';
 import 'package:golf_game_play/common/widgets/custom_button.dart';
+import 'package:golf_game_play/common/widgets/spacing.dart';
 
 class SubscriptionCard extends StatelessWidget {
+  final SubscriptionAttributes subscriptionAttributes;
   const SubscriptionCard({
-    super.key,
+    super.key, required this.subscriptionAttributes,
   });
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -32,8 +34,7 @@ class SubscriptionCard extends StatelessWidget {
               SvgPicture.asset(
                 AppIcons.crownIcon,
               ),
-              Text(
-                'Premium Package',
+              Text('${subscriptionAttributes.subscribeType}',
                 style: AppStyles.h2(
                   family: "Schuyler",
                 ),
@@ -43,35 +44,39 @@ class SubscriptionCard extends StatelessWidget {
               ),
 
               ///=============>
-              Row(
-                children: [
-                  Icon(Icons.join_right),
-                  SizedBox(width: 8.w),
-                  Flexible(
-                    child: Text(
-                      'Access unlimited tournament Creation & Challenge anyone',
-                      overflow: TextOverflow.clip,
-                      style: AppStyles.h4(
-                        family: "Schuyler",
+              Column(
+                  children: subscriptionAttributes.features!.map((feature) {
+                return Row(
+                  children: [
+                    Icon(Icons.join_right),
+                    SizedBox(width: 8.w),
+                    Flexible(
+                      child: Text(
+                        feature,
+                        overflow: TextOverflow.clip,
+                        style: AppStyles.h4(
+                          family: "Schuyler",
+                        ),
                       ),
                     ),
-                  ),
-                ],
-              ),
+                  ],
+                );
+              }).toList()),
 
               ///=============>
               SizedBox(height: 15.h),
               Row(
                 children: [
                   Text(
-                    '\$200',
+                    '\$${subscriptionAttributes.price}',
                     style: AppStyles.h1(
                       family: "Schuyler",
                     ),
                   ),
+                  horizontalSpacing(8.w),
                   Text(
-                    '/ Monthly',
-                    style: AppStyles.h5(
+                    '/ ${subscriptionAttributes.typeOfSubscription}',
+                    style: AppStyles.h3(
                       family: "Schuyler",
                     ),
                   ),
@@ -82,7 +87,7 @@ class SubscriptionCard extends StatelessWidget {
               ),
               CustomButton(
                 onTap: () async {
-                  //  await _paymentController.makePayment(packageIndex.price.toString(), 'USD', packageIndex.id);
+                    //await _paymentController.makePayment(packageIndex.price.toString(), 'USD', packageIndex.id);
                 },
                 color: Colors.black,
                 text: 'Buy',

@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:get/get.dart';
 import 'package:golf_game_play/app/data/api_constants.dart';
-import 'package:golf_game_play/app/modules/top50/model/top_50_player.dart';
+import 'package:golf_game_play/app/modules/top50/model/top_50_player_model.dart';
 import 'package:golf_game_play/common/prefs_helper/prefs_helpers.dart';
 import 'package:http/http.dart' as http;
 
@@ -32,7 +32,7 @@ class Top50Controller extends GetxController {
       Map<String,dynamic> decodedBody = jsonDecode(responseBody.body);
       if (response.statusCode == 200) {
         top50GolfersModel.value= Top50GolfersModel.fromJson(decodedBody);
-        print(top50GolfersModel.value);
+        print(top50GolfersModel.value.toString());
       } else {
         print('Error: ${response.statusCode}');
         Get.snackbar('Failed', decodedBody['message']);

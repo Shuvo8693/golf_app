@@ -34,7 +34,7 @@ class _ProfileUpdateViewState extends State<ProfileUpdateView> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((__)async{
      await myProfileCtrl.fetchProfile(() {});
-      _profileUpdateController = Get.put(ProfileUpdateController(user: myProfileCtrl.user.value));
+      _profileUpdateController = Get.put(ProfileUpdateController(user: myProfileCtrl.myProfile.value));
       _profileUpdateController?.getProfile();
       setState(() {});
     });
@@ -74,7 +74,7 @@ class _ProfileUpdateViewState extends State<ProfileUpdateView> {
                               ),
                             )
                           : CustomNetworkImage(
-                              imageUrl: '${ApiConstants.imageBaseUrl}${myProfileCtrl.user.value.coverImage?.url}',
+                              imageUrl: '${ApiConstants.imageBaseUrl}${myProfileCtrl.myProfile.value.coverImage?.url}',
                               height: 200.h,
                             ),
                     );
@@ -100,7 +100,7 @@ class _ProfileUpdateViewState extends State<ProfileUpdateView> {
                               fit: BoxFit.cover,
                           ),
                         ),
-                      ) : CustomNetworkImage(imageUrl: '${ApiConstants.imageBaseUrl}${myProfileCtrl.user.value.image?.url}',
+                      ) : CustomNetworkImage(imageUrl: '${ApiConstants.imageBaseUrl}${myProfileCtrl.myProfile.value.image?.url}',
                         height: 125.h,
                         width: 125.h,
                         boxShape: BoxShape.circle,

@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:golf_game_play/app/modules/home/controllers/request_to_play_controller.dart';
 import 'package:golf_game_play/app/modules/home/model/club_tournament_model.dart';
+import 'package:golf_game_play/app/modules/model/user_model.dart';
 import 'package:golf_game_play/common/app_text_style/style.dart';
 import 'package:golf_game_play/common/widgets/app_button.dart';
 import 'package:golf_game_play/common/widgets/custom_button.dart';
@@ -14,8 +15,9 @@ import 'gaggle_rules.dart';
 class ClubTournamentCard extends StatelessWidget {
   final ClubTournamentData? clubTournamentData;
   final int index;
+  final MyProfile myProfile;
 
-   ClubTournamentCard({super.key, required this.clubTournamentData, required this.index});
+   ClubTournamentCard({super.key, required this.clubTournamentData, required this.index, required this.myProfile});
    final RequestSendToPlayController _requestToPlayController =Get.put(RequestSendToPlayController(),tag: 'club');
 
   @override
@@ -66,7 +68,7 @@ class ClubTournamentCard extends StatelessWidget {
             //       height: 50.h),
             // ),
             horizontalSpacing(8.w),
-            if (clubTournamentData?.distanceToUser != null && clubTournamentData!.distanceToUser! < 61.0)
+            if (clubTournamentData?.distanceToUser != null && clubTournamentData!.distanceToUser! < 61.0 || myProfile.role=='supperUser' || myProfile.role=='basicUser')
               Flexible(
                 flex: 3,
                 fit: FlexFit.loose,

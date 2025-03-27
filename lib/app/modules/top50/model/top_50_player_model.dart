@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 class Top50GolfersModel {
   int? code;
   String? message;
@@ -31,6 +33,8 @@ class Top50GolferAttributes {
   String? sId;
   String? name;
   String? handicap;
+  String? clubName;
+  String? city;
   Image? image;
   double? distance;
 
@@ -40,8 +44,15 @@ class Top50GolferAttributes {
     sId = json['_id'];
     name = json['name'];
     handicap = json['handicap'];
+    city = json['city'];
+    clubName = json['clubName'];
     image = json['image'] != null ? Image.fromJson(json['image']) : null;
-    distance = json['distance'];
+    if(json['distance'] is int){
+      distance = double.tryParse(json['distance'].toString());
+    }else{
+      distance = json['distance'];
+    }
+
   }
 
 }
