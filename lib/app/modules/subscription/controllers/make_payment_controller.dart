@@ -1,21 +1,22 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
 import 'package:golf_game_play/app/data/api_constants.dart';
 import 'package:golf_game_play/common/prefs_helper/prefs_helpers.dart';
+import 'package:golf_game_play/sk_key.dart';
 import 'package:http/http.dart' as http;
-
-
-
 
 class PaymentController extends GetxController{
 
   Map<String, dynamic>? paymentIntent;
+  RxMap<int,bool> isLoading= <int,bool>{}.obs;
+  Future<void> makePayment(String amount,String currency,dynamic subscriptionId, String subscriberId,String subscriptionType,String planType,int index) async {
 
-  Future<void> makePayment(String amount,String currency,dynamic subscriptionId) async {
     try {
+      isLoading[index]=true;
       // Create payment intent data
       paymentIntent = await createPaymentIntent(amount, currency);
       // initialise the payment sheet setup
@@ -30,7 +31,13 @@ class PaymentController extends GetxController{
         ),
       );
       // Display payment sheet
-     await displayPaymentSheet(subscriptionId);
+     await displayPaymentSheet(subscriptionId,subscriberId, subscriptionType,planType);
+    }on SocketException catch (_) {
+      Get.snackbar(
+        'Error',
+        'No internet connection. Please check your network and try again.',
+        snackPosition: SnackPosition.TOP,
+      );
     } catch (error) {
       print("exception $error");
 
@@ -39,30 +46,30 @@ class PaymentController extends GetxController{
       } else {
         print("exception $error");
       }
+    } finally {
+      isLoading[index] = false;
     }
   }
 
-  displayPaymentSheet(dynamic subscriptionId) async {
+  displayPaymentSheet(String subscriptionId, String subscriberId,String subscriptionType,String planType) async {
     try {
       // "Display payment sheet";
       await Stripe.instance.presentPaymentSheet();
       // Show when payment is done
-         dynamic id = paymentIntent?['id'];
+         dynamic transactionId = paymentIntent?['id'];
          String? currency = paymentIntent?['currency'];
          int? amount =paymentIntent?['amount'] ;
          String? purchaseToken =paymentIntent?['client_secret'];
       print(paymentIntent.toString());
       print(subscriptionId.toString());
-      if(id !=null && amount !=null && purchaseToken !=null){
-       await handlePayment(id,subscriptionId,amount, paymentIntent??{} );
+      if(transactionId !=null && amount !=null && purchaseToken !=null){
+       await handlePayment(transactionId,subscriptionId,amount, paymentIntent??{},subscriberId ,subscriptionType,planType);
       }
       Get.snackbar('Payment Successful', '');
        paymentIntent = null;
     } on StripeException catch (e) {
-      // If any error comes during payment
-      // so payment will be cancelled
       print('Error: $e');
-      Get.snackbar('Payment Cancel', '');
+      Get.snackbar('Payment Abort', '');
 
     } catch (e) {
       print("Error in displaying");
@@ -88,7 +95,7 @@ class PaymentController extends GetxController{
       };
       var response = await http.post(Uri.parse('https://api.stripe.com/v1/payment_intents'),
         headers: {
-          'Authorization': 'Bearer ${SKey.secretLiveKey}',
+          'Authorization': 'Bearer ${SKey.sSecTestKey}',
           'Content-Type': 'application/x-www-form-urlencoded',
         },
         body: body,
@@ -110,16 +117,17 @@ class PaymentController extends GetxController{
   }
 
 
-   handlePayment(dynamic transactionId, String subscriberId,int amountInCent,Map<String,dynamic> stripeResponseData) async {
+   handlePayment(dynamic transactionId, String subscriptionId,int amountInCent,Map<String,dynamic> stripeResponseData,String subscriberId, String subscriptionType,String planType) async {
     String userToken = await PrefsHelper.getString('token');
    print('Stripe response data===========: $stripeResponseData');
    double amount = (amountInCent/100).toDouble();
     Map<String,dynamic> body = {
-      "subscriptionId": subscriberId.toString(),
-      "price": amount,
-      "duration": '', //////////<================================ not give duration yet ============
-      "transactionId":transactionId.toString(),
-      "paymentData":stripeResponseData
+      "subscriptionType":subscriptionType,
+      "stripeSubscriptionId":subscriptionId,
+      "stripeCustomerId":subscriberId,
+      "planPrice":amount,
+      "paymentMethod":"paypal",
+      "planType":planType
     };
     Map<String,String> header={
       'Content-Type':'application/json',

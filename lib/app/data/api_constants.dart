@@ -8,7 +8,8 @@ class ApiConstants{
     static String  imageBaseUrl="http://10.0.80.205:9090";
     static String socketUrl="http://10.0.80.205:9090";
 
-  static String googleApiKey="AIzaSyBFi80uuJIWkkLCpodFa8oXmD8XD_h8LMc";
+ // static String googleApiKey="AIzaSyBFi80uuJIWkkLCpodFa8oXmD8XD_h8LMc"; //Company
+  static String googleApiKey="AlzaSyADqfN_CuHaTQvMIj51PNfsIUWJYV8P7ig"; //client
 
 
 ///>>>>>>>>>>>>>>>>>>>>>>>>>>> User Auth>>>>>>>>>>>>>>>>>>>
@@ -77,13 +78,13 @@ static String myGroupListUrl= '$baseUrl/group/my';
 static String friendRequestListUrl= '$baseUrl/friend/requests';
 static String myFriendLIstUrl= '$baseUrl/friend/friends';
 static String subscriptionPackageListUrl= '$baseUrl/subscription';
-static String paymentSubscriptionUrl= '$baseUrl/payment/subscription';
+static String paymentSubscriptionUrl= '$baseUrl/subscription';
 static String chatListUrl= '$baseUrl/chat/chart-list';
 static String sendMessageUrl= '$baseUrl/message/add-message';
-static String privacyPolicyUrl= '$baseUrl/info/privacy-policy';
-static String termAndConditionUrl= '$baseUrl/info/terms-condition';
-static String aboutUsUrl= '$baseUrl/info/about-us';
-static String supportUrl= '$baseUrl/info/support';
+static String privacyPolicyUrl= '$baseUrl/setting/privacy';
+static String termAndConditionUrl= '$baseUrl/setting/terms';
+static String aboutUsUrl= '$baseUrl/setting/about-us';
+static String supportUrl= '$baseUrl/setting/support';
 static String removeGroupMemberUrl= '$baseUrl/group/remove-member';
 static String addGroupMemberUrl= '$baseUrl/group/add-member';
 static String createChatUrl= '$baseUrl/chat';

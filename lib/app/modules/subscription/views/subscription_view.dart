@@ -41,7 +41,7 @@ class SubscriptionView extends StatelessWidget {
                   shrinkWrap: true,
                   itemBuilder: (BuildContext context, int index) {
                    final subscriptionAttributesIndex = subscriptionAttributes[index];
-                    return SubscriptionCard(subscriptionAttributes: subscriptionAttributesIndex,);
+                    return SubscriptionCard(subscriptionAttributes: subscriptionAttributesIndex, index: index,);
                   },
                 ),
               );

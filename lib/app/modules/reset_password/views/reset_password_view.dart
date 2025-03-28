@@ -97,8 +97,7 @@ class ResetPasswordView extends StatelessWidget {
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Confirm your password';
-                    } else if (value !=
-                        _resetPasswordController.newPassCtrl.text) {
+                    } else if (value != _resetPasswordController.newPassCtrl.text) {
                       return 'Password do not match';
                     }
                     return null;
@@ -110,9 +109,9 @@ class ResetPasswordView extends StatelessWidget {
                 Obx(() {
                   return CustomButton(
                       loading: _resetPasswordController.isLoading.value,
-                      onTap: () {
+                      onTap: () async{
                         if (formKey.currentState!.validate()) {
-                          _resetPasswordController.resetPassword(() {
+                         await _resetPasswordController.resetPassword(() {
                             return showStatusOnChangePasswordResponse(context);
                           });
                         }

@@ -54,22 +54,22 @@ class SettingsView extends StatelessWidget {
           SizedBox(height: 16.h),
           CustomListTile(
             iconHeight: 22.h,
-            title: AppString.privacyText,
+            title: 'Privacy policy & Terms and condition',
             icon: AppIcons.privacyIcon,
             onTap: () {
               Get.toNamed(Routes.PRIVAACY_POLICY);
             },
           ),
 
-          /// Term & Condition
-          SizedBox(height: 16.h),
-          CustomListTile(
-            title: AppString.termConditionText,
-            icon: AppIcons.exclamatoryIcon,
-            onTap: () {
-              Get.toNamed(Routes.TERMS_CONDITION);
-            },
-          ),
+          // /// Term & Condition
+          // SizedBox(height: 16.h),
+          // CustomListTile(
+          //   title: AppString.termConditionText,
+          //   icon: AppIcons.exclamatoryIcon,
+          //   onTap: () {
+          //     Get.toNamed(Routes.TERMS_CONDITION);
+          //   },
+          // ),
 
           /// about screen
           SizedBox(height: 16.h),
