@@ -81,7 +81,7 @@ class SettingsView extends StatelessWidget {
             },
           ),
 
-          /// support screen
+       /*   /// support screen
           SizedBox(height: 16.h),
           CustomListTile(
             title: AppString.contactUsText,
@@ -89,7 +89,7 @@ class SettingsView extends StatelessWidget {
             onTap: () {
               Get.toNamed(Routes.CONTACT_US);
             },
-          ),
+          ),*/
         ],
       ),
     );

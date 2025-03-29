@@ -81,9 +81,9 @@ class _HomeViewState extends State<HomeView> {
           )
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-        child: SingleChildScrollView(
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
           child: Column(
             children: [
               ///City_State_Country

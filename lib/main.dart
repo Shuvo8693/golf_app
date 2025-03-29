@@ -16,6 +16,7 @@ import 'common/prefs_helper/prefs_helpers.dart';
 import 'common/widgets/message.dart';
 
 String token = '';
+String myId = '';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,6 +31,7 @@ void main() async {
     ));
   });
   token = await PrefsHelper.getString('token');
+  myId = await PrefsHelper.getString('userId');
 }
 
 class MyApp extends StatelessWidget {

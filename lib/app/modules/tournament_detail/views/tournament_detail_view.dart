@@ -13,6 +13,7 @@ import 'package:golf_game_play/common/widgets/app_button.dart';
 import 'package:golf_game_play/common/widgets/casess_network_image.dart';
 import 'package:golf_game_play/common/widgets/custom_button.dart';
 import 'package:golf_game_play/common/widgets/custom_card.dart';
+import 'package:golf_game_play/main.dart';
 
 class TournamentDetailView extends StatefulWidget {
    const TournamentDetailView({super.key});
@@ -41,12 +42,13 @@ class _TournamentDetailViewState extends State<TournamentDetailView> {
             final tournamentDetailAttributes =_tournamentDetailController.tournamentDetailModel.value.data?.attributes;
             if(_tournamentDetailController.isLoading.value){
               return Center(child: CircularProgressIndicator());
-            } else if(tournamentDetailAttributes ==null){
+            } else if(tournamentDetailAttributes == null){
               return Center(child: Text('Tournament Details are empty'));
             }
             return SingleChildScrollView(
               child: Column(
                 children: [
+                  if(tournamentDetailAttributes.tournamentCreator?.sId==myId)
                   ListTile(
                     title: Text('Tournament Completion status',style: AppStyles.h5(),),
                     trailing: Switch(

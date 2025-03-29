@@ -53,7 +53,7 @@ class _InvitationCardState extends State<BigInvitationCard> {
               Get.toNamed(Routes.USER_PROFILE,arguments: {'userId': widget.invitationAttributes.inviteSender?.id});
             },
             child: CustomNetworkImage(
-              imageUrl: '${ApiConstants.imageBaseUrl}/${widget.invitationAttributes.inviteSender?.image}',
+              imageUrl: '${ApiConstants.imageBaseUrl}${widget.invitationAttributes.inviteSender?.image?.url}',
               height: 64.h,
               width: 64.w,
               borderRadius: BorderRadius.circular(10.r),

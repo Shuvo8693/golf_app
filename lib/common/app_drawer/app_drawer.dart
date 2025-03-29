@@ -91,7 +91,7 @@ class _AppDrawerState extends State<AppDrawer> {
                 trailing: Icon(Icons.arrow_forward_ios_outlined,size: 20.sp,),
               ),
 
-              Divider(height: 2,color: Colors.black54,),
+          /*    Divider(height: 2,color: Colors.black54,),
               ListTile(
                 title: Text(AppString.notificationText,style: AppStyles.h3(),),
                 onTap: () {
@@ -100,7 +100,7 @@ class _AppDrawerState extends State<AppDrawer> {
                   // Navigate to settings or handle logic
                 },
                 trailing: Icon(Icons.arrow_forward_ios_outlined,size: 20.sp,),
-              ),
+              ),*/
 
               Divider(height: 2,color: Colors.black54,),
               ListTile(

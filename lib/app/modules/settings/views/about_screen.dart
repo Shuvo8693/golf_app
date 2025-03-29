@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:golf_game_play/app/modules/settings/controllers/about_us_controller.dart';
-import 'package:golf_game_play/common/app_color/app_colors.dart';
-import 'package:golf_game_play/common/app_string/app_string.dart';
-import 'package:golf_game_play/common/app_text_style/style.dart';
 import 'package:golf_game_play/common/widgets/custom_appBar_title.dart';
 import 'package:golf_game_play/common/widgets/html_view.dart';
 

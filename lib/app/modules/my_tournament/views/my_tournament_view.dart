@@ -30,7 +30,6 @@ class _MyTournamentViewState extends State<MyTournamentView> {
     WidgetsBinding.instance.addPostFrameCallback((__)async{
       await _myTournamentController.fetchJoinedTournament();
     });
-
   }
 
   @override
