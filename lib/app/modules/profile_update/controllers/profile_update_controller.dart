@@ -85,7 +85,7 @@ class ProfileUpdateController extends GetxController {
 
   var registerLoading = false.obs;
 
-  Future<void> updateProfile({Function(String?)? callBack}) async {
+  Future<void> updateProfile({required Function(String?) callBack}) async {
     registerLoading.value = true;
     try {
       String token = await PrefsHelper.getString('token');
@@ -137,7 +137,8 @@ class ProfileUpdateController extends GetxController {
       var decodedBody = jsonDecode(responseBody.body);
 
       if (response.statusCode == 200) {
-        callBack!(decodedBody['message'].toString());
+       return callBack(decodedBody['message'].toString());
+       // Get.snackbar('Success', decodedBody['message'].toString());
       } else {
         print('Error: ${response.statusCode}');
         Get.snackbar('Failed', decodedBody['message']);

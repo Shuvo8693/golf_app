@@ -4,20 +4,18 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:golf_game_play/app/data/api_constants.dart';
-import 'package:golf_game_play/app/modules/golfers/model/golfers_models.dart';
-import 'package:golf_game_play/app/modules/home/model/sponsor_content_model.dart';
-import 'package:golf_game_play/app/modules/looking_to_play/model/looking_to_play_model.dart';
+import 'package:golf_game_play/app/modules/message/model/Messenger_model.dart';
 import 'package:golf_game_play/common/prefs_helper/prefs_helpers.dart';
 import 'package:http/http.dart' as http;
 
-class GolfersController extends GetxController {
+class MessengerController extends GetxController {
   final TextEditingController searchCtrl =TextEditingController();
 
-  Rx<GolferModel> golferModel = GolferModel().obs;
+  Rx<MessengerModel> messageModel = MessengerModel().obs;
   RxBool isLoading= false.obs;
 
 
-  fetchGolfers({String? name, required bool isDirectFetch}) async {
+  fetchMessenger() async {
     isLoading.value = true;
     try {
       String token = await PrefsHelper.getString('token');
@@ -27,7 +25,7 @@ class GolfersController extends GetxController {
         'Content-Type': 'application/json'
       };
 
-      var request = http.Request('GET', Uri.parse(isDirectFetch==true ? ApiConstants.golfersNameDirectUrl : ApiConstants.golfersNameUrl(name??'')));
+      var request = http.Request('GET', Uri.parse(ApiConstants.messageUrl));
 
       request.headers.addAll(headers);
       var response = await request.send();
@@ -36,8 +34,8 @@ class GolfersController extends GetxController {
       Map<String,dynamic> decodedBody = jsonDecode(responseBody.body);
 
       if (response.statusCode == 200) {
-        golferModel.value= GolferModel.fromJson(decodedBody);
-        print(golferModel.value);
+        messageModel.value= MessengerModel.fromJson(decodedBody);
+        print(messageModel.value);
       } else {
         print('Error: ${response.statusCode}');
         Get.snackbar('Failed', decodedBody['message']);
@@ -60,8 +58,8 @@ class GolfersController extends GetxController {
     }
   }
   @override
-  void onInit() async {
-    super.onInit();
-   await fetchGolfers(isDirectFetch: true);
+  void onReady() async {
+    await fetchMessenger();
+    super.onReady();
   }
 }

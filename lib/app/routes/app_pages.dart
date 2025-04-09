@@ -35,7 +35,7 @@ import '../modules/location_selector/views/location_selector_view.dart';
 import '../modules/looking_to_play/bindings/looking_to_play_binding.dart';
 import '../modules/looking_to_play/views/looking_to_play_view.dart';
 import '../modules/message/bindings/message_binding.dart';
-import '../modules/message/views/message_view.dart';
+import '../modules/message/views/Messenger_view.dart';
 import '../modules/message_inbox/bindings/message_inbox_binding.dart';
 import '../modules/message_inbox/views/message_inbox_view.dart';
 import '../modules/my_profile/bindings/my_profile_binding.dart';
@@ -136,7 +136,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.MESSAGE,
-      page: () => const MessageView(),
+      page: () =>  MessageView(),
       binding: MessageBinding(),
     ),
     GetPage(

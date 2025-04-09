@@ -351,16 +351,22 @@ class _ProfileUpdateViewState extends State<ProfileUpdateView> {
             Obx(() {
               return CustomButton(
                 loading: _profileUpdateController!.registerLoading.value,
-                onTap: () {
-                  _profileUpdateController?.updateProfile(
+                onTap: ()async {
+                 await _profileUpdateController?.updateProfile(
                     callBack: (message) async{
                       if (message != null && message.isNotEmpty) {
                         await myProfileCtrl.fetchProfile(() {});
-                        Get.snackbar(
-                          'Success',
-                          message,
-                          snackPosition: SnackPosition.TOP,
-                          duration: const Duration(seconds: 2),
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(message),
+                            behavior: SnackBarBehavior.floating,
+                            margin: EdgeInsets.only(
+                              bottom: MediaQuery.of(context).size.height - 100.h,
+                              left: 20.w,
+                              right: 20.h,
+                            ),
+                            duration: Duration(seconds: 2),
+                          ),
                         );
                       } else {
                         print("Message is null or empty");
