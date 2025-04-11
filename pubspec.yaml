@@ -73,6 +73,9 @@ dependencies:
   dartz: ^0.10.1
   url_launcher: ^6.3.1
   flutter_stripe: ^11.4.0
+  pdf: ^3.10.4
+  printing: ^5.11.0
+  share_plus: 
 
 
 dev_dependencies:

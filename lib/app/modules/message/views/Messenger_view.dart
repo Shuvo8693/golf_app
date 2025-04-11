@@ -62,7 +62,7 @@ class MessageView extends StatelessWidget {
                           borderRadius: BorderRadius.circular(10.r),
                         ),
                         title: Text(
-                          '${participantId?.name}',
+                          participantId?.name??'',
                           style: AppStyles.h3(family: "Schuyler"),
                         ),
                         subtitle: Column(

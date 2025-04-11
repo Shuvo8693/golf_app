@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:golf_game_play/app/data/api_constants.dart';
+import 'package:golf_game_play/app/modules/tournament_detail/controllers/chat_creation_controller.dart';
 import 'package:golf_game_play/app/modules/tournament_detail/controllers/gaggle_detail_controller.dart';
 import 'package:golf_game_play/app/modules/tournament_detail/controllers/tournament_completion_status.dart';
 import 'package:golf_game_play/app/modules/tournament_detail/model/tournament_detail_model.dart';
@@ -26,6 +27,7 @@ class _TournamentDetailViewState extends State<TournamentDetailView> {
   final GaggleDetailController _tournamentDetailController = Get.put(GaggleDetailController());
 
   final TournamentCompletionStatus _tournamentCompletionStatus =Get.put(TournamentCompletionStatus());
+  final ChatCreationController _chatCreationController =Get.put(ChatCreationController());
 
  bool? isActive;
 
@@ -137,18 +139,24 @@ class _TournamentDetailViewState extends State<TournamentDetailView> {
                         ),
                       ),
                       ///===== Chat with Tournament creator =====
-                      AppButton(
-                          onTab: () {
-                            Get.toNamed(Routes.MESSAGE_INBOX);
-                          },
-                          text: 'Chat with ${tournamentDetailAttributes.tournamentCreator?.name}',
-                          height: 50.h),
+                      Obx(() {
+                        if(_chatCreationController.isLoading.value){
+                          return Center(child: CircularProgressIndicator());
+                        }
+                        return AppButton(
+                            onTab: () async{
+                             await _chatCreationController.createChatWithTournamentCreator();
+                            },
+                            text: 'Chat with ${tournamentDetailAttributes.tournamentCreator?.name}',
+                            height: 50.h);
+                      }),
                       SizedBox(height: 10.h) ,
 
                       ///=====Tee button=====
                       AppButton(
                           onTab: () {
-                            Get.toNamed(Routes.TEE_SHEET,arguments: {'tournamentId': tournamentDetailAttributes.sId});
+                            String? tournamentName = tournamentDetailAttributes.clubName??tournamentDetailAttributes.tournamentName;
+                            Get.toNamed(Routes.TEE_SHEET,arguments: {'tournamentId': tournamentDetailAttributes.sId,'tournamentName':tournamentName});
                           },
                           text: AppString.teeSheetText,
                           height: 50.h),
@@ -156,10 +164,14 @@ class _TournamentDetailViewState extends State<TournamentDetailView> {
                     ],
                   ),
                   SizedBox(height: 16.h),
-                  CustomButton(
-                      onTap: () {
-                        Get.toNamed(Routes.MESSAGE_INBOX);
-                      }, text: 'Group Chat'),
+                  Obx(() {
+                    return CustomButton(
+                        loading: _chatCreationController.isLoading2.value,
+                        onTap: () async {
+                          await _chatCreationController.createGroupChat();
+                        },
+                        text: 'Group Chat');
+                  }),
                   if(_tournamentDetailController.myId == tournamentDetailAttributes.tournamentCreator?.sId)
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

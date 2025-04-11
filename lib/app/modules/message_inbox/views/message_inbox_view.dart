@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_bubble/chat_bubble.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -71,9 +70,7 @@ class _MessageInboxViewState extends State<MessageInboxView> {
 
           }
           if (messageAttributes.type == 'single') {
-            Participants? participants = messageAttributes.participants
-                ?.firstWhere((item) => item.id != myId,
-                    orElse: () => Participants());
+            Participants? participants = messageAttributes.participants?.firstWhere((item) => item.id != myId, orElse: () => Participants());
             return Row(
               children: [
                 CustomNetworkImage(
@@ -87,7 +84,7 @@ class _MessageInboxViewState extends State<MessageInboxView> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('${participants?.name}', style: AppStyles.h5()),
+                    Text(participants?.name??'', style: AppStyles.h5()),
                     //Text('asd', style: AppStyles.h6(color: AppColors.dark2Color)),
                   ],
                 ),
@@ -207,7 +204,7 @@ class _MessageInboxViewState extends State<MessageInboxView> {
                         }:messageType == 'single'?()async{
                           await _sendMessageController.pickImageFromGallery();
                           print(_sendMessageController.filePath.value);
-                        }:null ,
+                        }: null ,
                         child: Padding(
                           padding: EdgeInsets.all(12.w),
                           child: SvgPicture.asset(
