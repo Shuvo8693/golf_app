@@ -293,7 +293,7 @@ class _AssignGroupViewState extends State<AssignGroupView> {
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     Text(
-                                      '${playerIndex.name} adsdasdads'.substring(0,playerIndex.name.length>12?12:playerIndex.name.length),style: AppStyles.h4(),),
+                                      playerIndex.name.substring(0,playerIndex.name.length>12?12:playerIndex.name.length),style: AppStyles.h4(),),
                                     SizedBox(width: 8,),
                                     Expanded(child: Icon(Icons.close,color: Colors.redAccent,))
                                   ],

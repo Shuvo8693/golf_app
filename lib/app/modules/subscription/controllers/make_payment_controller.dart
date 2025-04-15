@@ -65,7 +65,7 @@ class PaymentController extends GetxController{
       if(transactionId !=null && amount !=null && purchaseToken !=null){
        await handlePayment(transactionId,subscriptionId,amount, paymentIntent??{},subscriberId ,subscriptionType,planType);
       }
-      Get.snackbar('Payment Successful', '');
+      //Get.snackbar('Payment Successful', '');
        paymentIntent = null;
     } on StripeException catch (e) {
       print('Error: $e');
@@ -154,7 +154,7 @@ class PaymentController extends GetxController{
         ),
       );
     } else {
-      Get.snackbar('Failed payment record ', 'Payment record failed to add, please contact to administrator');
+      Get.snackbar('Failed payment record ', responseBody['message'].toString(),);
     }
   }
 }

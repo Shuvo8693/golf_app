@@ -1,0 +1,2 @@
+/Users/quantumalliance/StudioProjects/Golf_tournament/android/app/.cxx/RelWithDebInfo/p2r43e2j/arm64-v8a/CMakeFiles/edit_cache.dir
+/Users/quantumalliance/StudioProjects/Golf_tournament/android/app/.cxx/RelWithDebInfo/p2r43e2j/arm64-v8a/CMakeFiles/rebuild_cache.dir

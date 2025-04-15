@@ -31,7 +31,7 @@ class SubscriptionData {
 class SubscriptionAttributes {
   String? sId;
   String? subscribeType;
-  int? price;
+  double? price;
   List<String>? features;
   String? typeOfSubscription;
   String? createdAt;
@@ -51,7 +51,11 @@ class SubscriptionAttributes {
   SubscriptionAttributes.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
     subscribeType = json['subscribeType'];
-    price = json['price'];
+    if(json['price'] is int){
+      price = json['price'].toDouble();
+    }else{
+      price = json['price'];
+    }
     features = json['features'] != null? List.from(json['features']) : [];
     typeOfSubscription = json['typeOfSubscription'];
     createdAt = json['createdAt'];
@@ -59,3 +63,4 @@ class SubscriptionAttributes {
     iV = json['__v'];
   }
 }
+

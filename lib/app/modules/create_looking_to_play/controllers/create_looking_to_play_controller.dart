@@ -15,7 +15,23 @@ class CreateLookingToPlayController extends GetxController {
   final TextEditingController golfCourseCtrl=TextEditingController();
   final TextEditingController cityToPlayCtrl=TextEditingController();
 
-  List categoryList = ['category1', 'category2', 'category3'];
+  List categoryList = [
+    'Skins',
+    'Stroke Play',
+    'Match Play',
+    'Best Ball',
+    'Alternate Shot',
+    'Scramble',
+    'Shamble',
+    'Stableford',
+    'Ryder Cup',
+    'Four Ball',
+    'Bingo Bango Bongo',
+    'Flags',
+    'Money Ball',
+    'Quota',
+    'Peoria System',
+  ];
 
   String? category;
   RxBool isLoading= false.obs;
