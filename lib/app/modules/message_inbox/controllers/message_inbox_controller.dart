@@ -18,10 +18,12 @@ class MessageInboxController extends GetxController {
   late IO.Socket _socket;
   RxString chatId = ''.obs;
   final ChatService _chatService = ChatService();
+  String? myID;
 
   @override
   void onReady() async {
     super.onReady();
+    await getMyId();
     getMessengerAttributes();
     initSocket();
     await  fetchAndListenToChatHistory();
@@ -30,6 +32,12 @@ class MessageInboxController extends GetxController {
       scrollToBottom();
     });
 
+  }
+
+  getMyId()async{
+    String  id = await PrefsHelper.getString('userId');
+    myID = id;
+    update();
   }
 
   void scrollToBottom() {
@@ -103,7 +111,7 @@ class MessageInboxController extends GetxController {
       required String message,
       required String media,
       required String messageType}) {
-    String? senderIdMdl = messageAttributesMdl.value.participants?.firstWhere((element) => element.id==myId).id;
+    String? senderIdMdl = messageAttributesMdl.value.participants?.firstWhere((element) => element.id == myID).id;
     Map<String, dynamic> messageData = {
       "roomId": messageAttributesMdl.value.sId,
       "senderId": senderIdMdl,

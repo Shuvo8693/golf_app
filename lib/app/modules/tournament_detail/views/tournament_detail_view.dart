@@ -50,7 +50,7 @@ class _TournamentDetailViewState extends State<TournamentDetailView> {
             return SingleChildScrollView(
               child: Column(
                 children: [
-                  if(tournamentDetailAttributes.tournamentCreator?.sId==myId)
+                  if(tournamentDetailAttributes.tournamentCreator?.sId==_tournamentDetailController.myID)
                   ListTile(
                     title: Text('Tournament Completion status',style: AppStyles.h5(),),
                     trailing: Switch(
@@ -139,13 +139,16 @@ class _TournamentDetailViewState extends State<TournamentDetailView> {
                         ),
                       ),
                       ///===== Chat with Tournament creator =====
+                      if(_tournamentDetailController.myID != tournamentDetailAttributes.tournamentCreator?.sId)
                       Obx(() {
                         if(_chatCreationController.isLoading.value){
                           return Center(child: CircularProgressIndicator());
                         }
                         return AppButton(
                             onTab: () async{
-                             await _chatCreationController.createChatWithTournamentCreator();
+                              if(tournamentDetailAttributes.tournamentCreator?.sId != null){
+                                await _chatCreationController.createChatWithTournamentCreator(tournamentDetailAttributes.tournamentCreator?.sId??'');
+                              }
                             },
                             text: 'Chat with ${tournamentDetailAttributes.tournamentCreator?.name}',
                             height: 50.h);
@@ -156,7 +159,11 @@ class _TournamentDetailViewState extends State<TournamentDetailView> {
                       AppButton(
                           onTab: () {
                             String? tournamentName = tournamentDetailAttributes.clubName??tournamentDetailAttributes.tournamentName;
-                            Get.toNamed(Routes.TEE_SHEET,arguments: {'tournamentId': tournamentDetailAttributes.sId,'tournamentName':tournamentName});
+                            tournamentDetailAttributes.typeName;
+                            Get.toNamed(Routes.TEE_SHEET,arguments: {
+                              'tournamentId': tournamentDetailAttributes.sId,
+                              'tournamentName':tournamentName,
+                              'tournamentType':tournamentDetailAttributes.typeName ?? ''});
                           },
                           text: AppString.teeSheetText,
                           height: 50.h),
@@ -172,14 +179,14 @@ class _TournamentDetailViewState extends State<TournamentDetailView> {
                         },
                         text: 'Group Chat');
                   }),
-                  if(_tournamentDetailController.myId == tournamentDetailAttributes.tournamentCreator?.sId)
+                  if(_tournamentDetailController.myID == tournamentDetailAttributes.tournamentCreator?.sId)
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(height: 16.h),
                       CustomButton(
                           onTap: () {
-                            Get.toNamed(Routes.ASSIGN_GROUP);
+                            Get.toNamed(Routes.ASSIGN_GROUP,arguments: {'tournamentId': tournamentDetailAttributes.sId});
                           }, text: 'Assign group'),
                     ],
                   ),
@@ -201,52 +208,55 @@ class _TournamentDetailViewState extends State<TournamentDetailView> {
     );
   }
 
-  void _showAppRovedPlayerBottomSheet(BuildContext context,List<TournamentPlayersList> playerList) {
+  void _showAppRovedPlayerBottomSheet(BuildContext context, List<TournamentPlayersList> playerList) {
     showModalBottomSheet(
       context: context,
+      isScrollControlled: true, // This makes sure the bottom sheet height can be controlled
       builder: (BuildContext context) {
-        return Container(
-          padding: EdgeInsets.all(16.0.sp),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            // To shrink the bottom sheet to fit content
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              // Title with Close Button
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  // Close Icon at the Top-right Corner
-                  IconButton(
-                    icon: Icon(Icons.close),
-                    onPressed: () {
-                      Navigator.pop(context); // Close the bottom sheet
-                    },
-                  ),
-                ],
-              ),
-              // Content of Bottom Sheet
-              SizedBox(height: 10.h),
-              Text(AppString.approvedPlayerText, style: AppStyles.h2()),
-              SizedBox(height: 20.h),
-              ...playerList.map((player) => CustomCard(
-                isRow: true,
-                cardWidth: double.infinity,
-                borderSideColor: AppColors.primaryColor.withOpacity(0.5),
-                children: [
-                  Text('${player.name}'),
-                  SizedBox(width: 8.h),
-                  Text('HCP : ${ player.clubHandicap ?? player.handicap}')
-                ],
+        return Padding(
+          padding: EdgeInsets.only(bottom: 74.0), // Bottom margin
+          child: Container(
+            padding: EdgeInsets.all(16.0.sp),
+            child: Column(
+              mainAxisSize: MainAxisSize.min, // This ensures the content takes minimum space
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                // Title with Close Button
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    // Close Icon at the Top-right Corner
+                    IconButton(
+                      icon: Icon(Icons.close),
+                      onPressed: () {
+                        Navigator.pop(context); // Close the bottom sheet
+                      },
+                    ),
+                  ],
                 ),
-              ),
-
-              SizedBox(height: 8.h),
-
-            ],
+                // Content of Bottom Sheet
+                SizedBox(height: 10.h),
+                Text(AppString.approvedPlayerText, style: AppStyles.h2()),
+                SizedBox(height: 20.h),
+                ...playerList.map((player) => CustomCard(
+                  isRow: true,
+                  cardWidth: double.infinity,
+                  borderSideColor: AppColors.primaryColor.withValues(alpha: 0.5),
+                  children: [
+                    Text('Name : ${player.name}'),
+                    SizedBox(width: 8.h),
+                    Text('HCP : ${player.clubHandicap ?? player.handicap}')
+                  ],
+                ),
+                ),
+                SizedBox(height: 8.h),
+              ],
+            ),
           ),
         );
       },
     );
   }
+
+
 }

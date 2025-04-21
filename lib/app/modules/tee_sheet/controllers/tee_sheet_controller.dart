@@ -27,12 +27,13 @@ class TeeSheetController extends GetxController {
     try {
       String token = await PrefsHelper.getString('token');
       String tournamentId = Get.arguments['tournamentId'];
+      String tournamentType = Get.arguments['tournamentType'];
       Map<String, String> headers = {
         'Authorization': 'Bearer $token',
         'Content-Type': 'application/json'
       };
 
-      var request = http.Request('GET', Uri.parse(ApiConstants.teeSheetUrl(tournamentId)));
+      var request = http.Request('GET', Uri.parse(ApiConstants.teeSheetUrl(tournamentId,tournamentType)));
 
       request.headers.addAll(headers);
       var response = await request.send();

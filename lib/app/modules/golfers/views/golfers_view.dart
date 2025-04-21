@@ -13,6 +13,7 @@ import 'package:golf_game_play/common/app_text_style/style.dart';
 import 'package:golf_game_play/common/widgets/custom_search_field.dart';
 import 'package:golf_game_play/common/widgets/golf_logo.dart';
 import 'package:golf_game_play/common/widgets/spacing.dart';
+import 'package:golf_game_play/main.dart';
 
 class GolfersView extends StatelessWidget {
   GolfersView({super.key});
@@ -63,7 +64,8 @@ class GolfersView extends StatelessWidget {
                    final golferAttributesIndex = golfersAttributes[index];
                     return GolferCardItem(
                       onTab: () {
-                        Get.toNamed(Routes.USER_PROFILE,arguments: {'userId': golferAttributesIndex.id});
+                        print(golferAttributesIndex.id);
+                        Get.toNamed(Routes.USER_PROFILE,arguments: {'receiverId': golferAttributesIndex.id});
                       }, golferAttributes: golferAttributesIndex,
                     );
                   },

@@ -49,7 +49,7 @@ class MessageView extends StatelessWidget {
                   itemBuilder: (context, index) {
                     MessageAttributes messageAttributeIndex = messageAttributes[index];
                     if(messageAttributeIndex.type == 'single'){
-                    Participants? participantId = messageAttributeIndex.participants?.firstWhereOrNull((participant)=>participant.id!=myId);
+                    Participants? participantId = messageAttributeIndex.participants?.firstWhereOrNull((participant)=>participant.id != _messengerController.myID);
                       return ListTile(
                         contentPadding: EdgeInsets.zero,
                         onTap: () {
@@ -89,7 +89,7 @@ class MessageView extends StatelessWidget {
                           borderRadius: BorderRadius.circular(10.r),
                         ),
                         title: Text(
-                          '${messageAttributeIndex.btournamentId?.clubName ?? messageAttributeIndex.btournamentId?.tournamentName}',
+                          '${messageAttributeIndex.btournamentId?.clubName ?? messageAttributeIndex.stournamentId?.tournamentName}',
                           style: AppStyles.h3(family: "Schuyler"),
                         ),
                         subtitle: Column(

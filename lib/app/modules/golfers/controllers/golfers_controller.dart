@@ -34,7 +34,6 @@ class GolfersController extends GetxController {
       var responseBody = await http.Response.fromStream(response);
       print('Response body: ${responseBody.body}');
       Map<String,dynamic> decodedBody = jsonDecode(responseBody.body);
-
       if (response.statusCode == 200) {
         golferModel.value= GolferModel.fromJson(decodedBody);
         print(golferModel.value);

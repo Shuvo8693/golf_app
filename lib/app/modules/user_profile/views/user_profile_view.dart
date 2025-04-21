@@ -197,7 +197,10 @@ class _UserProfileViewState extends State<UserProfileView> {
                       return CustomButton(
                            loading: _chatCreationController.isLoading.value,
                           onTap: ()async{
-                        await _chatCreationController.createChatWithTournamentCreator();
+                             if(usersAttributes.id != null ){
+                              // String receiverId = Get.arguments['receiverId'];
+                               await _chatCreationController.createChatWithTournamentCreator(usersAttributes.id!);
+                             }
                       }, text: AppString.messageText);
                     }
 

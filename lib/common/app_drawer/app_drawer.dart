@@ -208,7 +208,7 @@ class _AppDrawerState extends State<AppDrawer> {
               Divider(height: 2,color: Colors.black54,),
 
               ListTile(
-                title: Text(AppString.logoutText,style: AppStyles.h3(),),
+                title: Text('Logout',style: AppStyles.h3(),),
                 onTap: () {
                   Navigator.pop(context);
                   showCustomDialog(context);

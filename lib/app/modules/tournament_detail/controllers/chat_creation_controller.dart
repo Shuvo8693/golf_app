@@ -15,7 +15,7 @@ class ChatCreationController extends GetxController {
   Rx<MessageAttributes> messageAttributesMdl = MessageAttributes().obs;
   String? myId;
 
-  createChatWithTournamentCreator() async {
+  createChatWithTournamentCreator(String receiverId) async {
     isLoading.value = true;
     try {
       String token = await PrefsHelper.getString('token');
@@ -25,7 +25,7 @@ class ChatCreationController extends GetxController {
         'Content-Type': 'application/json'
       };
       Map<String, dynamic> body = {
-        'participants': [myId].toList(),
+        'participants': [receiverId].toList(),
       };
 
       var request = http.Request('POST', Uri.parse(ApiConstants.singleChatUrl));

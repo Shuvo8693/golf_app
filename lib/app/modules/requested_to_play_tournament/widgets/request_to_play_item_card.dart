@@ -74,7 +74,7 @@ class RequestToPlayItemCard extends StatelessWidget {
                 AppButton(
                   text: 'Details' ,
                   onTab: () {
-                    Get.toNamed(Routes.USER_PROFILE,arguments: {'userId':'${requestToPlayData.requestedUser?.id}'});
+                    Get.toNamed(Routes.USER_PROFILE,arguments: {'receiverId':'${requestToPlayData.requestedUser?.id}'});
                   },
                   isIconWithTextActive: true,
                   iconPath: AppIcons.detailIcon,

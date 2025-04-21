@@ -14,6 +14,7 @@ import 'package:golf_game_play/common/app_text_style/style.dart';
 import 'package:golf_game_play/common/widgets/app_button.dart';
 import 'package:golf_game_play/common/widgets/custom_card.dart';
 import 'package:golf_game_play/common/widgets/custom_text_field.dart';
+import 'package:golf_game_play/common/widgets/spacing.dart';
 
 class AssignGroupView extends StatefulWidget {
   const AssignGroupView({super.key});
@@ -28,20 +29,23 @@ class _AssignGroupViewState extends State<AssignGroupView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Text(AppString.assignGroupsText,
+            style: AppStyles.h1(family: "Schuyler")) ,
+        centerTitle: true,
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 8.0.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Align(
-                alignment: Alignment.center,
-                child: Text(AppString.assignGroupsText,
-                    style: AppStyles.h1(family: "Schuyler")),
-              ),
-              SizedBox(height: 15.h),
-
+              // Align(
+              //   alignment: Alignment.center,
+              //   child: Text(AppString.assignGroupsText,
+              //       style: AppStyles.h1(family: "Schuyler")),
+              // ),
+              // SizedBox(height: 15.h),
               /// Outing type
               SizedBox(height: 10.h),
               Text(AppString.selectText, style: AppStyles.h4(family: "Schuyler")),
@@ -54,16 +58,20 @@ class _AssignGroupViewState extends State<AssignGroupView> {
                 TournamentNameAttributes? selectedValue = tournamentNameList.contains(_assignGroupController.tournamentNameAttributes.value)
                     ? _assignGroupController.tournamentNameAttributes.value
                     : null;
+                List<TournamentNameAttributes> filteredList = tournamentNameList.where((element) => element.sId == _assignGroupController.tournamentId!.value).toList();
                 return DropdownButtonFormField<TournamentNameAttributes>(
                   /// Dropdown button field======================<<<<<<<<
                   value: selectedValue,
                   padding: EdgeInsets.zero,
                   hint: Text("Select your tournament"),
                   decoration: InputDecoration(),
-                  items: tournamentNameList.map((tournament) => DropdownMenuItem<TournamentNameAttributes>(
-                      value: tournament,
-                      child: Text('${tournament.tournamentName??tournament.clubName}'),
-                    ),
+                  items: filteredList.map((tournament) {
+                      return DropdownMenuItem<TournamentNameAttributes>(
+                        value: tournament,
+                        child:Text('${tournament.tournamentName ?? tournament.clubName}',
+                        ),
+                      );
+                  }
                   ).toList(),
                   validator: (value) {
                     if (value == null) {
@@ -83,14 +91,71 @@ class _AssignGroupViewState extends State<AssignGroupView> {
                               _assignGroupController.tournamentNameAttributes.value.typeName!,
                               _assignGroupController.tournamentNameAttributes.value.sId!);
                         }
-
                   },
                   // onTap: (){
                   //   print(_assignGroupController.tournamentNameAttributes.value);
                   // },
                 );
-              }
+                }),
+              /// Select Date
+              SizedBox(height: 5.h),
+              Text(AppString.dateText, style: AppStyles.h4(family: "Schuyler")),
+              SizedBox(height: 5.h),
+              Padding(
+                padding:  EdgeInsets.symmetric(vertical: 5.h),
+                child: Row(
+                  children: [
 
+                    Obx(() => Expanded(
+                      child: GestureDetector(
+                        onTap: () async {
+                          _assignGroupController.selectDate(context);
+                        },
+                        child: Container(
+                          height: 50.h,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                  color: Get.theme.primaryColor.withOpacity(0.1)),
+                              borderRadius: BorderRadius.circular(14.r),
+                              color: AppColors.fillColor),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 15),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(_assignGroupController.selectedDate.value.isNotEmpty
+                                    ? _assignGroupController.selectedDate.value
+                                    : 'Select Date',
+                                  // age(),style: TextStyle(fontSize: 12,fontWeight: FontWeight.normal)
+                                ),
+                                SvgPicture.asset(AppIcons.calenderIcon)
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    ),
+                    /// Time
+                    SizedBox(width: 10.h),
+                    // Text('Time', style: AppStyles.h4(family: "Schuyler")),
+                    // SizedBox(height: 10.h),
+                    // Expanded(
+                    //   child: CustomTextField(
+                    //     contentPaddingVertical: 12.h,
+                    //     hintText: "08:30 pm",
+                    //     keyboardType: TextInputType.text,
+                    //     controller:_assignGroupController.timeTec[index],
+                    //     onChange: (value){
+                    //       setState(() {
+                    //         _assignGroupController.timeTec[index].text = value!;
+                    //       });
+                    //     },
+                    //   ),
+                    // ),
+                  ],
+                ),
               ),
               /// Players
               SizedBox(height: 10.h),
@@ -311,7 +376,7 @@ class _AssignGroupViewState extends State<AssignGroupView> {
             AppButton(
               text: AppString.enterText,
               onTab: ()async {
-                if(_assignGroupController.selectedDate[index].isNotEmpty && _assignGroupController.timeTec[index].text.isNotEmpty ){
+                if(_assignGroupController.selectedDate.value.isNotEmpty ){
                  await _assignGroupController.assignPlayer(groupPlayer,index);
                 }else{
                   Get.snackbar('Empty Date or Time', 'Please select date & time');
@@ -324,14 +389,14 @@ class _AssignGroupViewState extends State<AssignGroupView> {
         SizedBox(height: 8.h),
         Obx(() {
           return Text(
-              '${AppString.dateAndTimeText} : ${_assignGroupController.selectedDate[index]} & ${_assignGroupController.timeTec[index].text}',
+              'Selected date : ${_assignGroupController.selectedDate.value}  ${_assignGroupController.timeTec[index].text}',
               style: AppStyles.h4());
         }),
 
         ///Date time
         SizedBox(height: 8.h),
         //Text('Date time', style: AppStyles.h4(family: "Schuyler")),
-        Padding(
+        /*Padding(
           padding:  EdgeInsets.all(8.0.sp),
           child: Row(
             children: [
@@ -342,7 +407,7 @@ class _AssignGroupViewState extends State<AssignGroupView> {
               Obx(() => Expanded(
                 child: GestureDetector(
                   onTap: () async {
-                    _assignGroupController.selectDate(context,index);
+                    _assignGroupController.selectDateIndex(context,index);
                   },
                   child: Container(
                     height: 50.h,
@@ -357,8 +422,8 @@ class _AssignGroupViewState extends State<AssignGroupView> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(_assignGroupController.selectedDate[index].isNotEmpty
-                              ? _assignGroupController.selectedDate[index]
+                          Text(_assignGroupController.selectedDateIndex[index].isNotEmpty
+                              ? _assignGroupController.selectedDateIndex[index]
                               : 'Select Date',
                             // age(),style: TextStyle(fontSize: 12,fontWeight: FontWeight.normal)
                           ),
@@ -372,8 +437,8 @@ class _AssignGroupViewState extends State<AssignGroupView> {
               ),
               /// Time
               SizedBox(width: 10.h),
-              // Text('Time', style: AppStyles.h4(family: "Schuyler")),
-              // SizedBox(height: 10.h),
+              Text('Time', style: AppStyles.h4(family: "Schuyler")),
+              SizedBox(height: 10.h),
               Expanded(
                 child: CustomTextField(
                   contentPaddingVertical: 12.h,
@@ -381,7 +446,6 @@ class _AssignGroupViewState extends State<AssignGroupView> {
                   keyboardType: TextInputType.text,
                   controller:_assignGroupController.timeTec[index],
                   onChange: (value){
-
                     setState(() {
                       _assignGroupController.timeTec[index].text = value!;
                     });
@@ -390,7 +454,7 @@ class _AssignGroupViewState extends State<AssignGroupView> {
               ),
             ],
           ),
-        ),
+        ),*/
       ],
     );
   }

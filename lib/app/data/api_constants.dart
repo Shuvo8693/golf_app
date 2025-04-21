@@ -4,9 +4,9 @@ class ApiConstants{
   static String googleBaseUrl="https://maps.googleapis.com/maps/api/place/autocomplete/json";
   static String estimatedTimeUrl="https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&";
    /// App Url
-    static String baseUrl="http://10.0.80.205:9090/v1";
-    static String  imageBaseUrl="http://10.0.80.205:9090";
-    static String socketUrl="ws://10.0.80.205:9000";
+    static String baseUrl="https://ariful9090.sobhoy.com/v1";
+    static String  imageBaseUrl="https://ariful9090.sobhoy.com";
+    static String socketUrl="https://ariful8443.sobhoy.com";
 
   static String googleApiKey="AIzaSyBFi80uuJIWkkLCpodFa8oXmD8XD_h8LMc"; //Company
   //static String googleApiKey="AlzaSyADqfN_CuHaTQvMIj51PNfsIUWJYV8P7ig"; //client
@@ -45,7 +45,7 @@ static String sponsorContentUrl= '$baseUrl/sponser-tournament';
   static String singleChatUrl = '$baseUrl/chat-room/single';
   static String groupChatUrl = '$baseUrl/chat-room/group';
   static String smallOutingRequestToPlayUrl(dynamic tournamentId) => '$baseUrl/small-tournament/makerequest-toplay';
-  static String teeSheetUrl(String tournamentId) => '$baseUrl/teeSheet?id=$tournamentId';
+  static String teeSheetUrl(String tournamentId,String tournamentType) => '$baseUrl/teeSheet?id=$tournamentId&type=$tournamentType';
   static String winnersUrl(dynamic completeTourId) => '$baseUrl/winner?id=$completeTourId';
   static String winnersConfirmationUrl(String completeTourId) => '$baseUrl/winner?id=$completeTourId';
   static String postWinnersUrl(String sectionName) => '$baseUrl/winner-$sectionName';

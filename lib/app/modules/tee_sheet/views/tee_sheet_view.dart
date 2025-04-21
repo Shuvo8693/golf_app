@@ -39,8 +39,7 @@ class TeeSheetView extends StatelessWidget {
               Text(AppString.teeSheetText, style: AppStyles.h1()),
               SizedBox(height: 20.h),
               Obx(() {
-                List<TeeSheetAttributes> teeSheetAttributes =
-                    _teeSheetController.teeSheetModel.value.data?.attributes ?? [];
+                List<TeeSheetAttributes> teeSheetAttributes = _teeSheetController.teeSheetModel.value.data?.attributes ?? [];
                 if (_teeSheetController.isLoading.value) {
                   return const Center(child: CircularProgressIndicator());
                 }
@@ -115,6 +114,7 @@ class TeeSheetView extends StatelessWidget {
                         : 'Club(HCP) : ${player.clubHandicap}',
                     style: AppStyles.h5(),
                   ),
+                  SizedBox(width: 10.h),
                   CustomCard(
                     cardHeight: 30,
                     cardWidth: 50,

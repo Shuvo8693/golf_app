@@ -14,6 +14,8 @@ class MessengerController extends GetxController {
   Rx<MessengerModel> messageModel = MessengerModel().obs;
   RxBool isLoading= false.obs;
 
+  String? myID;
+
 
   fetchMessenger() async {
     isLoading.value = true;
@@ -57,8 +59,14 @@ class MessengerController extends GetxController {
       isLoading.value = false;
     }
   }
+  getMyId()async{
+    String  id = await PrefsHelper.getString('userId');
+    myID = id;
+    update();
+  }
   @override
   void onReady() async {
+    await getMyId();
     await fetchMessenger();
     super.onReady();
   }

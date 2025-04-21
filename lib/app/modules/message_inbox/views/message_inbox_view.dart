@@ -52,7 +52,9 @@ class _MessageInboxViewState extends State<MessageInboxView> {
           padding: EdgeInsets.only(left: 10.w),
           child: IconButton(
             icon: Icon(Icons.arrow_back_ios, color: AppColors.textColor),
-            onPressed: () => Get.back(),
+            onPressed: () {
+              Get.back();
+            }
           ),
         ),
         title: Obx(() {
@@ -70,7 +72,7 @@ class _MessageInboxViewState extends State<MessageInboxView> {
 
           }
           if (messageAttributes.type == 'single') {
-            Participants? participants = messageAttributes.participants?.firstWhere((item) => item.id != myId, orElse: () => Participants());
+            Participants? participants = messageAttributes.participants?.firstWhere((item) => item.id != _messageInboxController.myID, orElse: () => Participants());
             return Row(
               children: [
                 CustomNetworkImage(
@@ -162,7 +164,7 @@ class _MessageInboxViewState extends State<MessageInboxView> {
                     itemCount: chatAttributesList.length,
                     itemBuilder: (context, index) {
                       final chatAttributesIndex = chatAttributesList[index];
-                      if (chatAttributesIndex.sender?.id == myId) {
+                      if (chatAttributesIndex.sender?.id == _messageInboxController.myID) {
                         return senderBubble(context, chatAttributesIndex);
                       } else {
                         return receiverBubble(context, chatAttributesIndex);
@@ -198,7 +200,7 @@ class _MessageInboxViewState extends State<MessageInboxView> {
                       hintText: 'Send Message',
                       controller: _msgCtrl,
                       suffixIcon: InkWell(
-                        onTap: tournamentCreatorId.toString() == myId && messageType == 'group' ? () async {
+                        onTap: tournamentCreatorId.toString() == _messageInboxController.myID && messageType == 'group' ? () async {
                           await _sendMessageController.pickImageFromGallery();
                           print(_sendMessageController.filePath.value);
                         }:messageType == 'single'?()async{
@@ -362,7 +364,7 @@ class _MessageInboxViewState extends State<MessageInboxView> {
       return Text(
         '${chatAttributes.message}',
         style: TextStyle(
-            color: chatAttributes.sender?.id == myId
+            color: chatAttributes.sender?.id == _messageInboxController.myID
                 ? Colors.white
                 : Colors.black),
         textAlign: TextAlign.start,
