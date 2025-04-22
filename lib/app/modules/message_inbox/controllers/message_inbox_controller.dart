@@ -107,7 +107,7 @@ class MessageInboxController extends GetxController {
     }
   }
 ///================================================== Send_message  =======================================
-  sendMessage({
+  sendEmitMessage({
       required String message,
       required String media,
       required String messageType}) {

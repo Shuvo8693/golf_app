@@ -12,10 +12,8 @@ import 'package:golf_game_play/sk_key.dart';
 import 'app/routes/app_pages.dart';
 import 'common/app_constant/app_constant.dart';
 import 'common/di/di.dart';
-import 'common/prefs_helper/prefs_helpers.dart';
 import 'common/widgets/message.dart';
 
-String token = '';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,7 +27,6 @@ void main() async {
       languages: _languages,
     ));
   });
-  token = await PrefsHelper.getString('token');
 }
 
 class MyApp extends StatelessWidget {
@@ -59,18 +56,10 @@ class MyApp extends StatelessWidget {
                     AppConstants.languages[0].countryCode),
                 transitionDuration: const Duration(milliseconds: 500),
                 getPages: AppPages.routes,
-                initialRoute: authenticationRoute(),
+                initialRoute: AppPages.INITIAL,
               );
             });
       });
     });
-  }
-
-  String authenticationRoute() {
-    if (token.isNotEmpty) {
-      return Routes.HOME;
-    } else {
-      return AppPages.INITIAL;
-    }
   }
 }

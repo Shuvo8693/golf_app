@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_bubble/chat_bubble.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -16,9 +18,8 @@ import 'package:golf_game_play/common/app_icons/app_icons.dart';
 import 'package:golf_game_play/common/app_text_style/style.dart';
 import 'package:golf_game_play/common/date_time_formation/data_age_formation.dart';
 import 'package:golf_game_play/common/widgets/casess_network_image.dart';
+import 'package:golf_game_play/common/widgets/custom_button.dart';
 import 'package:golf_game_play/common/widgets/custom_text_field.dart';
-import 'package:golf_game_play/main.dart';
-import 'package:intl/intl.dart';
 
 import '../controllers/send_message_controller.dart';
 
@@ -48,15 +49,15 @@ class _MessageInboxViewState extends State<MessageInboxView> {
         backgroundColor: Colors.white,
         elevation: 0,
         leadingWidth: 40.w,
-        leading: Padding(
-          padding: EdgeInsets.only(left: 10.w),
-          child: IconButton(
-            icon: Icon(Icons.arrow_back_ios, color: AppColors.textColor),
-            onPressed: () {
-              Get.back();
-            }
-          ),
-        ),
+        // leading: Padding(
+        //   padding: EdgeInsets.only(left: 10.w),
+        //   child: IconButton(
+        //     icon: Icon(Icons.arrow_back_ios, color: AppColors.textColor),
+        //     onPressed: () {
+        //       Get.back();
+        //     }
+        //   ),
+        // ),
         title: Obx(() {
           MessageAttributes? messageAttributes = _messageInboxController.messageAttributesMdl.value;
           if (messageAttributes.sId == null) {
@@ -67,7 +68,7 @@ class _MessageInboxViewState extends State<MessageInboxView> {
               messageType = messageAttributes.type??'single';
               tournamentCreatorId = messageAttributes.btournamentId?.tournamentCreatorId?? messageAttributes.stournamentId?.tournamentCreatorId;
               roomChatId = messageAttributes.sId;
-              setState(() {});
+              print(roomChatId);
             });
 
           }
@@ -218,51 +219,59 @@ class _MessageInboxViewState extends State<MessageInboxView> {
                       ),
                     ),
                   ),
-                  SizedBox(width: 10.w),
-                  InkWell(
-                    onTap: () async {
-                      if (_msgCtrl.text.isNotEmpty) {
-                        try {
-                          await _messageInboxController.sendMessage(
-                            message: _msgCtrl.text,
-                            media: '',
-                            messageType: 'text',
-                          );
-                          _msgCtrl.clear();
-                          _messageInboxController.scrollToBottom();
-                        } catch (e) {
-                          Get.snackbar('Error', 'Failed to send message: $e');
-                        }
-                      }
-
-                      String filePath = _sendMessageController.filePath.value;
-                      if (roomChatId != null && filePath.isNotEmpty) {
-                        _sendMessageController.sendMessage(() async {
-                          await _messageInboxController.fetchAndListenToChatHistory();
-                          _sendMessageController.filePath.value = '';
-                          WidgetsBinding.instance.addPostFrameCallback((_) {
-                            _messageInboxController.scrollToBottom();
-                          });
-                        }, filePath, roomChatId!);
-                      }
-                    },
-                    child: Container(
+                  /// =========== Show selected Image ==========
+                  SizedBox(width: 8.w),
+                  Obx((){
+                    String filePath = _sendMessageController.filePath.value;
+                    if(filePath.isNotEmpty){
+                      return  Container(
+                        height: 55.h,
+                        width: 52.w,
+                        decoration: BoxDecoration(
+                            color: AppColors.primaryColor,
+                            borderRadius: BorderRadius.circular(10.r),
+                            image: DecorationImage(image: FileImage(filePath.isNotEmpty?File(filePath):File('')),fit: BoxFit.cover))
+                      );
+                    }else{
+                      return SizedBox.shrink();
+                    }
+                  }
+                  ),
+                  /// =========== Send message ==========
+                  SizedBox(width: 8.w),
+                  Obx((){
+                    return CustomButton(
+                      loading:_sendMessageController.isLoading.value,
                       height: 55.h,
                       width: 52.w,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10).r,
-                        border: Border.all(
-                          color: Get.theme.primaryColor.withOpacity(0.2),
-                        ),
-                      ),
-                      child: Center(
-                        child: SvgPicture.asset(
-                          AppIcons.sentIcon,
-                          height: 24.h,
-                          width: 24,
-                        ),
-                      ),
-                    ),
+                      onTap: () async {
+                        if (_msgCtrl.text.isNotEmpty) {
+                          try {
+                            await _messageInboxController.sendEmitMessage(
+                              message: _msgCtrl.text,
+                              media: '',
+                              messageType: 'text',
+                            );
+                            _msgCtrl.clear();
+                            _messageInboxController.scrollToBottom();
+                          } catch (e) {
+                            Get.snackbar('Error', 'Failed to send message: $e');
+                          }
+                        }
+
+                        String filePath = _sendMessageController.filePath.value;
+                        if (roomChatId != null && filePath.isNotEmpty) {
+                          _sendMessageController.sendMessage(() async {
+                            await _messageInboxController.fetchAndListenToChatHistory();
+                            _sendMessageController.filePath.value = '';
+                            WidgetsBinding.instance.addPostFrameCallback((_) {
+                              _messageInboxController.scrollToBottom();
+                            });
+                          }, filePath, roomChatId!);
+                        }
+                      }, text: 'Send',
+                    );
+                  }
                   )
                 ],
               ),

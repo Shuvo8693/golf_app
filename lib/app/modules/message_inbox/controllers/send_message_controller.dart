@@ -24,7 +24,7 @@ class SendMessageController extends GetxController {
     Map<String, String> body = {
       'chatid': chatRoomId,
     };
-
+    isLoading.value=true;
     var request =  http.MultipartRequest('POST', Uri.parse(ApiConstants.sendMessageUrl));
     request.fields.assignAll(body);
 
@@ -32,7 +32,6 @@ class SendMessageController extends GetxController {
 
     try {
       // Determine file type and add it to the request
-      isLoading.value=true;
       if(fileData.path.isNotEmpty){
         await _addFileToRequest(request, fileData);
       }
