@@ -5,8 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:golf_game_play/app/data/api_constants.dart';
 import 'package:golf_game_play/app/modules/golfers/model/golfers_models.dart';
-import 'package:golf_game_play/app/modules/home/model/sponsor_content_model.dart';
-import 'package:golf_game_play/app/modules/looking_to_play/model/looking_to_play_model.dart';
 import 'package:golf_game_play/common/prefs_helper/prefs_helpers.dart';
 import 'package:http/http.dart' as http;
 
