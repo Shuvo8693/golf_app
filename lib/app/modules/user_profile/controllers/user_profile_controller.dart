@@ -17,7 +17,7 @@ class UserProfileController extends GetxController {
     isLoading.value = true;
     try {
       String token = await PrefsHelper.getString('token');
-     String userId = Get.arguments['userId'];
+     String userId = Get.arguments['receiverId'];
 
       Map<String, String> headers = {
         'Authorization': 'Bearer $token',

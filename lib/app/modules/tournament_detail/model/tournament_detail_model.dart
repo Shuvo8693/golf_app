@@ -170,7 +170,7 @@ class TournamentCreator {
   TournamentCreator({this.sId, this.name});
 
   TournamentCreator.fromJson(Map<String, dynamic> json) {
-    sId = json['id'];
+    sId = json['_id'];
     name = json['name'];
   }
 }

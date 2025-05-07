@@ -20,7 +20,7 @@ class ResetPasswordController extends GetxController {
       'Content-Type': 'application/json',
        'Authorization':'Bearer $token'
     };
-    String email= Get.arguments['email'];
+  //  String email= Get.arguments['email'];
     var body = {
       'password': confirmPassCtrl.text
     };
@@ -30,9 +30,7 @@ class ResetPasswordController extends GetxController {
       final responseData = jsonDecode( response.body);
       if (response.statusCode == 200) {
         print(responseData.toString());
-        if(responseData['code']==200){
-          callBack();
-        }
+        callBack();
       } else {
         print('Error>>>');
         print('Error>>>${response.body}');

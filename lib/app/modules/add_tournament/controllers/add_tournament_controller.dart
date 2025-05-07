@@ -95,7 +95,6 @@ class AddTournamentController extends GetxController {
     isLoading.value = true;
     try {
       String token = await PrefsHelper.getString('token');
-      String userId = await PrefsHelper.getString('userId');
 
       Map<String, String> headers = {
         'Authorization': 'Bearer $token',

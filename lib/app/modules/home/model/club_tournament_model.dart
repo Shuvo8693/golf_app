@@ -113,9 +113,22 @@ class ClubTournamentData {
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
     iV = json['__v'];
-    distance = json['distance'];
-    distanceToCurrentLocation = json['distanceToCurrentLocation'];
-    distanceToUser = json['distanceToUser'];
+    if( json['distance'] is double){
+      distance = json['distance'];
+    }else if(json['distance'] is int){
+      distance =double.tryParse(json['distance'].toString());
+    }
+    if( json['distanceToCurrentLocation'] is double){
+      distanceToCurrentLocation = json['distanceToCurrentLocation'];
+    }else if(json['distanceToCurrentLocation'] is int){
+      distanceToCurrentLocation =double.tryParse(json['distanceToCurrentLocation'].toString());
+    }
+
+    if( json['distanceToUser'] is double){
+      distanceToUser = json['distanceToUser'];
+    }else if(json['distanceToUser'] is int){
+      distanceToUser =double.tryParse(json['distanceToUser'].toString());
+    }
   }
 }
 

@@ -35,7 +35,7 @@ class LookingToPlayAttributes {
   String? golfCourse;
   String? cityToPlay;
   String? fromDate;
-  String? tomDate;
+  String? toDate;
   bool? isAccepted;
   bool? isReject;
   String? createdAt;
@@ -50,7 +50,7 @@ class LookingToPlayAttributes {
         this.golfCourse,
         this.cityToPlay,
         this.fromDate,
-        this.tomDate,
+        this.toDate,
         this.isAccepted,
         this.isReject,
         this.createdAt,
@@ -65,7 +65,7 @@ class LookingToPlayAttributes {
     golfCourse = json['golfCourse'];
     cityToPlay = json['cityToPlay'];
     fromDate = json['fromDate'];
-    tomDate = json['tomDate'];
+    toDate = json['tomDate'];
     isAccepted = json['isAccepted'];
     isReject = json['isReject'];
     createdAt = json['createdAt'];

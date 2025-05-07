@@ -59,7 +59,7 @@ class _LookingToPlayViewState extends State<LookingToPlayView> {
                     Get.toNamed(Routes.CREATE_LOOKING_TO_PLAY);
                   }),
             ),
-            SizedBox(height: 15.h),
+          /*  SizedBox(height: 15.h),
             Row(
               children: [
                 Expanded(
@@ -79,7 +79,7 @@ class _LookingToPlayViewState extends State<LookingToPlayView> {
                   ),
                 ),
               ],
-            ),
+            ),*/
             SizedBox(height: 30.h),
             Obx((){
              List<LookingToPlayAttributes> lookingToPlayAttribute = _lookingToPlayController.lookingToPlayModel.value.data?.attributes??[];

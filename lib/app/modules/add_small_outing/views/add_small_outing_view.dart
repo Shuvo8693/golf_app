@@ -34,6 +34,7 @@ class _AddSmallOutingViewState extends State<AddSmallOutingView> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   List<String> onChangeTextFieldValue = [];
+  List<String> nothings = []; /// not important
 
   @override
   Widget build(BuildContext context) {

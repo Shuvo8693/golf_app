@@ -1,4 +1,8 @@
 import 'package:get/get.dart';
+import 'package:golf_game_play/app/modules/create_winner_details/views/challenge_match_view.dart';
+import 'package:golf_game_play/app/modules/create_winner_details/views/kps_view.dart';
+import 'package:golf_game_play/app/modules/create_winner_details/views/score_view.dart';
+import 'package:golf_game_play/app/modules/create_winner_details/views/skin_view.dart';
 
 import '../modules/add_small_outing/bindings/add_small_outing_binding.dart';
 import '../modules/add_small_outing/views/add_small_outing_view.dart';
@@ -31,7 +35,7 @@ import '../modules/location_selector/views/location_selector_view.dart';
 import '../modules/looking_to_play/bindings/looking_to_play_binding.dart';
 import '../modules/looking_to_play/views/looking_to_play_view.dart';
 import '../modules/message/bindings/message_binding.dart';
-import '../modules/message/views/message_view.dart';
+import '../modules/message/views/Messenger_view.dart';
 import '../modules/message_inbox/bindings/message_inbox_binding.dart';
 import '../modules/message_inbox/views/message_inbox_view.dart';
 import '../modules/my_profile/bindings/my_profile_binding.dart';
@@ -79,7 +83,7 @@ import '../modules/tee_sheet/views/tee_sheet_view.dart';
 import '../modules/top50/bindings/top50_binding.dart';
 import '../modules/top50/views/top50_view.dart';
 import '../modules/tournament_detail/bindings/gaggle_detail_binding.dart';
-import '../modules/tournament_detail/views/gaggle_detail_view.dart';
+import '../modules/tournament_detail/views/tournament_detail_view.dart';
 import '../modules/user_profile/bindings/user_profile_binding.dart';
 import '../modules/user_profile/views/user_profile_view.dart';
 import '../modules/verify_email/bindings/verify_email_binding.dart';
@@ -132,7 +136,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.MESSAGE,
-      page: () => const MessageView(),
+      page: () =>  MessageView(),
       binding: MessageBinding(),
     ),
     GetPage(
@@ -147,7 +151,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.GAGGLE_DETAIL,
-      page: () =>  GaggleDetailView(),
+      page: () =>  TournamentDetailView(),
       binding: GaggleDetailBinding(),
     ),
     GetPage(
@@ -162,7 +166,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.TEE_SHEET,
-      page: () => const TeeSheetView(),
+      page: () =>  TeeSheetView(),
       binding: TeeSheetBinding(),
     ),
     GetPage(
@@ -309,6 +313,27 @@ class AppPages {
       name: _Paths.STORY_SLIDER,
       page: () => StorySliderView(),
       binding: StorySliderBinding(),
+    ),
+
+    GetPage(
+      name: _Paths.SKIN,
+      page: () => SkinView(),
+      binding: CreateWinnerDetailsBinding(),
+    ),
+    GetPage(
+      name: _Paths.KPS,
+      page: () => KpsView(),
+      binding: CreateWinnerDetailsBinding(),
+    ),
+    GetPage(
+      name: _Paths.TOP_WINNER,
+      page: () => TopWinnerView(),
+      binding: CreateWinnerDetailsBinding(),
+    ),
+    GetPage(
+      name: _Paths.SCORE,
+      page: () => ScoreView(),
+      binding: CreateWinnerDetailsBinding(),
     ),
   ];
 }

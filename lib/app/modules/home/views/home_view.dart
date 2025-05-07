@@ -1,7 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
 import 'package:golf_game_play/app/modules/home/controllers/current_location_controller.dart';
@@ -14,25 +13,18 @@ import 'package:golf_game_play/app/modules/home/controllers/tab_bar_controller.d
 import 'package:golf_game_play/app/modules/home/model/small_tournament_model.dart';
 import 'package:golf_game_play/app/modules/home/model/sponsor_content_model.dart';
 import 'package:golf_game_play/app/modules/home/widgets/club_tournament_card.dart';
-import 'package:golf_game_play/app/modules/home/widgets/gaggle_rules.dart';
 import 'package:golf_game_play/app/modules/home/widgets/small_tournament_card.dart';
 import 'package:golf_game_play/app/modules/home/widgets/sponsor_content_view.dart';
+import 'package:golf_game_play/app/modules/model/user_model.dart' show MyProfile;
 import 'package:golf_game_play/app/modules/my_profile/controllers/my_profile_controller.dart';
-import 'package:golf_game_play/app/modules/story_slider/controllers/story_slider_controller.dart';
-import 'package:golf_game_play/app/modules/user_profile/controllers/user_profile_controller.dart';
 import 'package:golf_game_play/app/routes/app_pages.dart';
 import 'package:golf_game_play/common/app_color/app_colors.dart';
 import 'package:golf_game_play/common/app_drawer/app_drawer.dart';
-import 'package:golf_game_play/common/app_icons/app_icons.dart';
 import 'package:golf_game_play/common/app_images/app_images.dart';
-import 'package:golf_game_play/common/app_images/network_image%20.dart';
-import 'package:golf_game_play/common/app_string/app_string.dart';
 import 'package:golf_game_play/common/app_text_style/style.dart';
 import 'package:golf_game_play/common/widgets/app_button.dart';
-import 'package:golf_game_play/common/widgets/casess_network_image.dart';
 import 'package:golf_game_play/common/widgets/custom_card.dart';
 import 'package:golf_game_play/common/widgets/golf_logo.dart';
-import 'package:golf_game_play/common/widgets/spacing.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -88,14 +80,14 @@ class _HomeViewState extends State<HomeView> {
           )
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-        child: SingleChildScrollView(
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
           child: Column(
             children: [
               ///City_State_Country
               Obx((){
-               final user = _myProfileController.user.value;
+               final user = _myProfileController.myProfile.value;
                if(_myProfileController.isLoading.value){
                  return Center(child: CircularProgressIndicator());
                }
@@ -212,30 +204,39 @@ class _HomeViewState extends State<HomeView> {
               // SizedBox(height: 10.h),
 
               /// Sponsor section
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  InkWell(
-                    borderRadius: BorderRadius.all(Radius.circular(12)),
-                    onTap: () {
-                      Get.offNamed(Routes.SPONSOR_SIGNUP);
-                    },
-                    child: CustomCard(
-                      cardHeight: 50,
-                      cardWidth: 90,
-                      padding: 8,
-                      elevation: 2,
-                      children: [
-                        Text(
-                          'Add',
-                          style: AppStyles.h5(color: AppColors.appGreyColor),
-                        )
-                      ],
-                    ),
-                  ),
-                  Text('Sponsored Tournaments', style: AppStyles.h2(),
-                  )
-                ],
+              Obx((){
+               String? userRole = _myProfileController.myProfile.value.role;
+                if(userRole =='supperUser'){
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      InkWell(
+                        borderRadius: BorderRadius.all(Radius.circular(12)),
+                        onTap: () {
+                          Get.offNamed(Routes.SPONSOR_SIGNUP);
+                        },
+                        child: CustomCard(
+                          cardHeight: 50,
+                          cardWidth: 90,
+                          padding: 8,
+                          elevation: 2,
+                          children: [
+                            Text(
+                              'Add',
+                              style: AppStyles.h5(color: AppColors.appGreyColor),
+                            )
+                          ],
+                        ),
+                      ),
+                      Text('Sponsored Tournaments', style: AppStyles.h2(),
+                      )
+                    ],
+                  );
+                }else{
+                  return SizedBox.shrink();
+                }
+
+               }
               ),
 
               /// Sponsor content List View
@@ -308,6 +309,7 @@ class _HomeViewState extends State<HomeView> {
               Obx(() {
               late  List<ClubTournamentData> clubTournamentDataList ;
               late  List<SmallTournamentData> smallTournamentDataList ;
+               MyProfile myProfile = _myProfileController.myProfile.value;
                 if (_tabBarController.currentIndex.value == 2) {
                   /// Looking to Play Screen Route
                   Future.microtask(() => Get.offNamed(Routes.LOOKING_TO_PLAY));
@@ -343,7 +345,7 @@ class _HomeViewState extends State<HomeView> {
                                     final clubTournamentData = clubTournamentDataList[index];
                                     return ClubTournamentCard(
                                       clubTournamentData: clubTournamentData,
-                                      index: index,
+                                      index: index, myProfile: myProfile,
                                     );
                                   },
                                 ),
@@ -370,7 +372,7 @@ class _HomeViewState extends State<HomeView> {
                                     final smallTournamentData = smallTournamentDataList[index];
                                     return SmallTournamentCard(
                                       smallTournamentData: smallTournamentData,
-                                      index: index,
+                                      index: index, myProfile: myProfile,
                                     );
                                   },
                                 ),

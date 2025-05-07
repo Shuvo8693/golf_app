@@ -1,0 +1,1 @@
+/Users/quantumalliance/StudioProjects/Golf_tournament/build/app/intermediates/cxx/RelWithDebInfo/p2r43e2j/obj/armeabi-v7a

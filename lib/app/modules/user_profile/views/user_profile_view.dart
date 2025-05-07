@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:golf_game_play/app/data/api_constants.dart';
 import 'package:golf_game_play/app/data/google_api_service.dart';
 import 'package:golf_game_play/app/modules/model/user_model.dart';
+import 'package:golf_game_play/app/modules/tournament_detail/controllers/chat_creation_controller.dart';
 import 'package:golf_game_play/app/modules/user_profile/controllers/user_profile_controller.dart';
 import 'package:golf_game_play/app/modules/user_profile/model/user_profile.dart';
 import 'package:golf_game_play/common/app_color/app_colors.dart';
@@ -32,6 +33,7 @@ class UserProfileView extends StatefulWidget {
 class _UserProfileViewState extends State<UserProfileView> {
   late final TextEditingController _searchController = TextEditingController();
   final UserProfileController _userProfileController= Get.put(UserProfileController());
+  final ChatCreationController _chatCreationController= Get.put(ChatCreationController());
   List<String> onChangeTextFieldValue = [];
 
   LatLng? latLng;
@@ -191,7 +193,18 @@ class _UserProfileViewState extends State<UserProfileView> {
                     //     },
                     //     text: AppString.challengeText),
                     SizedBox(height: 15.h),
-                    CustomButton(onTap: () {}, text: AppString.messageText),
+                    Obx((){
+                      return CustomButton(
+                           loading: _chatCreationController.isLoading.value,
+                          onTap: ()async{
+                             if(usersAttributes.id != null ){
+                              // String receiverId = Get.arguments['receiverId'];
+                               await _chatCreationController.createChatWithTournamentCreator(usersAttributes.id!);
+                             }
+                      }, text: AppString.messageText);
+                    }
+
+                    ),
                     SizedBox(height: 20.h),
                   ],
                 ),

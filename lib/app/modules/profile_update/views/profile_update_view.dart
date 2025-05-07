@@ -34,7 +34,7 @@ class _ProfileUpdateViewState extends State<ProfileUpdateView> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((__)async{
      await myProfileCtrl.fetchProfile(() {});
-      _profileUpdateController = Get.put(ProfileUpdateController(user: myProfileCtrl.user.value));
+      _profileUpdateController = Get.put(ProfileUpdateController(user: myProfileCtrl.myProfile.value));
       _profileUpdateController?.getProfile();
       setState(() {});
     });
@@ -74,7 +74,7 @@ class _ProfileUpdateViewState extends State<ProfileUpdateView> {
                               ),
                             )
                           : CustomNetworkImage(
-                              imageUrl: '${ApiConstants.imageBaseUrl}${myProfileCtrl.user.value.coverImage?.url}',
+                              imageUrl: '${ApiConstants.imageBaseUrl}${myProfileCtrl.myProfile.value.coverImage?.url}',
                               height: 200.h,
                             ),
                     );
@@ -100,7 +100,7 @@ class _ProfileUpdateViewState extends State<ProfileUpdateView> {
                               fit: BoxFit.cover,
                           ),
                         ),
-                      ) : CustomNetworkImage(imageUrl: '${ApiConstants.imageBaseUrl}${myProfileCtrl.user.value.image?.url}',
+                      ) : CustomNetworkImage(imageUrl: '${ApiConstants.imageBaseUrl}${myProfileCtrl.myProfile.value.image?.url}',
                         height: 125.h,
                         width: 125.h,
                         boxShape: BoxShape.circle,
@@ -351,16 +351,22 @@ class _ProfileUpdateViewState extends State<ProfileUpdateView> {
             Obx(() {
               return CustomButton(
                 loading: _profileUpdateController!.registerLoading.value,
-                onTap: () {
-                  _profileUpdateController?.updateProfile(
+                onTap: ()async {
+                 await _profileUpdateController?.updateProfile(
                     callBack: (message) async{
                       if (message != null && message.isNotEmpty) {
                         await myProfileCtrl.fetchProfile(() {});
-                        Get.snackbar(
-                          'Success',
-                          message,
-                          snackPosition: SnackPosition.TOP,
-                          duration: const Duration(seconds: 2),
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(message),
+                            behavior: SnackBarBehavior.floating,
+                            margin: EdgeInsets.only(
+                              bottom: MediaQuery.of(context).size.height - 100.h,
+                              left: 20.w,
+                              right: 20.h,
+                            ),
+                            duration: Duration(seconds: 2),
+                          ),
                         );
                       } else {
                         print("Message is null or empty");

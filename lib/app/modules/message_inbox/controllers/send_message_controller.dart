@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:get/get_rx/src/rx_typedefs/rx_typedefs.dart';
 import 'package:golf_game_play/app/data/api_constants.dart';
 import 'package:golf_game_play/common/prefs_helper/prefs_helpers.dart';
 import 'package:http/http.dart' as http;
@@ -14,41 +15,33 @@ class SendMessageController extends GetxController {
   var filePath=''.obs;
   RxBool isLoading=false.obs;
 
-  sendMessage(String? message, String filePath,dynamic receiverId,dynamic chatId) async {
+  sendMessage(Callback onDone,String filePath,String chatRoomId) async {
     String token = await PrefsHelper.getString('token');
     Map<String, String> headers = {
       'Authorization': 'Bearer $token',
       'Content-Type': 'multipart/form-data'
     };
     Map<String, String> body = {
-      'message': message ?? '',
-      'chatId': chatId,
-      'receiverId': receiverId,
+      'chatid': chatRoomId,
     };
-
+    isLoading.value=true;
     var request =  http.MultipartRequest('POST', Uri.parse(ApiConstants.sendMessageUrl));
-    request.fields.addAll(body);
+    request.fields.assignAll(body);
 
     File fileData = File(filePath);
 
     try {
       // Determine file type and add it to the request
-      isLoading.value=true;
-      if(fileData.path !=null && fileData.path.isNotEmpty){
+      if(fileData.path.isNotEmpty){
         await _addFileToRequest(request, fileData);
       }
-
       request.headers.addAll(headers);
-
-      // Print request body fields and files
-      print('Request Fields: ${request.fields}');
-      print('Request Files: ${request.files.map((file) => file.filename)}');
 
       http.StreamedResponse response = await request.send();
       var responseBody = await response.stream.bytesToString();
-
+      var responseData = jsonDecode(responseBody);
       if (response.statusCode == 201) {
-        var responseData = jsonDecode(responseBody);
+        onDone();
         commentMessage.value = responseData['message'];
         print("Response Success (201): $responseBody");
       } else {
@@ -90,13 +83,15 @@ class SendMessageController extends GetxController {
         contentType: MediaType('image', 'png'),
       ));
       debugPrint("Media type png ==== $fileName");
-    } else if (fileType == 'jpg' || fileType == 'jpeg') {
+    }
+    if (fileType == 'jpg' || fileType == 'jpeg') {
       request.files.add(http.MultipartFile.fromBytes(
         'image',
         await file.readAsBytes(),
         filename: fileName,
         contentType: MediaType('image', fileType),
-      ));
+       ),
+      );
       debugPrint("Media type $fileType ==== $fileName");
     } else {
       debugPrint("Unsupported media type: $fileName");

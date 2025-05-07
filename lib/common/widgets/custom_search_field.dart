@@ -37,21 +37,21 @@ class CustomSearchField extends StatelessWidget {
           ),
         ),
         SizedBox(width: 6.w),
-        GestureDetector(
-          onTap: onTab,
-          child: CustomCard(
-            cardColor: AppColors.grayLight,
-            borderSideColor: AppColors.primaryColor,
-            cardHeight: 75,
-            cardWidth: 100,
-            padding: 18,
-            children: [
-              Text(AppString.searchText,
-                style: AppStyles.h4(),
-              )
-            ],
-          ),
-        )
+        // GestureDetector(
+        //   onTap: onTab,
+        //   child: CustomCard(
+        //     cardColor: AppColors.grayLight,
+        //     borderSideColor: AppColors.primaryColor,
+        //     cardHeight: 75,
+        //     cardWidth: 100,
+        //     padding: 18,
+        //     children: [
+        //       Text(AppString.searchText,
+        //         style: AppStyles.h4(),
+        //       )
+        //     ],
+        //   ),
+        // )
       ],
     );
   }

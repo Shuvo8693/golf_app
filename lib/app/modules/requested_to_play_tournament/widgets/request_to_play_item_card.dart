@@ -35,9 +35,9 @@ class RequestToPlayItemCard extends StatelessWidget {
             SizedBox(height: 8.h),
             Text('${AppString.tournamentText} : ${requestToPlayData.tournament?.clubName}  ', style: AppStyles.h4()),
             SizedBox(height: 10.h),
-            Text('${AppString.tournamentTypeText} : ${requestToPlayData.tournament?.tournamentType} ', style: AppStyles.h4()),
+            Text('${AppString.tournamentTypeText} : ${requestToPlayData.tournamentType} ', style: AppStyles.h4()),
             SizedBox(height: 10.h),
-            Text('${AppString.dateAndTimeText} : ${requestToPlayData.tournament?.date} , ${requestToPlayData.tournament?.time} ', style: AppStyles.h4()),
+            Text('Date : ${requestToPlayData.tournament?.date} ', style: AppStyles.h4()),
             SizedBox(height: 10.h),
             Text('${AppString.locationText} : ${requestToPlayData.tournament?.courseName} ', style: AppStyles.h4()),
             SizedBox(height: 10.h),
@@ -74,7 +74,7 @@ class RequestToPlayItemCard extends StatelessWidget {
                 AppButton(
                   text: 'Details' ,
                   onTab: () {
-                    Get.toNamed(Routes.USER_PROFILE,arguments: {'userId':'${requestToPlayData.requestedUser?.id}'});
+                    Get.toNamed(Routes.USER_PROFILE,arguments: {'receiverId':'${requestToPlayData.requestedUser?.id}'});
                   },
                   isIconWithTextActive: true,
                   iconPath: AppIcons.detailIcon,

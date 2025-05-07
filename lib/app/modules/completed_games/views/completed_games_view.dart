@@ -81,7 +81,7 @@ class CompletedGamesView extends StatelessWidget {
                     itemCount: completeTournamentsAttributes.length,
                     shrinkWrap: true,
                     itemBuilder: (BuildContext context, int index) {
-                     final completeTournamentIndex= completeTournamentsAttributes[index];
+                     final completeTournamentIndex = completeTournamentsAttributes[index];
                       return  CustomCard(
                         cardWidth: double.infinity,
                         borderSideColor:  AppColors.primaryColor.withOpacity(0.4),
@@ -100,10 +100,11 @@ class CompletedGamesView extends StatelessWidget {
 
                               Row(
                                 children: [
+                                  if(completeTournamentIndex.isWinnerView == true || completeTournamentIndex.tournamentCreator == _completedGamesController.myId)
                                   AppButton(
                                     text: AppString.winnerText,
                                     onTab: (){
-                                    Get.toNamed(Routes.WINNERS);
+                                    Get.toNamed(Routes.WINNERS,arguments: {'completedTournamentId':completeTournamentIndex.sId,'tournamentCreator': completeTournamentIndex.tournamentCreator});
                                   },isIconWithTextActive: true,iconPath: AppIcons.winnerLogo,),
                                   /*  SizedBox(width: 8.h),
                                AppButton(text:  AppString.chatText, onTab: ()=>_showChatBottomSheet(context),isIconWithTextActive: true,iconPath: AppIcons.chatLogo,),*/

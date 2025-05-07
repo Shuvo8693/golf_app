@@ -14,7 +14,7 @@ class CompletedGamesController extends GetxController {
   final TextEditingController searchCtrl =TextEditingController();
   Rx<CompleteTournamentModel> completeTournamentModel = CompleteTournamentModel().obs;
   RxBool isLoading1= false.obs;
-
+  String? myId;
 
   fetchCompleteGames() async {
     isLoading1.value = true;
@@ -61,8 +61,15 @@ class CompletedGamesController extends GetxController {
   }
   @override
   void onReady() async {
+    await getMyId();
     await fetchCompleteGames();
     super.onReady();
+  }
+
+  getMyId()async{
+    String  id = await PrefsHelper.getString('userId');
+      myId = id;
+    update();
   }
 
 }

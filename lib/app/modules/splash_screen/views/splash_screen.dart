@@ -5,8 +5,10 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:golf_game_play/app/routes/app_pages.dart';
 import 'package:golf_game_play/common/app_images/app_images.dart';
+import 'package:golf_game_play/common/prefs_helper/prefs_helpers.dart';
 import 'package:golf_game_play/common/widgets/background_image.dart';
 import 'package:golf_game_play/common/widgets/golf_logo.dart';
+import 'package:golf_game_play/main.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -28,15 +30,24 @@ class _SplashScreenState extends State<SplashScreen> {
   loadingPeriodic(){
     periodicTimer = Timer.periodic(const Duration(milliseconds: 500), (timer){
        setState(() {
-         activeIndex=(activeIndex+1) % 6;
+         activeIndex = (activeIndex+1) % 6;
        });
     });
-    navigationTimer= Timer(const Duration(seconds: 5), (){
+    navigationTimer= Timer(const Duration(seconds: 5), ()async{
       periodicTimer.cancel();
-      Get.toNamed(Routes.SIGN_IN);
+     await authenticationRoute();
     });
   }
 
+   authenticationRoute()async {
+   String token = await PrefsHelper.getString('token');
+   setState(() {});
+    if (token.isNotEmpty) {
+       Get.offAllNamed(Routes.HOME);
+    } else {
+      Get.offAllNamed(Routes.SIGN_IN);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -52,7 +52,7 @@ class LookingToPlayCardItem extends StatelessWidget {
                           child: Text('Player profile'),
                         onTap: (){
                           print(lookingToPlayAttributes.player);
-                          Get.toNamed(Routes.USER_PROFILE,arguments: {'userId':lookingToPlayAttributes.player});
+                          Get.toNamed(Routes.USER_PROFILE,arguments: {'receiverId':lookingToPlayAttributes.player});
 
                         },
                       )
@@ -69,7 +69,7 @@ class LookingToPlayCardItem extends StatelessWidget {
             Text('${AppString.golfCourseText} : ${lookingToPlayAttributes.golfCourse} ', overflow: TextOverflow.ellipsis, style: AppStyles.h4()),
             SizedBox(height: 10.h),
             SizedBox(height: 7.h),
-            Text('${AppString.dateRangeText} : ${lookingToPlayAttributes.fromDate} to ${lookingToPlayAttributes.tomDate}', overflow: TextOverflow.ellipsis,
+            Text('${AppString.dateRangeText} : ${lookingToPlayAttributes.fromDate} to ${lookingToPlayAttributes.toDate}', overflow: TextOverflow.ellipsis,
                 style: AppStyles.h4()),
             SizedBox(height: 10.h),
             Row(

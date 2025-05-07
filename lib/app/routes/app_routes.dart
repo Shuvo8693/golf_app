@@ -48,6 +48,11 @@ abstract class Routes {
   static const TERMS_CONDITION = _Paths.TERMS_CONDITION;
   static const SINGLE_MATCHES = _Paths.SINGLE_MATCHES;
   static const STORY_SLIDER = _Paths.STORY_SLIDER;
+
+  static const KPS = _Paths.KPS;
+  static const SKIN = _Paths.SKIN;
+  static const TOP_WINNER = _Paths.TOP_WINNER;
+  static const SCORE = _Paths.SCORE;
 }
 
 abstract class _Paths {
@@ -97,4 +102,8 @@ abstract class _Paths {
   static const TERMS_CONDITION = '/term_condition';
   static const SINGLE_MATCHES = '/single-matches';
   static const STORY_SLIDER = '/story-slider';
+  static const KPS = '/kps';
+  static const SKIN = '/skin';
+  static const TOP_WINNER = '/top_winners';
+  static const SCORE = '/score';
 }

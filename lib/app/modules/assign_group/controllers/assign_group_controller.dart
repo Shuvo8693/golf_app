@@ -15,19 +15,22 @@ class AssignGroupController extends GetxController {
    RxList<TextEditingController> timeTec = <TextEditingController>[].obs;
 
   RxString? selectType;
+  RxString selectedDate=''.obs;
+  RxString? tournamentId=''.obs;
   String? groupNumber;
-  RxList<String> selectedDate = <String>[].obs;
+  RxList<String> selectedDateIndex = <String>[].obs;
+
 
   Rx<TournamentNameModel> myTournamentNameModel = TournamentNameModel().obs;
   Rx<TournamentNameAttributes> tournamentNameAttributes = TournamentNameAttributes().obs;
   RxBool isLoading= false.obs;
 
  addGroup(){
-   selectedDate.add('');
+   selectedDateIndex.add('');
    timeTec.add(TextEditingController());
  }
   /// Date picker
-  Future<void> selectDate(BuildContext context,int index) async {
+  Future<void> selectDateIndex(BuildContext context,int index) async {
     final DateTime? picked = await showDatePicker(
         context: context,
         initialDate: DateTime.now(),
@@ -35,8 +38,22 @@ class AssignGroupController extends GetxController {
         lastDate: DateTime(2050));
     // DateTime selectedDates = DateTime.parse(selectedDate.value);
 
-    if (picked != null && picked != selectedDate[index]) {
-      selectedDate[index] = DateFormat('dd/MM/yyyy').format(picked);
+    if (picked != null && picked != selectedDateIndex[index]) {
+      selectedDateIndex[index] = DateFormat('dd/MM/yyyy').format(picked);
+      print('dateTime:$selectedDateIndex');
+    }
+  }
+
+  Future<void> selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime(1725),
+        lastDate: DateTime(2050));
+    // DateTime selectedDates = DateTime.parse(selectedDate.value);
+
+    if (picked != null && picked != selectedDate.value) {
+      selectedDate.value = DateFormat('dd/MM/yyyy').format(picked);
       print('dateTime:$selectedDate');
     }
   }
@@ -45,7 +62,6 @@ class AssignGroupController extends GetxController {
     isLoading.value = true;
     try {
       String token = await PrefsHelper.getString('token');
-      String userId = await PrefsHelper.getString('userId');
 
       Map<String, String> headers = {
         'Authorization': 'Bearer $token',
@@ -83,14 +99,20 @@ class AssignGroupController extends GetxController {
     } finally {
       isLoading.value = false;
     }
-
-
-
   }
+ void tournamentInfo(){
+   if(Get.arguments['tournamentId'] != null){
+     String? tournamentIds  = Get.arguments['tournamentId'];
+     tournamentId!.value = tournamentIds??'';
+     update();
+     print(tournamentId!.value);
+   }
 
+ }
   @override
   void onReady() async {
     await fetchMyTournamentName();
+    tournamentInfo();
     super.onReady();
   }
 
@@ -148,14 +170,13 @@ class AssignGroupController extends GetxController {
   ///============================== Break ===================================
 
   ///Max 288 player for big tournament, Min 8
-  ///
+
   RxBool isLoading3= false.obs;
 
   assignPlayer(GroupPlayer groupPlayer,int index) async {
     isLoading3.value = true;
     try {
       String token = await PrefsHelper.getString('token');
-      String userId = await PrefsHelper.getString('userId');
 
       Map<String, String> headers = {
         'Authorization': 'Bearer $token',
@@ -167,7 +188,7 @@ class AssignGroupController extends GetxController {
         "groupName":groupPlayer.groupName,
         "type":groupPlayer.tournamentType,
         "tournamentId":groupPlayer.tournamentId,
-        "dateTime":"${selectedDate[index]} & ${timeTec[index].text} "
+        "dateTime": selectedDate.value
       };
 
       var request = http.Request('POST', Uri.parse(ApiConstants.assignPlayerUrl));

@@ -12,12 +12,12 @@ class GaggleDetailController extends GetxController {
   Rx<TournamentDetailModel> tournamentDetailModel = TournamentDetailModel().obs;
   RxBool isLoading= false.obs;
 
+  String? myID;
 
   fetchTournamentDetails() async {
     isLoading.value = true;
     try {
       String token = await PrefsHelper.getString('token');
-      String userId = await PrefsHelper.getString('userId');
       String tournamentId =Get.arguments['myTournamentId'];
      String tournamentType = Get.arguments['tournamentType'];
 
@@ -61,7 +61,14 @@ class GaggleDetailController extends GetxController {
   }
  @override
   void onReady() async{
+    await getMyId();
   await fetchTournamentDetails();
     super.onReady();
+  }
+
+  getMyId()async{
+    String  id = await PrefsHelper.getString('userId');
+      myID = id;
+      update();
   }
 }

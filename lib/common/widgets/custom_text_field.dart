@@ -21,6 +21,7 @@ class CustomTextField extends StatefulWidget {
   final bool isPassword;
   final int? maxLine;
   final bool? isEmail;
+  final bool isEnabled;
   final TextStyle? labelTextStyle;
   final Function(String?)? onChange;
 
@@ -43,6 +44,7 @@ class CustomTextField extends StatefulWidget {
       this.filColor,
       this.labelText,
       this.isPassword = false,
+      this.isEnabled = true,
         this.onChange});
 
   @override
@@ -109,7 +111,8 @@ class _CustomTextFieldState extends State<CustomTextField> {
         prefixIconConstraints: BoxConstraints(minHeight: 24.w, minWidth: 24.w),
         labelText: widget.labelText,
         hintText: widget.hintText,
-        labelStyle: widget.labelTextStyle
+        labelStyle: widget.labelTextStyle,
+        enabled: widget.isEnabled
       ),
     );
   }

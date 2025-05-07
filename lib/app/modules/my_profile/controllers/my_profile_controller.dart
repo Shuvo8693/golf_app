@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
 
 class MyProfileController extends GetxController {
-  Rx<User> user = User().obs;
+  Rx<MyProfile> myProfile = MyProfile().obs;
   RxString errorMessage = ''.obs;
   RxBool isLoading = false.obs;
 
@@ -24,7 +24,7 @@ class MyProfileController extends GetxController {
       final responseData = jsonDecode(responseBody);
       if (response.statusCode == 200) {
         var profileValue= responseData['data']['attributes']['user'] as Map<String,dynamic>;
-        user.value =User.fromJson(profileValue);
+        myProfile.value =MyProfile.fromJson(profileValue);
       } else {
         print('Error>>>');
         isLoading.value=false;
@@ -55,7 +55,7 @@ class MyProfileController extends GetxController {
   }
   @override
   void onClose() {
-    user.close();
+    myProfile.close();
     super.onClose();
   }
 }

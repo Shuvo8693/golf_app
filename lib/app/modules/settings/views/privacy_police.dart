@@ -6,6 +6,7 @@ import 'package:golf_game_play/app/modules/settings/controllers/privacy_controll
 import 'package:golf_game_play/common/app_color/app_colors.dart';
 import 'package:golf_game_play/common/app_string/app_string.dart';
 import 'package:golf_game_play/common/app_text_style/style.dart';
+import 'package:golf_game_play/common/widgets/custom_appBar_title.dart';
 import 'package:golf_game_play/common/widgets/html_view.dart';
 
 class PrivacyPoliceScreen extends StatefulWidget {
@@ -26,25 +27,7 @@ class _PrivacyPoliceScreenState extends State<PrivacyPoliceScreen> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      appBar:  AppBar(
-        centerTitle: true,
-        leading: InkWell(
-          onTap: (){
-            Get.back();
-          },
-          child: CircleAvatar(
-              radius: 12,
-              backgroundColor: Colors.transparent,
-              child: Icon(Icons.arrow_back_ios,size: 18,color: AppColors.textColor,)),
-        ),
-
-        title: Text(AppString.privacyText,style: AppStyles.h2(
-          family: "Schuyler",
-        )),
-        backgroundColor: Colors.transparent,
-
-      ),
-
+      appBar: CustomAppBarTitle(text: 'Privacy policy & Terms and conditions for Golf game world',textStyle: AppStyles.h3(),maxLine: 2,),
       body: Column(
         children: [
           Obx((){

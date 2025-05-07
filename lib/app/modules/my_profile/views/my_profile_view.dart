@@ -50,7 +50,7 @@ class _MyProfileViewState extends State<MyProfileView> {
         centerTitle: true,
       ),
       body: Obx(() {
-       final userValue = _myProfileController.user.value;
+       final userValue = _myProfileController.myProfile.value;
         if(_myProfileController.isLoading.value){
          return Center(child: CircularProgressIndicator());
         }

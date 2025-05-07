@@ -4,11 +4,12 @@ class ApiConstants{
   static String googleBaseUrl="https://maps.googleapis.com/maps/api/place/autocomplete/json";
   static String estimatedTimeUrl="https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&";
    /// App Url
-    static String baseUrl="http://10.0.60.205:9090/v1";
-    static String  imageBaseUrl="http://10.0.60.205:9090";
-    static String socketUrl="http://10.0.60.205:9090";
+    static String baseUrl="https://ariful9090.sobhoy.com/v1";
+    static String  imageBaseUrl="https://ariful9090.sobhoy.com";
+    static String socketUrl="https://ariful8443.sobhoy.com";
 
-  static String googleApiKey="AIzaSyBFi80uuJIWkkLCpodFa8oXmD8XD_h8LMc";
+  //static String googleApiKey="AIzaSyBFi80uuJIWkkLCpodFa8oXmD8XD_h8LMc"; //Company
+  static String googleApiKey="AlzaSyADqfN_CuHaTQvMIj51PNfsIUWJYV8P7ig"; //client
 
 
 ///>>>>>>>>>>>>>>>>>>>>>>>>>>> User Auth>>>>>>>>>>>>>>>>>>>
@@ -39,7 +40,20 @@ static String createChallengeUrl= '$baseUrl/chaleng';
 static String sponsorContentUrl= '$baseUrl/sponser-tournament';
   static String sendRequestToPlayUrl = '$baseUrl/request-to-play';
   static String completeGamerUrl = '$baseUrl/complite-tournament';
+  static String to50GolfersUrl = '$baseUrl/top-playear';
+  static String subscribeUrl = '$baseUrl/subscrib';
+  static String singleChatUrl = '$baseUrl/chat-room/single';
+  static String groupChatUrl = '$baseUrl/chat-room/group';
   static String smallOutingRequestToPlayUrl(dynamic tournamentId) => '$baseUrl/small-tournament/makerequest-toplay';
+  static String teeSheetUrl(String tournamentId,String tournamentType) => '$baseUrl/teeSheet?id=$tournamentId&type=$tournamentType';
+  static String winnersUrl(dynamic completeTourId) => '$baseUrl/winner?id=$completeTourId';
+  static String winnersConfirmationUrl(String completeTourId) => '$baseUrl/winner?id=$completeTourId';
+  static String postWinnersUrl(String sectionName) => '$baseUrl/winner-$sectionName';
+  static String updateSkinUrl = '$baseUrl/winner-skin';
+  static String golfersNameUrl(String name) => '$baseUrl/users/showgolfer?name=$name';
+  static String golfersNameDirectUrl = '$baseUrl/users/showgolfer';
+  static String messageUrl = '$baseUrl/chat-room';
+  static String playerListUrl(String tournamentId,String sectionName) => '$baseUrl/winner-$sectionName/allUser?id=$tournamentId';
   static String markAsReadNotificationUrl(dynamic notificationId) => '$baseUrl/notification?id=$notificationId';
   static String invitationDeleteUrl(dynamic invitationId) => '$baseUrl/invitation/delete?id=$invitationId';
   static String invitationAcceptUrl(dynamic invitationId) => '$baseUrl/invitation/accept?id=$invitationId';
@@ -67,13 +81,13 @@ static String myGroupListUrl= '$baseUrl/group/my';
 static String friendRequestListUrl= '$baseUrl/friend/requests';
 static String myFriendLIstUrl= '$baseUrl/friend/friends';
 static String subscriptionPackageListUrl= '$baseUrl/subscription';
-static String paymentSubscriptionUrl= '$baseUrl/payment/subscription';
+static String paymentSubscriptionUrl= '$baseUrl/subscription';
 static String chatListUrl= '$baseUrl/chat/chart-list';
-static String sendMessageUrl= '$baseUrl/message/add-message';
-static String privacyPolicyUrl= '$baseUrl/info/privacy-policy';
-static String termAndConditionUrl= '$baseUrl/info/terms-condition';
-static String aboutUsUrl= '$baseUrl/info/about-us';
-static String supportUrl= '$baseUrl/info/support';
+static String sendMessageUrl= '$baseUrl/message';
+static String privacyPolicyUrl= '$baseUrl/setting/privacy';
+static String termAndConditionUrl= '$baseUrl/setting/terms';
+static String aboutUsUrl= '$baseUrl/setting/about-us';
+static String supportUrl= '$baseUrl/setting/support';
 static String removeGroupMemberUrl= '$baseUrl/group/remove-member';
 static String addGroupMemberUrl= '$baseUrl/group/add-member';
 static String createChatUrl= '$baseUrl/chat';
@@ -83,7 +97,7 @@ static String leaveGroupChatUrl= '$baseUrl/chat/group/live';
 static String rewardPaymentUrl= '$baseUrl/payment/post/reward';
 static String userProfileUrl= '$baseUrl/users/profile';
 
-static String getMessageUrl(dynamic chatId) => '$baseUrl/message/get-messages?chatId=$chatId';
+static String getMessageUrl(String chatId) => '$baseUrl/message?chatid=$chatId';
 static String updateGroupChatUrl(dynamic chatId) => '$baseUrl/chat?id=$chatId';
 static String deleteGroupUrl(dynamic groupId) => '$baseUrl/group/$groupId';
 static String inviteFriendUrl(dynamic groupId) => '$baseUrl/group/all-invite-friend?groupId=$groupId';

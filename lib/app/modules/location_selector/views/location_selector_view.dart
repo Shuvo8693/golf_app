@@ -67,7 +67,7 @@ class _LocationSelectorViewState extends State<LocationSelectorView> {
       }else{
         Get.offAndToNamed(Routes.HOME);
       }
-      print("Location confirmed: ${_pickedLocation}");
+      print("Location confirmed: $_pickedLocation");
   }
 
   @override
@@ -127,7 +127,7 @@ class _LocationSelectorViewState extends State<LocationSelectorView> {
               child: Row(
                 children: [
                   Expanded(
-                    child: TextField(
+                    child: TextFormField(
                       onChanged: (inputValue) async {
                         if (inputValue.isNotEmpty == true) {
                           var result = await GoogleApiService.fetchSuggestions(inputValue);
@@ -149,10 +149,6 @@ class _LocationSelectorViewState extends State<LocationSelectorView> {
                           size: 24.sp,
                         ),
                       ),
-                      onSubmitted: (value) {
-                        // Handle search submission logic here
-                        _goToSearchLocation(value);
-                      },
                     ),
                   ),
                   /// Search Icon

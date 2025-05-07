@@ -30,7 +30,6 @@ class _MyTournamentViewState extends State<MyTournamentView> {
     WidgetsBinding.instance.addPostFrameCallback((__)async{
       await _myTournamentController.fetchJoinedTournament();
     });
-
   }
 
   @override
@@ -82,7 +81,7 @@ class _MyTournamentViewState extends State<MyTournamentView> {
     return CustomCard(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('User Name : ${myTournamentsAttributes.tournamentCreator?.name}', style: AppStyles.h5()),
+        Text('Tournament Creator : ${myTournamentsAttributes.tournamentCreator?.name}', style: AppStyles.h5()),
         SizedBox(height: 6.h),
         Text('Tournament : ${myTournamentsAttributes.tournamentName?? myTournamentsAttributes.clubName}', style: AppStyles.h5()),
         SizedBox(height: 6.h),

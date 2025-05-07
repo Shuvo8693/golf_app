@@ -198,7 +198,7 @@ class _SponsorSignupViewState extends State<SponsorSignupView> {
                 Text(AppString.linkText, style: AppStyles.h2()),
                 CustomTextField(
                   contentPaddingVertical: 15.h,
-                  hintText: "www.example.com",
+                  hintText: "https://example.com",
                   controller: _sponsorSignupController.linkCtrl,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
