@@ -68,8 +68,7 @@ class _HomeViewState extends State<HomeView> {
     });
 
     _scrollController.addListener(() async {
-      if (_scrollController.position.pixels >=
-              _scrollController.position.maxScrollExtent - 200 &&
+      if (_scrollController.position.pixels >= _scrollController.position.maxScrollExtent - 200 &&
           !_homeController.isOutingFetchingMore.value) {
         await _homeController.loadMoreOutingPage();
       }
