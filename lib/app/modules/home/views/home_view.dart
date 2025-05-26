@@ -87,10 +87,7 @@ class _HomeViewState extends State<HomeView> {
             children: [
               ///City_State_Country
               Obx((){
-               final user = _myProfileController.myProfile.value;
-               if(_myProfileController.isLoading.value){
-                 return Center(child: CircularProgressIndicator());
-               }
+               final placeMark = currentLocationController.placeMark.value;
                 return  Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -109,7 +106,7 @@ class _HomeViewState extends State<HomeView> {
                         SizedBox(
                           height: 6.h,
                         ),
-                        Text('${user.city} ', style: AppStyles.h6()),
+                        Text('${placeMark?.locality} ', style: AppStyles.h6()),
                       ],
                     ),
                     CustomCard(
@@ -129,7 +126,7 @@ class _HomeViewState extends State<HomeView> {
                         ),
                         SizedBox(height: 6.h),
                         Text(
-                          '${user.state} ',
+                          '${placeMark?.administrativeArea} ',
                           style: AppStyles.h6(),
                         ),
                       ],
@@ -151,7 +148,7 @@ class _HomeViewState extends State<HomeView> {
                         ),
                         SizedBox(height: 6.h),
                         Text(
-                          '${user.country}',
+                          '${placeMark?.country}',
                           style: AppStyles.h6(),
                         ),
                       ],

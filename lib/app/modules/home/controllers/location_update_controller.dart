@@ -32,7 +32,7 @@ class LocationUpdateController extends GetxController {
       var request = http.Request('PATCH', Uri.parse(ApiConstants.locationUpdateUrl));
 
       request.headers.addAll(headers);
-      request.body=jsonEncode(body);
+      request.body = jsonEncode(body);
 
       var response = await request.send();
       var responseBody = await http.Response.fromStream(response);
