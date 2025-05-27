@@ -102,8 +102,6 @@ class _HomeViewState extends State<HomeView> {
                           width: 40,
                         ),
                         ///City
-                        ///
-                        ///
                         Text('City', style: AppStyles.h4()),
                         SizedBox(
                           height: 6.h,
