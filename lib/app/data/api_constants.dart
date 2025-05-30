@@ -9,7 +9,7 @@ class ApiConstants{
     static String socketUrl="https://ariful8443.sobhoy.com";
 
   //static String googleApiKey="AIzaSyBFi80uuJIWkkLCpodFa8oXmD8XD_h8LMc"; //Company
-  static String googleApiKey="AlzaSyADqfN_CuHaTQvMIj51PNfsIUWJYV8P7ig"; //client
+  static String googleApiKey="AIzaSyBI8fHu17r7bJcDz4eV8MdiVOIbYVG6fTI"; //client
 
 
 ///>>>>>>>>>>>>>>>>>>>>>>>>>>> User Auth>>>>>>>>>>>>>>>>>>>

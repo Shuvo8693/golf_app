@@ -3,8 +3,8 @@ import 'package:get/get.dart';
 class TabBarController extends GetxController {
 
   final RxList<String> tapBarList=<String>[
-    'Club     ',
-    'Small Outing',
+    'Club Outings     ',
+    'Pick up Round',
     'Looking to play',
   ].obs;
 

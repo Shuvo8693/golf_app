@@ -120,25 +120,12 @@ class _SponsorSignupViewState extends State<SponsorSignupView> {
                             size: 24.sp,
                           ),
                         ),
-                        onSubmitted: (value) {
-                          // Handle search submission logic here
-                          _sponsorSignupController.goToSearchLocation(value);
+                        onSubmitted: (value) async {
+                          print(value);
+                         await _sponsorSignupController.goToSearchLocation(value);
                         },
                       ),
                     ),
-                    // IconButton(
-                    //   icon: Icon(
-                    //     Icons.search,
-                    //     color: AppColors.primaryColor,
-                    //     size: 24.sp,
-                    //   ),
-                    //   onPressed: () {
-                    //     _goToSearchLocation(_searchController.text);
-                    //     setState(() {
-                    //       onChangeTextFieldValue.clear();
-                    //     });
-                    //   },
-                    // ),
                   ],
                 ),
 

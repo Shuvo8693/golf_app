@@ -254,7 +254,7 @@ class _HomeViewState extends State<HomeView> {
                     return SponsorContentView(sponsorContentAttributes: sponsorContentIndex,);
                   },
                   options: CarouselOptions(
-                    height: 280.h,
+                    height: 180.h,
                     aspectRatio: 16 / 9,
                     viewportFraction: 1,
                     initialPage: 0,
@@ -281,6 +281,7 @@ class _HomeViewState extends State<HomeView> {
                     for (int index = 0; index < _tabBarController.tapBarList.length; index++)
                       AppButton(
                           text: _tabBarController.tapBarList[index],
+                          textStyle: TextStyle(fontSize: 14,fontWeight: FontWeight.bold),
                           isBorderActive: true,
                           buttonColor:
                               _tabBarController.currentIndex.value == index

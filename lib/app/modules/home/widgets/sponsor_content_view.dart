@@ -27,11 +27,10 @@ class SponsorContentView extends StatelessWidget {
           ),
           Positioned(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 /// Action button Route to Web view
                 Align(
-                  alignment: Alignment.center,
+                  alignment: Alignment.bottomCenter,
                   child: Padding(
                     padding: EdgeInsets.only(bottom: 30.w),
                     child: CustomCard(
