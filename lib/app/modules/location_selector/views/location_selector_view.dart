@@ -54,7 +54,9 @@ class _LocationSelectorViewState extends State<LocationSelectorView> {
         CameraPosition(target: target, zoom: 15),
       ),
     );
-    _pickedLocation = target;
+    setState(() {
+      _pickedLocation = target;
+    });
 
   }
  /// Api Call method
@@ -63,7 +65,7 @@ class _LocationSelectorViewState extends State<LocationSelectorView> {
       final args = Get.arguments ?? {};
       print(selectedLocation);
       if(args['from']=='login'){
-        Get.toNamed(Routes.SIGN_UP, arguments: {'latLng': _pickedLocation});
+        Get.toNamed(Routes.SIGN_UP, arguments: {'latLng': _pickedLocation,'locationName': selectedLocation});
       }else{
         Get.offAndToNamed(Routes.HOME);
       }
@@ -83,13 +85,24 @@ class _LocationSelectorViewState extends State<LocationSelectorView> {
                 myLocationButtonEnabled: true,
                 onMapCreated: _onMapCreated,
                 initialCameraPosition: CameraPosition(
-                  target: _center,
+                  target: _pickedLocation??_center,
                   zoom: 11.0,
                 ),
                 onTap: (position) {
                   _moveCamera(position);
                 },
                 myLocationEnabled: true,
+                markers: {
+                  Marker(
+                      markerId: MarkerId('pick-location'),
+                      draggable: true,
+                      position: _pickedLocation??_center,
+                      onDragEnd: (positionValue){
+                        _pickedLocation = positionValue;
+                        setState(() {});
+                      }
+                  ),
+                },
               ),
             ),
           ),
@@ -158,9 +171,9 @@ class _LocationSelectorViewState extends State<LocationSelectorView> {
                       color: AppColors.primaryColor,
                       size: 24.sp,
                     ),
-                    onPressed: () {
+                    onPressed: () async{
                       // Handle search button press logic
-                      _goToSearchLocation(_searchController.text);
+                     await _goToSearchLocation(_searchController.text);
                       setState(() {
                         onChangeTextFieldValue=[];
                       });

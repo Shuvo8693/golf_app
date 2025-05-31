@@ -206,42 +206,42 @@ class _ProfileUpdateViewState extends State<ProfileUpdateView> {
                   ),
 
                   /// City & State
-                  SizedBox(height: 10.h),
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(AppString.cityText, style: AppStyles.h3()),
-                          SizedBox(
-                            width: 180.w,
-                            child: CustomTextField(
-                              contentPaddingVertical: 15.h,
-                              hintText: "city",
-                              controller: _profileUpdateController!.cityCtrl,
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(width: 10.h),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(AppString.stateText, style: AppStyles.h3()),
-                          SizedBox(
-                            width: 180.w,
-                            child: CustomTextField(
-                              contentPaddingVertical: 15.h,
-                              hintText: "state",
-                              controller: _profileUpdateController!.stateCtrl,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  Text(AppString.countryText, style: AppStyles.h3()),
+                  // SizedBox(height: 10.h),
+                  // Row(
+                  //   mainAxisSize: MainAxisSize.min,
+                  //   children: [
+                  //     Column(
+                  //       crossAxisAlignment: CrossAxisAlignment.start,
+                  //       children: [
+                  //         Text(AppString.cityText, style: AppStyles.h3()),
+                  //         SizedBox(
+                  //           width: 180.w,
+                  //           child: CustomTextField(
+                  //             contentPaddingVertical: 15.h,
+                  //             hintText: "city",
+                  //             controller: _profileUpdateController!.cityCtrl,
+                  //           ),
+                  //         ),
+                  //       ],
+                  //     ),
+                  //     SizedBox(width: 10.h),
+                  //     Column(
+                  //       crossAxisAlignment: CrossAxisAlignment.start,
+                  //       children: [
+                  //         Text(AppString.stateText, style: AppStyles.h3()),
+                  //         SizedBox(
+                  //           width: 180.w,
+                  //           child: CustomTextField(
+                  //             contentPaddingVertical: 15.h,
+                  //             hintText: "state",
+                  //             controller: _profileUpdateController!.stateCtrl,
+                  //           ),
+                  //         ),
+                  //       ],
+                  //     ),
+                  //   ],
+                  // ),
+                  Text('Location', style: AppStyles.h3()),
                   CustomTextField(
                     contentPaddingVertical: 15.h,
                     hintText: "country",

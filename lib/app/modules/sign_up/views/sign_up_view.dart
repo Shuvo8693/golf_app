@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
+import 'package:golf_game_play/app/data/google_api_service.dart';
 import 'package:golf_game_play/app/modules/home/views/home_view.dart';
 import 'package:golf_game_play/app/modules/sign_up/controllers/signup_controller.dart';
 import 'package:golf_game_play/app/routes/app_pages.dart';
@@ -14,10 +15,18 @@ import 'package:golf_game_play/common/widgets/custom_button.dart';
 import 'package:golf_game_play/common/widgets/custom_text_field.dart';
 import 'package:golf_game_play/common/widgets/golf_logo.dart';
 
-class SignUpView extends GetView {
+class SignUpView extends StatefulWidget {
   SignUpView({super.key});
 
+  @override
+  State<SignUpView> createState() => _SignUpViewState();
+}
+
+class _SignUpViewState extends State<SignUpView> {
   final SignupController _signupController = Get.put(SignupController());
+  late final TextEditingController _searchController = TextEditingController();
+  List<String> onChangeTextFieldValue = [];
+
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -139,56 +148,56 @@ class SignUpView extends GetView {
                     },
                   ),
 
-                  ///City
-                  SizedBox(height: 20.h),
-                  CustomTextField(
-                    filColor: AppColors.textFieldFillColor,
-                    contentPaddingVertical: 20.h,
-                    hintText: "City",
-                    labelText: 'City',
-                    labelTextStyle: TextStyle(color: AppColors.primaryColor),
-                    controller: _signupController.cityCtrl,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Enter your City';
-                      }
-                      return null;
-                    },
-                  ),
-
-                  ///State
-                  SizedBox(height: 20.h),
-                  CustomTextField(
-                    filColor: AppColors.textFieldFillColor,
-                    contentPaddingVertical: 20.h,
-                    hintText: "State",
-                    labelText: 'State',
-                    labelTextStyle: TextStyle(color: AppColors.primaryColor),
-                    controller: _signupController.stateCtrl,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Enter your State';
-                      }
-                      return null;
-                    },
-                  ),
-
-                  ///Country
-                  SizedBox(height: 20.h),
-                  CustomTextField(
-                    filColor: AppColors.textFieldFillColor,
-                    contentPaddingVertical: 20.h,
-                    hintText: "Country",
-                    labelText: 'Country',
-                    labelTextStyle: TextStyle(color: AppColors.primaryColor),
-                    controller: _signupController.countryCtrl,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Enter your Country';
-                      }
-                      return null;
-                    },
-                  ),
+                  // ///City
+                  // SizedBox(height: 20.h),
+                  // CustomTextField(
+                  //   filColor: AppColors.textFieldFillColor,
+                  //   contentPaddingVertical: 20.h,
+                  //   hintText: "City",
+                  //   labelText: 'City',
+                  //   labelTextStyle: TextStyle(color: AppColors.primaryColor),
+                  //   controller: _signupController.cityCtrl,
+                  //   validator: (value) {
+                  //     if (value == null || value.isEmpty) {
+                  //       return 'Enter your City';
+                  //     }
+                  //     return null;
+                  //   },
+                  // ),
+                  //
+                  // ///State
+                  // SizedBox(height: 20.h),
+                  // CustomTextField(
+                  //   filColor: AppColors.textFieldFillColor,
+                  //   contentPaddingVertical: 20.h,
+                  //   hintText: "State",
+                  //   labelText: 'State',
+                  //   labelTextStyle: TextStyle(color: AppColors.primaryColor),
+                  //   controller: _signupController.stateCtrl,
+                  //   validator: (value) {
+                  //     if (value == null || value.isEmpty) {
+                  //       return 'Enter your State';
+                  //     }
+                  //     return null;
+                  //   },
+                  // ),
+                  //
+                  // ///Country
+                  // SizedBox(height: 20.h),
+                  // CustomTextField(
+                  //   filColor: AppColors.textFieldFillColor,
+                  //   contentPaddingVertical: 20.h,
+                  //   hintText: "Country",
+                  //   labelText: 'Country',
+                  //   labelTextStyle: TextStyle(color: AppColors.primaryColor),
+                  //   controller: _signupController.countryCtrl,
+                  //   validator: (value) {
+                  //     if (value == null || value.isEmpty) {
+                  //       return 'Enter your Country';
+                  //     }
+                  //     return null;
+                  //   },
+                  // ),
 
                   ///password
                   SizedBox(height: 20.h),

@@ -180,6 +180,7 @@ class _SponsorSignupViewState extends State<SponsorSignupView> {
                         ),
                       )
                     : const SizedBox.shrink(),
+
                 /// Link
                 SizedBox(height: 12.h),
                 Text(AppString.linkText, style: AppStyles.h2()),

@@ -18,7 +18,7 @@ class AppString {
   static String messageText='Message';
   static String myTournamentText='My Tournament';
   static String homeCourseText='Home Course';
-  static String clubText='Club';
+  static String clubText='Club Outing';
   static String clubLevelHandicapText='Club Level Handicap';
   static String clubHandicapText='Club Handicap';
   static String handicapText='Handicap';

@@ -48,6 +48,8 @@ class SignupController extends GetxController {
     registerLoading.value=true;
     final location = Get.arguments ?? {};
     latLng = location['latLng'] as LatLng;
+    final locationName = location['locationName'] as String;
+    print('Location Name: $locationName');
     final header = {'Content-Type': 'application/json'};
 
     Map<String, String> body = {
@@ -56,9 +58,9 @@ class SignupController extends GetxController {
       "password": passWordCtrl.text,
       "role": "user",
       "gender": gender ?? 'male',
-      "city": cityCtrl.text,
-      "state": stateCtrl.text,
-      "country": countryCtrl.text,
+      // "city": cityCtrl.text,
+      // "state": stateCtrl.text,
+       "country": locationName,
       "handicap": handicapCtrl.text,
       "latitude": (latLng?.latitude).toString(),
       "longitude": (latLng?.longitude).toString()

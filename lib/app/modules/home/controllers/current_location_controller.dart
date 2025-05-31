@@ -32,9 +32,9 @@ class CurrentLocationController extends GetxController{
     print('Current longitude ${position.longitude}');
     latitude?.value = position.latitude;
     longitude?.value = position.longitude;
-  Placemark place = await getAddressFromLatLng(position.latitude,position.longitude);
-  placeMark.value = place;
-  print('PlaceMark ${placeMark.value}');
+   Placemark place = await getAddressFromLatLng(position.latitude,position.longitude);
+   placeMark.value = place;
+   print('PlaceMark ${placeMark.value}');
 
 
   }
