@@ -4,9 +4,9 @@ class ApiConstants{
   static String googleBaseUrl="https://maps.googleapis.com/maps/api/place/autocomplete/json";
   static String estimatedTimeUrl="https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&";
    /// App Url
-    static String baseUrl="https://ariful9090.sobhoy.com/v1";
-    static String  imageBaseUrl="https://ariful9090.sobhoy.com";
-    static String socketUrl="https://ariful8443.sobhoy.com";
+    static String baseUrl="http://72.167.225.61:9090/v1";
+    static String  imageBaseUrl="http://72.167.225.61:9090";
+    static String socketUrl="http://72.167.225.61:8443";
 
   //static String googleApiKey="AIzaSyBFi80uuJIWkkLCpodFa8oXmD8XD_h8LMc"; //Company
   static String googleApiKey="AIzaSyBI8fHu17r7bJcDz4eV8MdiVOIbYVG6fTI"; //client

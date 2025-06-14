@@ -1,8 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:get/get_common/get_reset.dart';
+import 'package:golf_game_play/app/data/api_constants.dart';
 import 'package:golf_game_play/app/data/google_api_service.dart';
 import 'package:golf_game_play/app/routes/app_pages.dart';
 import 'package:golf_game_play/common/app_color/app_colors.dart';
@@ -11,6 +14,7 @@ import 'package:golf_game_play/common/widgets/custom_button.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:http/http.dart' as http;
 
 class LocationSelectorView extends StatefulWidget {
   const LocationSelectorView({super.key});
@@ -37,14 +41,20 @@ class _LocationSelectorViewState extends State<LocationSelectorView> {
   }
 
   Future<void> _goToSearchLocation(String query) async {
+    final String url = 'https://maps.googleapis.com/maps/api/geocode/json?address=${Uri.encodeComponent(query)}&key=${ApiConstants.googleApiKey}';
+
     try {
-      List<Location> locations = await locationFromAddress(query);
-      if (locations.isNotEmpty) {
-        Location? location = locations.first;
-        _moveCamera(LatLng(location.latitude, location.longitude));
+      final response = await http.get(Uri.parse(url));
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        if (data['status'] == 'OK' && data['results'].isNotEmpty) {
+          final location = data['results'][0]['geometry']['location'];
+          print('Lat: ${location['lat']}, Lng: ${location['lng']}');
+          _moveCamera(LatLng(location['lat'],location['lng']));
+        }
       }
     } catch (e) {
-      print('Error occurred while searching: $e');
+      print('Method 2 failed: $e');
     }
   }
 
@@ -212,14 +222,14 @@ class _LocationSelectorViewState extends State<LocationSelectorView> {
                         return Padding(
                           padding: EdgeInsets.all(8.0.sp),
                           child: InkWell(
-                            onTap: () {
+                            onTap: () async{
                               String selectedLocation = onChangeTextFieldValue[index].toString();
                               print(selectedLocation);
                               if (selectedLocation.isNotEmpty == true) {
                                 _searchController.text = selectedLocation;
                                 print(_searchController.text);
                               }
-                              _goToSearchLocation(_searchController.text);
+                             await _goToSearchLocation(_searchController.text);
                               setState(() {
                                 onChangeTextFieldValue=[];
                               });
