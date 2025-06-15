@@ -80,11 +80,11 @@ class _AddSmallOutingViewState extends State<AddSmallOutingView> {
                 Text(AppString.tournamentTypeText,
                     style: AppStyles.h4(family: "Schuyler")),
                 SizedBox(height: 10.h),
+                /// Dropdown button field======================<<<<<<<<
                 DropdownButtonFormField<String>(
-                  /// Dropdown button field======================<<<<<<<<
                   value: _addSmallOutingController.outingType,
                   padding: EdgeInsets.zero,
-                  hint: Text("Select tournament type"),
+                  hint: Text("Select tournament type",),
                   decoration: InputDecoration(),
                   items: _addSmallOutingController.outingTypeList
                       .map(
@@ -92,8 +92,7 @@ class _AddSmallOutingViewState extends State<AddSmallOutingView> {
                           value: gender,
                           child: Text(gender),
                         ),
-                      )
-                      .toList(),
+                      ).toList(),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Select tournament type';
@@ -265,14 +264,11 @@ class _AddSmallOutingViewState extends State<AddSmallOutingView> {
                   padding: EdgeInsets.zero,
                   hint: Text("Select Number of player"),
                   decoration: InputDecoration(),
-                  items: _addSmallOutingController.numberOfPlayerList
-                      .map(
-                        (gender) => DropdownMenuItem<String>(
+                  items: _addSmallOutingController.numberOfPlayerList.map((gender) => DropdownMenuItem<String>(
                           value: gender,
                           child: Text(gender),
                         ),
-                      )
-                      .toList(),
+                      ).toList(),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Select player number';
@@ -296,10 +292,8 @@ class _AddSmallOutingViewState extends State<AddSmallOutingView> {
                     loading: _addSmallOutingController.isLoading.value,
                     text: AppString.submitText,
                     onTap: () async{
-                      if (formKey.currentState!.validate() &&
-                          _addSmallOutingController.numberOfPlayer!.isNotEmpty &&
-                          _addSmallOutingController.selectedDate.value.isNotEmpty &&
-                          _addSmallOutingController.latLng !=null
+                      print(_addSmallOutingController.latLng);
+                      if (formKey.currentState!.validate() && _addSmallOutingController.numberOfPlayer!.isNotEmpty && _addSmallOutingController.selectedDate.value.isNotEmpty && _addSmallOutingController.latLng !=null
                       ) {
                        await _addSmallOutingController.createSmallTournament(callBack: (message){
                           if(message !=null){
@@ -364,8 +358,7 @@ class _AddSmallOutingViewState extends State<AddSmallOutingView> {
                 size: 24.sp,
               ),
               onPressed: () {
-                _addSmallOutingController.goToSearchLocation(
-                    _addSmallOutingController.searchCourseNameCtrl.text);
+                _addSmallOutingController.goToSearchLocation(_addSmallOutingController.searchCourseNameCtrl.text);
                 setState(() {
                   onChangeTextFieldValue.clear();
                 });
@@ -404,14 +397,14 @@ class _AddSmallOutingViewState extends State<AddSmallOutingView> {
                         padding: EdgeInsets.all(8.0.sp),
                         child: InkWell(
                           onTap: () {
-                            String selectedLocation =
-                                onChangeTextFieldValue[index].toString();
+                            String selectedLocation = onChangeTextFieldValue[index].toString();
                             print(selectedLocation);
                             if (selectedLocation.isNotEmpty == true) {
-                              _addSmallOutingController
-                                  .searchCourseNameCtrl.text = selectedLocation;
-                              print(_addSmallOutingController
-                                  .searchCourseNameCtrl.text);
+                              _addSmallOutingController.searchCourseNameCtrl.text = selectedLocation;
+                              _addSmallOutingController.goToSearchLocation(_addSmallOutingController.searchCourseNameCtrl.text);
+                              setState(() {
+                                onChangeTextFieldValue.clear();
+                              });
                             }
                           },
                           child: Text(

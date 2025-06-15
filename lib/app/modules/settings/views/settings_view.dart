@@ -16,19 +16,6 @@ class SettingsView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        leading: InkWell(
-          onTap: () {
-            Get.back();
-          },
-          child: CircleAvatar(
-              radius: 12,
-              backgroundColor: Colors.transparent,
-              child: Icon(
-                Icons.arrow_back_ios,
-                size: 18,
-                color: AppColors.textColor,
-              )),
-        ),
         title: Text(
           AppString.settingText,
           style: AppStyles.h2(

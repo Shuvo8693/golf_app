@@ -25,7 +25,7 @@ static  Future<List<String>> fetchSuggestions(String query)async{
     }
   }
 
- static fetchAddressToCoordinate(String address, Function(LatLng location) locationCallBack)async{
+ static Future<LatLng?> fetchAddressToCoordinate(String address, Function(LatLng location) locationCallBack)async{
     final String url = 'https://maps.googleapis.com/maps/api/geocode/json?address=${Uri.encodeComponent(address)}&key=${ApiConstants.googleApiKey}';
 
     try {
@@ -36,12 +36,14 @@ static  Future<List<String>> fetchSuggestions(String query)async{
           final location = data['results'][0]['geometry']['location'];
           print('Lat: ${location['lat']}, Lng: ${location['lng']}');
           locationCallBack(LatLng(location['lat'],location['lng']));
+          return LatLng(location['lat'],location['lng']);
         //  _moveCamera(LatLng(location['lat'],location['lng']));
         }
       }
     } catch (e) {
       print('Coordinate failed: $e');
     }
+    return null;
   }
 
   static Future<List<Placemark>> placeMarkFromCoordinate(LatLng location)async{

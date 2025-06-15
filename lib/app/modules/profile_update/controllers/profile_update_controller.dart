@@ -137,8 +137,9 @@ class ProfileUpdateController extends GetxController {
       var decodedBody = jsonDecode(responseBody.body);
 
       if (response.statusCode == 200) {
-       return callBack(decodedBody['message'].toString());
-       // Get.snackbar('Success', decodedBody['message'].toString());
+       //return callBack(decodedBody['message'].toString());
+        String message = decodedBody['message'].toString();
+        Get.snackbar('', message);
       } else {
         print('Error: ${response.statusCode}');
         Get.snackbar('Failed', decodedBody['message']);

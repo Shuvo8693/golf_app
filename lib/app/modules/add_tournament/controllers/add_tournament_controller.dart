@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:golf_game_play/app/data/api_constants.dart';
+import 'package:golf_game_play/app/data/google_api_service.dart';
 import 'package:golf_game_play/common/prefs_helper/prefs_helpers.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
@@ -48,13 +49,11 @@ class AddTournamentController extends GetxController {
   LatLng? latLng;
   RxBool isLoading = false.obs;
 
-  Future<void> goToSearchLocation(String query) async {
+  Future<void> goToSearchLocation(String address) async {
     try {
-      List<Location> locations = await locationFromAddress(query);
-      if (locations.isNotEmpty) {
-        Location location = locations.first;
-        var latLngLocation = LatLng(location.latitude, location.longitude);
-        latLng = latLngLocation;
+      LatLng? locations = await GoogleApiService.fetchAddressToCoordinate(address, (location){});
+      if (locations !=null) {
+        latLng = locations;
         print(latLng);
       }
     } catch (e) {

@@ -235,7 +235,7 @@ class _AppDrawerState extends State<AppDrawer> {
             CustomOutlineButton(
                 width: 55,
                 onTap: (){
-                  Get.back();
+                  Navigator.pop(context);
                 }, text: 'No'),
 
             CustomButton(
