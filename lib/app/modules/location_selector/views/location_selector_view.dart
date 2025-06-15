@@ -40,22 +40,10 @@ class _LocationSelectorViewState extends State<LocationSelectorView> {
     mapController = controller;
   }
 
-  Future<void> _goToSearchLocation(String query) async {
-    final String url = 'https://maps.googleapis.com/maps/api/geocode/json?address=${Uri.encodeComponent(query)}&key=${ApiConstants.googleApiKey}';
-
-    try {
-      final response = await http.get(Uri.parse(url));
-      if (response.statusCode == 200) {
-        final data = json.decode(response.body);
-        if (data['status'] == 'OK' && data['results'].isNotEmpty) {
-          final location = data['results'][0]['geometry']['location'];
-          print('Lat: ${location['lat']}, Lng: ${location['lng']}');
-          _moveCamera(LatLng(location['lat'],location['lng']));
-        }
-      }
-    } catch (e) {
-      print('Method 2 failed: $e');
-    }
+  Future<void> _goToSearchLocation(String address) async {
+   await GoogleApiService.fetchAddressToCoordinate(address, (location){
+     _moveCamera(location);
+   });
   }
 
   void _moveCamera(LatLng target) {

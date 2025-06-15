@@ -87,6 +87,7 @@ class _HomeViewState extends State<HomeView> {
             children: [
               ///City_State_Country
               Obx((){
+                final isLoading = currentLocationController.isLoading.value;
                final placeMark = currentLocationController.placeMark.value;
                 return  Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -106,7 +107,7 @@ class _HomeViewState extends State<HomeView> {
                         SizedBox(
                           height: 6.h,
                         ),
-                        Text('${placeMark?.locality} ', style: AppStyles.h6()),
+                        Text(isLoading? 'Loading..' : '${placeMark?.locality} ', style: AppStyles.h6()),
                       ],
                     ),
                     CustomCard(
@@ -125,8 +126,7 @@ class _HomeViewState extends State<HomeView> {
                           style: AppStyles.h4(),
                         ),
                         SizedBox(height: 6.h),
-                        Text(
-                          '${placeMark?.administrativeArea} ',
+                        Text( isLoading? 'Loading..' : '${placeMark?.administrativeArea} ',
                           style: AppStyles.h6(),
                         ),
                       ],
@@ -147,8 +147,7 @@ class _HomeViewState extends State<HomeView> {
                           style: AppStyles.h4(),
                         ),
                         SizedBox(height: 6.h),
-                        Text(
-                          '${placeMark?.country}',
+                        Text( isLoading? 'Loading..' : '${placeMark?.country}',
                           style: AppStyles.h6(),
                         ),
                       ],
