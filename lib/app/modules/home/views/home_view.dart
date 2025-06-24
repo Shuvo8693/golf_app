@@ -75,7 +75,7 @@ class _HomeViewState extends State<HomeView> {
       appBar: AppBar(
         actions: [
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding:  EdgeInsets.all(8.0.sp),
             child: GolfLogo(imageSize: 40),
           )
         ],
@@ -94,18 +94,19 @@ class _HomeViewState extends State<HomeView> {
                   children: [
                     CustomCard(
                       //cardHeight: 110,
+                      padding: 5.sp,
                       cardWidth: 120,
                       elevation: 2,
                       children: [
                         Image.asset(
                           AppImage.cityImg,
-                          height: 20,
-                          width: 40,
+                          height: 20.h,
+                          width: 20.w,
                         ),
                         ///City
-                        Text('City', style: AppStyles.h4()),
+                        Text('City', style: AppStyles.h5()),
                         SizedBox(
-                          height: 6.h,
+                          height: 4.h,
                         ),
                         Text(isLoading? 'Loading..' : '${placeMark?.locality} ', style: AppStyles.h6()),
                       ],
@@ -113,17 +114,16 @@ class _HomeViewState extends State<HomeView> {
                     CustomCard(
                       //cardHeight: 110,
                       cardWidth: 120,
-                      elevation: 2,
+                      padding: 5,
+                      elevation: 2.sp,
                       children: [
                         Image.asset(
                           AppImage.stateImg,
-                          height: 20,
-                          width: 40,
+                          height: 20.h,
+                          width: 20.w,
                         ),
                         ///State
-                        Text(
-                          'State',
-                          style: AppStyles.h4(),
+                        Text('State', style: AppStyles.h5(),
                         ),
                         SizedBox(height: 6.h),
                         Text( isLoading? 'Loading..' : '${placeMark?.administrativeArea} ',
@@ -132,19 +132,19 @@ class _HomeViewState extends State<HomeView> {
                       ],
                     ),
                     CustomCard(
-
                       cardWidth: 120,
                       elevation: 2,
+                      padding: 5.sp,
                       children: [
                         Image.asset(
                           AppImage.countryImg,
-                          height: 20,
-                          width: 40,
+                          height: 15.h,
+                          width: 15.w,
                         ),
                         /// Country
                         Text(
                           'Country',
-                          style: AppStyles.h4(),
+                          style: AppStyles.h5(),
                         ),
                         SizedBox(height: 6.h),
                         Text( isLoading? 'Loading..' : '${placeMark?.country}',
@@ -157,7 +157,7 @@ class _HomeViewState extends State<HomeView> {
               }
 
               ),
-              SizedBox(height: 10.h),
+              SizedBox(height: 5.h),
 
               // ///Set location section
               // Row(
@@ -212,19 +212,19 @@ class _HomeViewState extends State<HomeView> {
                           Get.offNamed(Routes.SPONSOR_SIGNUP);
                         },
                         child: CustomCard(
-                          cardHeight: 50,
-                          cardWidth: 90,
-                          padding: 8,
+                          cardHeight: 40,
+                          cardWidth: 65,
+                          padding: 4,
                           elevation: 2,
                           children: [
                             Text(
                               'Add',
-                              style: AppStyles.h5(color: AppColors.appGreyColor),
+                              style: AppStyles.h6(color: AppColors.appGreyColor),
                             )
                           ],
                         ),
                       ),
-                      Text('Sponsored Tournaments', style: AppStyles.h2(),
+                      Text('Sponsored Tournaments', style: AppStyles.h4(),
                       )
                     ],
                   );
@@ -236,7 +236,7 @@ class _HomeViewState extends State<HomeView> {
               ),
 
               /// Sponsor content List View
-              SizedBox(height: 10.h),
+              SizedBox(height: 5.h),
               Obx((){
                List<SponsorContentAttributes> sponsorContentAttributes = _sponsorContentController.sponsorContentModel.value.data?.attributes??[];
                if(_sponsorContentController.isLoading.value){
@@ -253,7 +253,7 @@ class _HomeViewState extends State<HomeView> {
                     return SponsorContentView(sponsorContentAttributes: sponsorContentIndex,);
                   },
                   options: CarouselOptions(
-                    height: 180.h,
+                    height: 140.h,
                     aspectRatio: 16 / 9,
                     viewportFraction: 1,
                     initialPage: 0,
@@ -279,11 +279,11 @@ class _HomeViewState extends State<HomeView> {
                   children: [
                     for (int index = 0; index < _tabBarController.tapBarList.length; index++)
                       AppButton(
+                        containerVerticalPadding: 4.h,
                           text: _tabBarController.tapBarList[index],
-                          textStyle: TextStyle(fontSize: 14,fontWeight: FontWeight.bold),
+                          textStyle: TextStyle(fontSize: 12.sp,fontWeight: FontWeight.bold),
                           isBorderActive: true,
-                          buttonColor:
-                              _tabBarController.currentIndex.value == index
+                          buttonColor: _tabBarController.currentIndex.value == index
                                   ? AppColors.primaryColor.withOpacity(0.5)
                                   : AppColors.primaryColor.withOpacity(0.3),
                           borderColors: AppColors.primaryColor,
@@ -302,7 +302,7 @@ class _HomeViewState extends State<HomeView> {
                   ],
                 );
               }),
-              SizedBox(height: 10.h),
+              SizedBox(height: 8.h),
               Obx(() {
               late  List<ClubTournamentData> clubTournamentDataList ;
               late  List<SmallTournamentData> smallTournamentDataList ;

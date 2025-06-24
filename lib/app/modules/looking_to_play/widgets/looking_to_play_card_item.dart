@@ -15,6 +15,7 @@ import 'package:golf_game_play/common/widgets/app_button.dart';
 import 'package:golf_game_play/common/widgets/bottomSheet_top_line.dart';
 import 'package:golf_game_play/common/widgets/custom_card.dart';
 import 'package:golf_game_play/common/widgets/spacing.dart';
+import 'package:intl/intl.dart';
 
 class LookingToPlayCardItem extends StatelessWidget {
   final LookingToPlayAttributes lookingToPlayAttributes;
@@ -27,6 +28,8 @@ class LookingToPlayCardItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+   DateTime dateTimeFrom= DateFormat("dd/MM/yyyy").parse(lookingToPlayAttributes.fromDate!);
+   DateTime dateTimeTo= DateFormat("dd/MM/yyyy").parse(lookingToPlayAttributes.toDate!);
     return CustomCard(
       padding: 7.sp,
       cardWidth: double.infinity,
@@ -69,7 +72,7 @@ class LookingToPlayCardItem extends StatelessWidget {
             Text('${AppString.golfCourseText} : ${lookingToPlayAttributes.golfCourse} ', overflow: TextOverflow.ellipsis, style: AppStyles.h4()),
             SizedBox(height: 10.h),
             SizedBox(height: 7.h),
-            Text('${AppString.dateRangeText} : ${lookingToPlayAttributes.fromDate} to ${lookingToPlayAttributes.toDate}', overflow: TextOverflow.ellipsis,
+            Text('${AppString.dateRangeText} : ${DateFormat("MMM dd, yyyy").format(dateTimeFrom)} to ${DateFormat("MMM dd, yyyy").format(dateTimeTo)}', overflow: TextOverflow.ellipsis,
                 style: AppStyles.h4()),
             SizedBox(height: 10.h),
             Row(

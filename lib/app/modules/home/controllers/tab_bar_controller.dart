@@ -5,20 +5,9 @@ class TabBarController extends GetxController {
   final RxList<String> tapBarList=<String>[
     'Club Outings     ',
     'Pick up Round',
-    'Looking to play',
+    '  Golfers   ',
   ].obs;
 
   RxInt currentIndex=0.obs;
 
-  @override
-  void onInit() {
-    super.onInit();
-  }
-
-
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
 }

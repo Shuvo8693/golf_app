@@ -99,9 +99,9 @@ class AppString {
   static String searchLocationText = "Search Location";
   static String golfGameWorldText="Golf Game World";
   static String homeText="Home";
-  static String addTournamentText="Add Tournament";
-  static String addSmallOutingText="Add Small Outing";
-  static String requestedToPlayMyTournamentText="Requested To Play My Tournament";
+  static String addTournamentText="Add Club Outings";
+  static String addSmallOutingText="Add Pickup Round";
+  static String requestedToPlayMyTournamentText="Requested To Play My Club Outings";
   static String viewInvitationText="View Invitation";
   static String paymentText= "Payment";
   static String holeText= "Hole";
@@ -116,7 +116,7 @@ class AppString {
   static String createWinnerDetailsText="Create Winner Details";
   static String editWinnerSkinText="Edit Winner Skin";
   static String completedTournamentText="Completed Tournament";
-  static String requestedToPlayMySmallOutingText="Requested To Play My Small outing";
+  static String requestedToPlayMySmallOutingText="Requested To Play My Pickup Round";
   static String areYouSureYouDeleteText='Are you sure you want to delete this item?';
 
 

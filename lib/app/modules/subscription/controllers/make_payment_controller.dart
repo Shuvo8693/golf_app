@@ -30,6 +30,7 @@ class PaymentController extends GetxController{
           // returnURL: 'flutterstripe://redirect',
         ),
       );
+      print(paymentIntent);
       // Display payment sheet
      await displayPaymentSheet(subscriptionId,subscriberId, subscriptionType,planType);
     }on SocketException catch (_) {
@@ -76,7 +77,7 @@ class PaymentController extends GetxController{
       print('$e');
     }
   }
-
+ /// Create payment Intend
   Future<Map<String, dynamic>?> createPaymentIntent(String amount, String currency) async {
     try {
       // Validate amount input
@@ -126,7 +127,7 @@ class PaymentController extends GetxController{
       "stripeSubscriptionId":subscriptionId,
       "stripeCustomerId":subscriberId,
       "planPrice":amount,
-      "paymentMethod":"paypal",
+      "paymentMethod":"Stripe",
       "planType":planType
     };
     Map<String,String> header={

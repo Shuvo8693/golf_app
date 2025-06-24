@@ -78,6 +78,7 @@ class _MyTournamentViewState extends State<MyTournamentView> {
   }
 
   CustomCard buildMyTournament(BuildContext context,MyTournamentAttributes myTournamentsAttributes) {
+    DateTime dateTime= DateFormat("dd/MM/yyyy").parse(myTournamentsAttributes.date!);
     return CustomCard(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -85,7 +86,7 @@ class _MyTournamentViewState extends State<MyTournamentView> {
         SizedBox(height: 6.h),
         Text('Tournament : ${myTournamentsAttributes.tournamentName?? myTournamentsAttributes.clubName}', style: AppStyles.h5()),
         SizedBox(height: 6.h),
-        Text('Date & time: ${myTournamentsAttributes.date}, ${myTournamentsAttributes.time}', style: AppStyles.h5()),
+        Text('Date : ${DateFormat("MMM dd, yyyy").format(dateTime)}', style: AppStyles.h5()),
         // SizedBox(height: 6.h),
         // Text('Tee Time : 00:00:00', style: AppStyles.h5()),
         SizedBox(height: 6.h),
