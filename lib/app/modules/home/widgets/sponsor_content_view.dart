@@ -52,7 +52,7 @@ class SponsorContentView extends StatelessWidget {
                           },
                           child: Text(
                             'click here',
-                            style: AppStyles.h5(
+                            style: AppStyles.h6(
                               color: Colors.blue,
                               fontWeight: FontWeight.w700,
                             ),

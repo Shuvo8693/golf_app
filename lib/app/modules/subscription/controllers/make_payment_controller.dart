@@ -127,7 +127,7 @@ class PaymentController extends GetxController{
       "stripeSubscriptionId":subscriptionId,
       "stripeCustomerId":subscriberId,
       "planPrice":amount,
-      "paymentMethod":"Stripe",
+      "paymentMethod":"credit_card",
       "planType":planType
     };
     Map<String,String> header={

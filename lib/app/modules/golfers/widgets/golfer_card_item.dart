@@ -47,8 +47,8 @@ class GolferCardItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text('${AppString.nameText} : ${golferAttributes.name} ',overflow: TextOverflow.ellipsis,style: AppStyles.h4()),
-                  verticalSpacing(10.h),
-                  Text('${AppString.cityText} : ${golferAttributes.city} ',overflow: TextOverflow.ellipsis,style: AppStyles.h4()),
+                  // verticalSpacing(10.h),
+                  // Text('${AppString.cityText} : ${golferAttributes.city} ',overflow: TextOverflow.ellipsis,style: AppStyles.h4()),
                   horizontalSpacing(10.w),
                   Text(golferAttributes.clubHandicap!.isEmpty
                       ? '${AppString.handicapText} : ${golferAttributes.handicap}'

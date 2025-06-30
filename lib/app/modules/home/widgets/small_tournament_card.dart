@@ -29,19 +29,19 @@ class SmallTournamentCard extends StatelessWidget {
       cardWidth: 350,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Tournament : ${smallTournamentData?.tournamentName}', style: AppStyles.h5()),
+        Text('Tournament : ${smallTournamentData?.tournamentName}', style: AppStyles.h6()),
         SizedBox(height: 6.h),
-        Text('Type : ${smallTournamentData?.tournamentType}', style: AppStyles.h5()),
+        Text('Type : ${smallTournamentData?.tournamentType}', style: AppStyles.h6()),
         SizedBox(height: 6.h),
-        Text('Location : ${smallTournamentData?.courseName} ', style: AppStyles.h5()),
+        Text('Location : ${smallTournamentData?.courseName} ', style: AppStyles.h6()),
         SizedBox(height: 6.h),
         Text('Players :  ${smallTournamentData?.tournamentPlayersList?.length ?? 0}/${smallTournamentData?.numberOfPlayers}',
-          style: AppStyles.h5(),
+          style: AppStyles.h6(),
         ),
         SizedBox(height: 6.h),
-        Text('Start Date : ${smallTournamentData?.date}', style: AppStyles.h5()),
+        Text('Start Date : ${smallTournamentData?.date}', style: AppStyles.h6()),
         SizedBox(height: 6.h),
-        Text('Start Time : ${smallTournamentData?.time}', style: AppStyles.h5()),
+        Text('Start Time : ${smallTournamentData?.time}', style: AppStyles.h6()),
         SizedBox(height: 8),
         Row(
           children: [
@@ -50,11 +50,12 @@ class SmallTournamentCard extends StatelessWidget {
               fit: FlexFit.loose,
               child: AppButton(
                 width: 100.w,
+                containerVerticalPadding: 5.h,
                 onTab: () {
                   _showGaggleDetailsBottomSheet(context);
                 },
                 text: 'Rules',
-                height: 50.h,
+                height: 40.h,
               ),
             ),
             // horizontalSpacing(8.w),
@@ -82,7 +83,7 @@ class SmallTournamentCard extends StatelessWidget {
                       }
                     },
                     text:'Request to play',
-                    height: 50.h,
+                    height: 35.h,
                   );
                 }),
               ),

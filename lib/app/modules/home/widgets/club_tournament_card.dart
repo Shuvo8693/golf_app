@@ -26,22 +26,22 @@ class ClubTournamentCard extends StatelessWidget {
       cardWidth: 350,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Club : ${clubTournamentData?.clubName}', style: AppStyles.h5()),
+        Text('Club : ${clubTournamentData?.clubName}', style: AppStyles.h6()),
         SizedBox(height: 6.h),
-        Text('Type : ${clubTournamentData?.tournamentType}', style: AppStyles.h5()),
+        Text('Type : ${clubTournamentData?.tournamentType}', style: AppStyles.h6()),
         SizedBox(height: 6.h),
-        Text('Course name : ${clubTournamentData?.courseName} ', style: AppStyles.h5()),
+        Text('Course name : ${clubTournamentData?.courseName} ', style: AppStyles.h6()),
         SizedBox(height: 6.h),
-        Text('City : ${clubTournamentData?.city}', style: AppStyles.h5()),
+        Text('City : ${clubTournamentData?.city}', style: AppStyles.h6()),
         SizedBox(height: 6.h),
         Text(
           'Players : ${clubTournamentData?.tournamentPlayersList?.length ?? 0}/${clubTournamentData?.numberOfPlayers}',
-          style: AppStyles.h5(),
+          style: AppStyles.h6(),
         ),
         SizedBox(height: 6.h),
-        Text('Start Date : ${clubTournamentData?.date}', style: AppStyles.h5()),
+        Text('Start Date : ${clubTournamentData?.date}', style: AppStyles.h6()),
         SizedBox(height: 6.h),
-        Text('Start Time : ${clubTournamentData?.time}', style: AppStyles.h5()),
+        Text('Start Time : ${clubTournamentData?.time}', style: AppStyles.h6()),
         SizedBox(height: 8),
         Row(
           children: [
@@ -49,24 +49,15 @@ class ClubTournamentCard extends StatelessWidget {
               flex: 2,
               fit: FlexFit.loose,
               child: AppButton(
+                containerVerticalPadding: 5.h,
                 width: 100.w,
                 onTab: () {
                   _showGaggleDetailsBottomSheet(context);
                 },
                 text: 'Rules',
-                height: 50.h,
+                height: 40.h,
               ),
             ),
-            // horizontalSpacing(8.w),
-            // Flexible(
-            //   flex: 2,
-            //   fit: FlexFit.loose,
-            //   child: AppButton(
-            //       textStyle: AppStyles.h5(),
-            //       onTab: () {},
-            //       text: 'Player ${clubTournamentData?.tournamentPlayersList?.length ?? 0}/${clubTournamentData?.numberOfPlayers}',
-            //       height: 50.h),
-            // ),
             horizontalSpacing(8.w),
             if (clubTournamentData?.distanceToUser != null && clubTournamentData!.distanceToUser! < 61.0 || myProfile.role=='supperUser' || myProfile.role=='basicUser')
               Flexible(
@@ -81,7 +72,7 @@ class ClubTournamentCard extends StatelessWidget {
                       }
                     },
                     text: 'Request to play',
-                    height: 45.h,
+                    height: 35.h,
                   );
                 }),
               ),

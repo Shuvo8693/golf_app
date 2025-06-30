@@ -105,7 +105,7 @@ class Top50View extends StatelessWidget {
                               Stack(
                                 children: [
                                   Positioned(
-                                    top: 30.h,
+                                    top: 5.h,
                                     left: 150.w,
                                     child: ShaderMask(
                                       shaderCallback: (Rect bounds) {
@@ -126,7 +126,7 @@ class Top50View extends StatelessWidget {
                                         ).createShader(bounds);
                                       },
                                       child: Text(
-                                        '1',
+                                        '',
                                         style: AppStyles.h1(
                                             fontSize: 80.sp,
                                             color: Colors.white),
