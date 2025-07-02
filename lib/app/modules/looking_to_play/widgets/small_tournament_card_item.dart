@@ -37,14 +37,14 @@ class SmallTournamentSelectionCardItem extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Small Outing name :- ', style: AppStyles.h4(family: 'Schuyler')),
+                    Text('Pickup round name :- ', style: AppStyles.h4(family: 'Schuyler')),
                      Text('Players: ${smallTournament.tournamentPlayersList?.length}/${smallTournament.numberOfPlayers}',style: AppStyles.h6(color: Colors.blueAccent)),
                   ],
                 ),
                 Text('${smallTournament.tournamentName}',
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: AppStyles.h6()),
+                     maxLines: 2,
+                     overflow: TextOverflow.ellipsis,
+                     style: AppStyles.h6()),
                 verticalSpacing(8.h),
                 Text('${AppString.courseNameText} :-',
                     style: AppStyles.h4(family: 'Schuyler')),

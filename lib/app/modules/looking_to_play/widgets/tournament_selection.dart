@@ -45,14 +45,14 @@ class _TournamentSelectionState extends State<TournamentSelection> {
         ),
         /// Big Tournament
         verticalSpacing(10.h),
-        Text('--Club tournament--', style: AppStyles.h5()),
+        Text('--Club Outings--', style: AppStyles.h5()),
         Obx(() {
          List<BigTournament>  bigTournament = _tournamentSelectionController.tournamentSelectionModel.value.data?.attributes?.bigTournament??[];
          if(_tournamentSelectionController.isLoading.value){
            return Center(child: CupertinoActivityIndicator());
          }
          if(bigTournament.isEmpty){
-           return Text('Your club tournament not created yet',style: AppStyles.h4(),);
+           return Text('Your club Outings not created yet',style: AppStyles.h4(),);
          }
           return Expanded(
             flex: 1,
@@ -69,7 +69,7 @@ class _TournamentSelectionState extends State<TournamentSelection> {
         /// Small Tournament
         Divider(height: 2, color: Colors.black54),
         verticalSpacing(10.h),
-        Text('--Small Outing--', style: AppStyles.h5()),
+        Text('-- Pickup round --', style: AppStyles.h5()),
         Obx(() {
           List<SmallTournament>  bigTournament = _tournamentSelectionController.tournamentSelectionModel.value.data?.attributes?.smallTournament??[];
           if(_tournamentSelectionController.isLoading.value){
@@ -84,7 +84,7 @@ class _TournamentSelectionState extends State<TournamentSelection> {
               itemCount: bigTournament.length,
               shrinkWrap: true,
               itemBuilder: (BuildContext context, int index) {
-                final bigTournamentIndex=bigTournament[index];
+                final bigTournamentIndex = bigTournament[index];
                 return SmallTournamentSelectionCardItem(smallTournament: bigTournamentIndex, playerId: widget.playerId,);
               },
             ),

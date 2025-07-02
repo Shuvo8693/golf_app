@@ -144,9 +144,9 @@ class Top50View extends StatelessWidget {
                                         Text(
                                             '${AppString.handicapText} : ${top50GolferAttributesIndex.handicap}',
                                             style: AppStyles.h4()),
-                                        SizedBox(height: 8.h),
-                                        Text('${AppString.cityText} : ${top50GolferAttributesIndex.city}',
-                                            style: AppStyles.h4()),
+                                        // SizedBox(height: 8.h),
+                                        // Text('${AppString.cityText} : ${top50GolferAttributesIndex.city}',
+                                        //     style: AppStyles.h4()),
                                         // SizedBox(height: 8.h),
                                         // Text('${AppString.pointText} : 9.2',
                                         //     style: AppStyles.h4()),
