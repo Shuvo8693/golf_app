@@ -73,21 +73,21 @@ final GlobalKey<FormState> _formKey= GlobalKey<FormState>();
                   },
                 ),
 
-                /// User Name
-                SizedBox(height: 10.h),
-                Text(AppString.userNameText, style: AppStyles.h4(family: "Schuyler")),
-                SizedBox(height: 10.h),
-                CustomTextField(
-                    contentPaddingVertical: 12.h,
-                    hintText: "Type your Name",
-                    controller: _createLookingToPlayController.userNameCtrl,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Type your Name';
-                    }
-                    return null;
-                  },
-                ),
+                // /// User Name
+                // SizedBox(height: 10.h),
+                // Text(AppString.userNameText, style: AppStyles.h4(family: "Schuyler")),
+                // SizedBox(height: 10.h),
+                // CustomTextField(
+                //     contentPaddingVertical: 12.h,
+                //     hintText: "Type your Name",
+                //     controller: _createLookingToPlayController.userNameCtrl,
+                //   validator: (value) {
+                //     if (value == null || value.isEmpty) {
+                //       return 'Type your Name';
+                //     }
+                //     return null;
+                //   },
+                // ),
 
                 /// Visiting From
                 SizedBox(height: 10.h),
@@ -105,25 +105,10 @@ final GlobalKey<FormState> _formKey= GlobalKey<FormState>();
                   },
                 ),
 
-                /// City to play
-                SizedBox(height: 10.h),
-                Text('City to play', style: AppStyles.h4(family: "Schuyler")),
-                SizedBox(height: 10.h),
-                CustomTextField(
-                    contentPaddingVertical: 12.h,
-                    hintText: " Type City to play",
-                    controller: _createLookingToPlayController.cityToPlayCtrl,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Type City to play';
-                    }
-                    return null;
-                  },
-                ),
 
                 /// Golf Course
                 SizedBox(height: 10.h),
-                Text(AppString.golfCourseText, style: AppStyles.h4(family: "Schuyler")),
+                Text('${AppString.golfCourseText}  (Leave blank for any course)', style: AppStyles.h4(family: "Schuyler")),
                 SizedBox(height: 10.h),
                 CustomTextField(
                     contentPaddingVertical: 12.h,

@@ -125,8 +125,7 @@ class Top50View extends StatelessWidget {
                                             ],
                                         ).createShader(bounds);
                                       },
-                                      child: Text(
-                                        '',
+                                      child: Text('',
                                         style: AppStyles.h1(
                                             fontSize: 80.sp,
                                             color: Colors.white),

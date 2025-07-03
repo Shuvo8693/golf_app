@@ -5,7 +5,7 @@ class TabBarController extends GetxController {
   final RxList<String> tapBarList=<String>[
     'Club Outings     ',
     'Pick up Round',
-    '  Golfers   ',
+    'Looking to golf',
   ].obs;
 
   RxInt currentIndex=0.obs;
