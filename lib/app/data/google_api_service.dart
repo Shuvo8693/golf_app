@@ -37,7 +37,6 @@ static  Future<List<String>> fetchSuggestions(String query)async{
           print('Lat: ${location['lat']}, Lng: ${location['lng']}');
           locationCallBack(LatLng(location['lat'],location['lng']));
           return LatLng(location['lat'],location['lng']);
-        //  _moveCamera(LatLng(location['lat'],location['lng']));
         }
       }
     } catch (e) {

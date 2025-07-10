@@ -4,7 +4,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:golf_game_play/app/data/api_constants.dart';
+import 'package:golf_game_play/app/data/google_api_service.dart';
 import 'package:golf_game_play/common/prefs_helper/prefs_helpers.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
 
@@ -13,7 +15,6 @@ class CreateLookingToPlayController extends GetxController {
   final TextEditingController userNameCtrl=TextEditingController();
   final TextEditingController visitingFromCtrl=TextEditingController();
   final TextEditingController golfCourseCtrl=TextEditingController();
-  final TextEditingController cityToPlayCtrl=TextEditingController();
 
   List categoryList = [
     'Skins',
@@ -32,7 +33,7 @@ class CreateLookingToPlayController extends GetxController {
     'Quota',
     'Peoria System',
   ];
-
+  LatLng? latLng;
   String? category;
   RxBool isLoading= false.obs;
 
@@ -65,9 +66,21 @@ class CreateLookingToPlayController extends GetxController {
       print('dateTime:$selectedToDate');
     }
   }
-  createLookingToPlay({Function(String?)? callBack}) async {
-    isLoading.value = true;
+  Future<void> goToSearchLocation(String address) async {
     try {
+      LatLng? locations = await GoogleApiService.fetchAddressToCoordinate(address, (location){});
+      if (locations !=null) {
+        latLng = locations;
+        print(latLng);
+      }
+    } catch (e) {
+      print('Error occurred while searching: $e');
+    }
+  }
+
+  createLookingToPlay({Function(String?)? callBack}) async {
+
+
       String token = await PrefsHelper.getString('token');
       String userId = await PrefsHelper.getString('userId');
 
@@ -76,15 +89,16 @@ class CreateLookingToPlayController extends GetxController {
         'Content-Type': 'application/json'
       };
 
-      Map<String, String> body = {
+      Map<String, dynamic> body = {
         "tomDate":selectedFromDate.value,
-        "fromDate":selectedToDate.value,
-        "cityToPlay":cityToPlayCtrl.text,
-        "golfCourse":golfCourseCtrl.text,
-        "visitingFrom":visitingFromCtrl.text,
-        "userName":userNameCtrl.text
+        "fromDate": selectedToDate.value,
+        "latitude": latLng?.latitude,
+        "longitude": latLng?.longitude,
+        "golfCourse": golfCourseCtrl.text
       };
 
+    try {
+      isLoading.value = true;
       var request = http.Request('POST', Uri.parse(ApiConstants.lookingToPlayCreationUrl));
 
       request.headers.addAll(headers);

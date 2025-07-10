@@ -305,8 +305,7 @@ class _AddTournamentViewState extends State<AddTournamentView> {
               child: TextField(
                 onChanged: (inputValue) async {
                   if (inputValue.isNotEmpty == true) {
-                    var result =
-                        await GoogleApiService.fetchSuggestions(inputValue);
+                    var result = await GoogleApiService.fetchSuggestions(inputValue);
                     print(result.toString());
                     setState(() {
                       _addTournamentController.latLng = null;
@@ -330,19 +329,6 @@ class _AddTournamentViewState extends State<AddTournamentView> {
                 },
               ),
             ),
-            /* IconButton(
-               icon: Icon(
-                 Icons.search,
-                 color: AppColors.primaryColor,
-                 size: 24.sp,
-               ),
-               onPressed: () {
-                 _goToSearchLocation(_searchController.text);
-                 setState(() {
-                   onChangeTextFieldValue.clear();
-                 });
-               },
-             ),*/
           ],
         ),
 

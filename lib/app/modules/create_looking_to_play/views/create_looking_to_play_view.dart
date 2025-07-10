@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:golf_game_play/app/data/google_api_service.dart';
 import 'package:golf_game_play/app/modules/create_looking_to_play/controllers/create_looking_to_play_controller.dart';
 import 'package:golf_game_play/app/routes/app_pages.dart';
 import 'package:golf_game_play/common/app_color/app_colors.dart';
@@ -21,6 +22,8 @@ class CreateLookingToPlayView extends StatefulWidget {
 class _CreateLookingToPlayViewState extends State<CreateLookingToPlayView> {
 final CreateLookingToPlayController _createLookingToPlayController=Get.put(CreateLookingToPlayController());
 final GlobalKey<FormState> _formKey= GlobalKey<FormState>();
+List<String> onChangeTextFieldValueVisitingFrom = [];
+List<String> onChangeTextFieldValueGolfCourse = [];
 
   @override
   Widget build(BuildContext context) {
@@ -73,54 +76,28 @@ final GlobalKey<FormState> _formKey= GlobalKey<FormState>();
                   },
                 ),
 
-                // /// User Name
-                // SizedBox(height: 10.h),
-                // Text(AppString.userNameText, style: AppStyles.h4(family: "Schuyler")),
-                // SizedBox(height: 10.h),
-                // CustomTextField(
-                //     contentPaddingVertical: 12.h,
-                //     hintText: "Type your Name",
-                //     controller: _createLookingToPlayController.userNameCtrl,
-                //   validator: (value) {
-                //     if (value == null || value.isEmpty) {
-                //       return 'Type your Name';
-                //     }
-                //     return null;
-                //   },
-                // ),
-
                 /// Visiting From
                 SizedBox(height: 10.h),
                 Text(AppString.visitingFromText, style: AppStyles.h4(family: "Schuyler")),
                 SizedBox(height: 10.h),
-                CustomTextField(
-                    contentPaddingVertical: 12.h,
-                    hintText: "your location",
-                    controller: _createLookingToPlayController.visitingFromCtrl,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'type your location';
-                    }
-                    return null;
-                  },
-                ),
-
+                buildLocationSelector(),
 
                 /// Golf Course
                 SizedBox(height: 10.h),
                 Text('${AppString.golfCourseText}  (Leave blank for any course)', style: AppStyles.h4(family: "Schuyler")),
                 SizedBox(height: 10.h),
-                CustomTextField(
-                    contentPaddingVertical: 12.h,
-                    hintText: "type Course",
-                    controller: _createLookingToPlayController.golfCourseCtrl,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'type Course';
-                    }
-                    return null;
-                  },
-                ),
+                buildLocationSelector(isGolfCourse: true),
+                // CustomTextField(
+                //     contentPaddingVertical: 12.h,
+                //     hintText: "type Course",
+                //     controller: _createLookingToPlayController.golfCourseCtrl,
+                //   validator: (value) {
+                //     if (value == null || value.isEmpty) {
+                //       return 'type Course';
+                //     }
+                //     return null;
+                //   },
+                // ),
 
                 ///Date Range
                 SizedBox(height: 8.h,),
@@ -135,7 +112,7 @@ final GlobalKey<FormState> _formKey= GlobalKey<FormState>();
                 SizedBox(height: 10.h),
                 Obx(() => GestureDetector(
                   onTap: () async {
-                    _createLookingToPlayController.selectFromDate(context);
+                   await _createLookingToPlayController.selectFromDate(context);
                   },
                   child: Container(
                     height: 50,
@@ -177,9 +154,7 @@ final GlobalKey<FormState> _formKey= GlobalKey<FormState>();
                     height: 50.h,
                     width: double.infinity,
                     decoration: BoxDecoration(
-                        border: Border.all(
-                            color: Get.theme.primaryColor
-                                .withOpacity(0.1)),
+                        border: Border.all(color: Get.theme.primaryColor.withOpacity(0.1)),
                         borderRadius: BorderRadius.circular(14.r),
                         color: AppColors.fillColor),
                     child: Padding(
@@ -226,4 +201,118 @@ final GlobalKey<FormState> _formKey= GlobalKey<FormState>();
       ),
     );
   }
+
+Column buildLocationSelector({bool? isGolfCourse = false}) {
+  // Get the appropriate list based on the field type
+  List<String> currentSuggestions = isGolfCourse == true
+      ? onChangeTextFieldValueGolfCourse
+      : onChangeTextFieldValueVisitingFrom;
+
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Row(
+        children: [
+          Expanded(
+            child: TextField(
+              onChanged: (inputValue) async {
+                if (inputValue.isNotEmpty == true) {
+                  var result = await GoogleApiService.fetchSuggestions(inputValue);
+                  setState(() {
+                    _createLookingToPlayController.latLng = null;
+                    if (isGolfCourse == true) {
+                      onChangeTextFieldValueGolfCourse = result;
+                    } else {
+                      onChangeTextFieldValueVisitingFrom = result;
+                    }
+                  });
+                }
+              },
+              controller: isGolfCourse == true
+                  ? _createLookingToPlayController.golfCourseCtrl
+                  : _createLookingToPlayController.visitingFromCtrl,
+              decoration: InputDecoration(
+                hintText: isGolfCourse == true
+                    ? 'Search golf course'
+                    : 'Search visiting from',
+                border: InputBorder.none,
+                prefixIcon: Icon(
+                  Icons.location_on,
+                  color: Colors.grey,
+                  size: 24.sp,
+                ),
+              ),
+              onSubmitted: (value) {
+                _createLookingToPlayController.goToSearchLocation(value);
+              },
+            ),
+          ),
+        ],
+      ),
+
+      /// Location list section
+      SizedBox(height: 8.h),
+
+      // Show suggestions if available
+      if (currentSuggestions.isNotEmpty)
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 8.w),
+          child: Container(
+            height: 200.h,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  offset: Offset(1, 1),
+                  blurRadius: 3,
+                  color: AppColors.gray.withOpacity(0.7),
+                ),
+              ],
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(12.sp),
+                bottomRight: Radius.circular(12.sp),
+              ),
+            ),
+            child: ListView.builder(
+              shrinkWrap: true,
+              itemCount: currentSuggestions.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: EdgeInsets.all(8.0.sp),
+                  child: InkWell(
+                    onTap: () async {
+                      String selectedLocation = currentSuggestions[index];
+                      if (selectedLocation.isNotEmpty == true) {
+                        // Set the appropriate controller based on field type
+                        if (isGolfCourse == true) {
+                          _createLookingToPlayController.golfCourseCtrl.text = selectedLocation;
+                        } else {
+                          _createLookingToPlayController.visitingFromCtrl.text = selectedLocation;
+                        }
+
+                        await _createLookingToPlayController.goToSearchLocation(selectedLocation);
+                      }
+
+                      setState(() {
+                        // Clear the appropriate suggestions list
+                        if (isGolfCourse == true) {
+                          onChangeTextFieldValueGolfCourse = [];
+                        } else {
+                          onChangeTextFieldValueVisitingFrom = [];
+                        }
+                      });
+                    },
+                    child: Text(
+                      currentSuggestions[index].toString(),
+                      style: const TextStyle(fontWeight: FontWeight.w500),
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+        ),
+    ],
+  );
+}
 }
