@@ -16,7 +16,7 @@ import 'package:golf_game_play/common/widgets/custom_text_field.dart';
 import 'package:golf_game_play/common/widgets/golf_logo.dart';
 
 class SignUpView extends StatefulWidget {
-  SignUpView({super.key});
+  const SignUpView({super.key});
 
   @override
   State<SignUpView> createState() => _SignUpViewState();
@@ -99,37 +99,6 @@ class _SignUpViewState extends State<SignUpView> {
                       return null;
                     },
                   ),
-
-                  /// Select Gender
-                  SizedBox(height: 20.h),
-                  DropdownButtonFormField<String>(
-                    value: _signupController.gender,
-                    padding: EdgeInsets.zero,
-                    hint: Text(
-                      "Select Gender",
-                      style: TextStyle(color: AppColors.primaryColor),
-                    ),
-                    decoration: InputDecoration(fillColor: AppColors.white),
-                    items: _signupController.genderList
-                        .map(
-                          (gender) => DropdownMenuItem<String>(
-                            value: gender,
-                            child: Text(gender),
-                          ),
-                        )
-                        .toList(),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Select your gender';
-                      }
-                      return null;
-                    },
-                    onChanged: (newValue) {
-                      _signupController.gender = newValue;
-                      print('Gender>>>${_signupController.gender}');
-                    },
-                  ),
-
                   ///handicap
                   SizedBox(height: 20.h),
                   CustomTextField(

@@ -9,6 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 
 class SignupController extends GetxController {
+
   TextEditingController nameCtrl = TextEditingController();
   TextEditingController emailCtrl = TextEditingController();
   TextEditingController handicapCtrl = TextEditingController();
@@ -57,9 +58,6 @@ class SignupController extends GetxController {
       "email": emailCtrl.text,
       "password": passWordCtrl.text,
       "role": "user",
-      "gender": gender ?? 'male',
-      // "city": cityCtrl.text,
-      // "state": stateCtrl.text,
        "country": locationName,
       "handicap": handicapCtrl.text,
       "latitude": (latLng?.latitude).toString(),

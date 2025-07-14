@@ -86,8 +86,7 @@ class _AddTournamentViewState extends State<AddTournamentView> {
                           value: gender,
                           child: Text(gender),
                         ),
-                      )
-                      .toList(),
+                      ).toList(),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Select tournament type';
@@ -108,14 +107,13 @@ class _AddTournamentViewState extends State<AddTournamentView> {
                 SizedBox(height: 10.h),
                 Obx(() => GestureDetector(
                     onTap: () async {
-                      _addTournamentController.selectDate(context);
+                     await _addTournamentController.selectDate(context);
                     },
                     child: Container(
                       height: 50.h,
                       width: double.infinity,
                       decoration: BoxDecoration(
-                          border: Border.all(
-                              color: Get.theme.primaryColor.withOpacity(0.1)),
+                          border: Border.all(color: Get.theme.primaryColor.withOpacity(0.1)),
                           borderRadius: BorderRadius.circular(14.r),
                           color: AppColors.fillColor),
                       child: Padding(
