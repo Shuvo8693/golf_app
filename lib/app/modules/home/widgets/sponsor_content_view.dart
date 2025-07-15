@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:golf_game_play/app/data/api_constants.dart';
 import 'package:golf_game_play/app/modules/home/model/sponsor_content_model.dart';
 import 'package:golf_game_play/common/app_text_style/style.dart';
+import 'package:golf_game_play/common/image_show_dialouge/image_show_dialouge.dart';
 import 'package:golf_game_play/common/url_luncher/externer_url_luncher.dart';
 import 'package:golf_game_play/common/widgets/casess_network_image.dart';
 import 'package:golf_game_play/common/widgets/custom_card.dart';
@@ -19,10 +20,21 @@ class SponsorContentView extends StatelessWidget {
       child: Stack(
         children: [
           Positioned(
-            child: CustomNetworkImage(
-              imageUrl: '${ApiConstants.imageBaseUrl}/${sponsorContentAttributes.sponserImage?.url}',
-              height: 230,
-              borderRadius: BorderRadius.circular(12.r),
+            child: GestureDetector(
+              onTap: (){
+                showDialog(
+                  context: context,
+                  barrierDismissible: true,
+                  builder: (BuildContext context) {
+                    return imageShowDialouge(sponsorContentAttributes: sponsorContentAttributes);
+                  },
+                );
+              },
+              child: CustomNetworkImage(
+                imageUrl: '${ApiConstants.imageBaseUrl}/${sponsorContentAttributes.sponserImage?.url}',
+                height: 230,
+                borderRadius: BorderRadius.circular(12.r),
+              ),
             ),
           ),
           Positioned(
@@ -70,3 +82,5 @@ class SponsorContentView extends StatelessWidget {
     );
   }
 }
+
+

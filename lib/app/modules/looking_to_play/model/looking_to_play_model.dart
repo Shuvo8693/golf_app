@@ -28,14 +28,13 @@ class LookingToPlayData {
 }
 
 class LookingToPlayAttributes {
+  VisitingFrom? visitingFrom;
   String? sId;
   String? player;
   String? userName;
-  String? visitingFrom;
   String? golfCourse;
-  String? cityToPlay;
   String? fromDate;
-  String? toDate;
+  String? tomDate;
   bool? isAccepted;
   bool? isReject;
   String? createdAt;
@@ -43,14 +42,13 @@ class LookingToPlayAttributes {
   int? iV;
 
   LookingToPlayAttributes(
-      {this.sId,
+      {this.visitingFrom,
+        this.sId,
         this.player,
         this.userName,
-        this.visitingFrom,
         this.golfCourse,
-        this.cityToPlay,
         this.fromDate,
-        this.toDate,
+        this.tomDate,
         this.isAccepted,
         this.isReject,
         this.createdAt,
@@ -58,18 +56,40 @@ class LookingToPlayAttributes {
         this.iV});
 
   LookingToPlayAttributes.fromJson(Map<String, dynamic> json) {
+    visitingFrom = json['visitingFrom'] != null
+        ? VisitingFrom.fromJson(json['visitingFrom'])
+        : null;
     sId = json['_id'];
     player = json['player'];
     userName = json['userName'];
-    visitingFrom = json['visitingFrom'];
     golfCourse = json['golfCourse'];
-    cityToPlay = json['cityToPlay'];
     fromDate = json['fromDate'];
-    toDate = json['tomDate'];
+    tomDate = json['tomDate'];
     isAccepted = json['isAccepted'];
     isReject = json['isReject'];
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
     iV = json['__v'];
   }
+}
+
+class VisitingFrom {
+  List<double>? coordinates;
+  String? type;
+
+  VisitingFrom({this.coordinates, this.type});
+
+  VisitingFrom.fromJson(Map<String, dynamic> json) {
+    if (json['coordinates'] != null) {
+      coordinates = <double>[];
+      json['coordinates'].forEach((v) {
+        coordinates!.add(v.toDouble());
+      });
+    }
+    type = json['type'];
+  }
+
+  // Helper getters for easier access to longitude and latitude
+  double? get longitude => coordinates != null && coordinates!.isNotEmpty ? coordinates![0] : null;
+  double? get latitude => coordinates != null && coordinates!.length > 1 ? coordinates![1] : null;
 }

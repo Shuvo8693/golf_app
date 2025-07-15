@@ -29,7 +29,7 @@ class LookingToPlayCardItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
    DateTime dateTimeFrom= DateFormat("dd/MM/yyyy").parse(lookingToPlayAttributes.fromDate!);
-   DateTime dateTimeTo= DateFormat("dd/MM/yyyy").parse(lookingToPlayAttributes.toDate!);
+   DateTime dateTimeTo= DateFormat("dd/MM/yyyy").parse(lookingToPlayAttributes.tomDate!);
     return CustomCard(
       padding: 7.sp,
       cardWidth: double.infinity,
@@ -64,8 +64,8 @@ class LookingToPlayCardItem extends StatelessWidget {
                 )
               ],
             ),
-            SizedBox(height: 10.h),
-            Text('${AppString.visitingFromText} :  ${lookingToPlayAttributes.visitingFrom}', overflow: TextOverflow.ellipsis, style: AppStyles.h4()),
+            // SizedBox(height: 10.h),
+            // Text('${AppString.visitingFromText} :  ${lookingToPlayAttributes.visitingFrom}', overflow: TextOverflow.ellipsis, style: AppStyles.h4()),
             SizedBox(height: 10.h),
             Text('${AppString.golfCourseText} : ${lookingToPlayAttributes.golfCourse} ', overflow: TextOverflow.ellipsis, style: AppStyles.h4()),
             SizedBox(height: 10.h),
