@@ -103,191 +103,229 @@ class AppPages {
       name: _Paths.HOME,
       page: () => HomeView(),
       binding: HomeBinding(),
+      transition: Transition.noTransition
     ),
     GetPage(
       name: _Paths.SPLASH_SCREEN,
       page: () => const SplashScreen(),
       binding: SplashScreenBinding(),
+        transition: Transition.noTransition
     ),
     GetPage(
       name: _Paths.SIGN_IN,
       page: () => const LoginScreen(),
       binding: SignInBinding(),
+        transition: Transition.noTransition
     ),
     GetPage(
       name: _Paths.SIGN_UP,
       page: () => SignUpView(),
       binding: SignUpBinding(),
+        transition: Transition.noTransition
     ),
     GetPage(
       name: _Paths.PROFILE_UPDATE,
       page: () => ProfileUpdateView(),
       binding: ProfileUpdateBinding(),
+        transition: Transition.noTransition
     ),
     GetPage(
       name: _Paths.GOLFERS,
       page: () => GolfersView(),
       binding: GolfersBinding(),
+        transition: Transition.noTransition
     ),
     GetPage(
       name: _Paths.ENTERED,
       page: () => MyTournamentView(),
       binding: MyTournamentBinding(),
+        transition: Transition.noTransition
     ),
     GetPage(
       name: _Paths.MESSAGE,
       page: () =>  MessageView(),
       binding: MessageBinding(),
+        transition: Transition.noTransition
     ),
     GetPage(
       name: _Paths.TOP50,
       page: () => Top50View(),
       binding: Top50Binding(),
+        transition: Transition.noTransition
     ),
     GetPage(
       name: _Paths.SPONSOR_SIGNUP,
       page: () => SponsorSignupView(),
       binding: SponsorSignupBinding(),
+        transition: Transition.noTransition
     ),
     GetPage(
       name: _Paths.GAGGLE_DETAIL,
       page: () =>  TournamentDetailView(),
       binding: GaggleDetailBinding(),
+        transition: Transition.noTransition
     ),
     GetPage(
       name: _Paths.CONTACT_US,
       page: () => ContactUsView(),
       binding: ContactUsBinding(),
+        transition: Transition.noTransition
     ),
     GetPage(
       name: _Paths.USER_PROFILE,
       page: () => const UserProfileView(),
       binding: UserProfileBinding(),
+        transition: Transition.noTransition
     ),
     GetPage(
       name: _Paths.TEE_SHEET,
       page: () =>  TeeSheetView(),
       binding: TeeSheetBinding(),
+        transition: Transition.noTransition
     ),
     GetPage(
       name: _Paths.COMPLETED_GAMES,
       page: () => CompletedGamesView(),
       binding: CompletedGamesBinding(),
+        transition: Transition.noTransition
     ),
     GetPage(
       name: _Paths.REQUEST_TO_PLAY,
       page: () => RequestedToPlayTournamentView(),
       binding: RequestToPlayBinding(),
+        transition: Transition.noTransition
     ),
     GetPage(
       name: _Paths.WINNERS,
       page: () => WinnersView(),
       binding: WinnersBinding(),
+        transition: Transition.noTransition
     ),
     GetPage(
       name: _Paths.ADD_TOURNAMENT,
       page: () => const AddTournamentView(),
       binding: AddTournamentBinding(),
+        transition: Transition.noTransition
     ),
     GetPage(
       name: _Paths.ADD_SMALL_OUTING,
       page: () => const AddSmallOutingView(),
       binding: AddSmallOutingBinding(),
+        transition: Transition.noTransition
     ),
     GetPage(
       name: _Paths.ASSIGN_GROUP,
       page: () => AssignGroupView(),
       binding: AssignGroupBinding(),
+        transition: Transition.noTransition
     ),
     GetPage(
       name: _Paths.CREATE_CHALLENGE,
       page: () => const CreateChallengeView(),
       binding: CreateChallengeBinding(),
+        transition: Transition.noTransition
     ),
     GetPage(
       name: _Paths.CREATE_LOOKING_TO_PLAY,
       page: () => const CreateLookingToPlayView(),
       binding: CreateLookingToPlayBinding(),
+        transition: Transition.noTransition
     ),
     GetPage(
       name: _Paths.LOOKING_TO_PLAY,
       page: () => LookingToPlayView(),
       binding: LookingToPlayBinding(),
+        transition: Transition.noTransition
     ),
     GetPage(
       name: _Paths.MESSAGE_INBOX,
       page: () => const MessageInboxView(),
       binding: MessageInboxBinding(),
+        transition: Transition.noTransition
     ),
     GetPage(
       name: _Paths.SPONSORE_WEB,
       page: () => const SponsorWebView(),
       binding: SponsoreWebBinding(),
+        transition: Transition.noTransition
     ),
     GetPage(
       name: _Paths.LOCATION_SELECTOR,
       page: () => const LocationSelectorView(),
       binding: LocationSelectorBinding(),
+        transition: Transition.noTransition
     ),
     GetPage(
       name: _Paths.VERIFY_EMAIL,
       page: () => const VerifyEmailView(),
       binding: VerifyEmailBinding(),
+        transition: Transition.noTransition
     ),
     GetPage(
       name: _Paths.OTP,
       page: () => const OtpView(),
       binding: OtpBinding(),
+        transition: Transition.noTransition
     ),
     GetPage(
       name: _Paths.RESET_PASSWORD,
       page: () => ResetPasswordView(),
       binding: ResetPasswordBinding(),
+        transition: Transition.noTransition
     ),
     GetPage(
       name: _Paths.MY_PROFILE,
       page: () => MyProfileView(),
       binding: MyProfileBinding(),
+        transition: Transition.noTransition
     ),
     GetPage(
       name: _Paths.CREATE_WINNER_DETAILS,
       page: () => CreateWinnerDetailsView(),
       binding: CreateWinnerDetailsBinding(),
+        transition: Transition.noTransition
     ),
     GetPage(
       name: _Paths.EDIT_WINNER_SKIN,
       page: () => EditWinnerSkinView(),
       binding: EditWinnerSkinBinding(),
+        transition: Transition.noTransition
     ),
     GetPage(
       name: _Paths.NOTIFICATION,
       page: () => const NotificationView(),
       binding: NotificationBinding(),
+        transition: Transition.noTransition
     ),
     GetPage(
       name: _Paths.CHALLENGE_MATCHES,
       page: () => const ChallengeMatchesView(),
       binding: ChallengeMatchesBinding(),
+        transition: Transition.noTransition
     ),
     GetPage(
       name: _Paths.INVITATION,
       page: () =>  InvitationView(),
       binding: InvitationBinding(),
+        transition: Transition.noTransition
     ),
     GetPage(
       name: _Paths.SUBSCRIPTION,
       page: () => SubscriptionView(),
       binding: SubscriptionBinding(),
+        transition: Transition.noTransition
     ),
     GetPage(
       name: _Paths.SETTINGS,
       page: () => const SettingsView(),
       binding: SettingsBinding(),
+        transition: Transition.noTransition
     ),
     GetPage(
       name: _Paths.ABOUT,
       page: () => const AboutScreen(),
       binding: AboutUsBinding(),
+        transition: Transition.noTransition
     ),
     GetPage(
       name: _Paths.PRIVAACY_POLICY,
@@ -298,42 +336,50 @@ class AppPages {
       name: _Paths.SUPPORT,
       page: () => const SupportScreen(),
       binding: SupportBinding(),
+        transition: Transition.noTransition
     ),
     GetPage(
       name: _Paths.TERMS_CONDITION,
       page: () => const TermsAndConditionsScreen(),
       binding: TermsBinding(),
+        transition: Transition.noTransition
     ),
     GetPage(
       name: _Paths.SINGLE_MATCHES,
       page: () => const SingleMatchesView(),
       binding: SingleMatchesBinding(),
+        transition: Transition.noTransition
     ),
     GetPage(
       name: _Paths.STORY_SLIDER,
       page: () => StorySliderView(),
       binding: StorySliderBinding(),
+        transition: Transition.noTransition
     ),
 
     GetPage(
       name: _Paths.SKIN,
       page: () => SkinView(),
       binding: CreateWinnerDetailsBinding(),
+        transition: Transition.noTransition
     ),
     GetPage(
       name: _Paths.KPS,
       page: () => KpsView(),
       binding: CreateWinnerDetailsBinding(),
+        transition: Transition.noTransition
     ),
     GetPage(
       name: _Paths.TOP_WINNER,
       page: () => TopWinnerView(),
       binding: CreateWinnerDetailsBinding(),
+        transition: Transition.noTransition
     ),
     GetPage(
       name: _Paths.SCORE,
       page: () => ScoreView(),
       binding: CreateWinnerDetailsBinding(),
+        transition: Transition.noTransition
     ),
   ];
 }

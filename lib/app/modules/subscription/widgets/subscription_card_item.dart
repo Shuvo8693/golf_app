@@ -18,7 +18,7 @@ class SubscriptionCard extends StatelessWidget {
    SubscriptionCard({
     super.key, required this.subscriptionAttributes, required this.index,
   });
-   final PaymentController _paymentController = Get.put(PaymentController());
+   // final PaymentController _paymentController = Get.put(PaymentController());
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -91,26 +91,24 @@ class SubscriptionCard extends StatelessWidget {
               SizedBox(
                 height: 15.h,
               ),
-              Obx(() {
-                return CustomButton(
-                  loading: _paymentController.isLoading[index]??false,
-                  onTap: () async {
-                    String myId = await PrefsHelper.getString('userId');
-                    await _paymentController.makePayment(
-                        subscriptionAttributes.price.toString(),
-                        'USD',
-                        subscriptionAttributes.sId,
-                        myId,
-                        subscriptionAttributes.subscribeType ?? '',
-                        subscriptionAttributes.typeOfSubscription ?? '',
-                       index
-                    );
-                  },
-                  color: Colors.black,
-                  text: 'Buy',
-                  textStyle: AppStyles.h3(color: AppColors.white),
-                );
-              }),
+              CustomButton(
+            // loading: _paymentController.isLoading[index]??false,
+            onTap: () async {
+              String myId = await PrefsHelper.getString('userId');
+              // await _paymentController.makePayment(
+              //     subscriptionAttributes.price.toString(),
+              //     'USD',
+              //     subscriptionAttributes.sId,
+              //     myId,
+              //     subscriptionAttributes.subscribeType ?? '',
+              //     subscriptionAttributes.typeOfSubscription ?? '',
+              //    index
+              // );
+            },
+            color: Colors.black,
+            text: 'Buy',
+            textStyle: AppStyles.h3(color: AppColors.white),
+          ),
             ],
           ),
         ),

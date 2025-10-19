@@ -53,31 +53,33 @@ class _BottomMenuState extends State<BottomMenu> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.all(10),
-      child: SizedBox(
-        height: 80.h,
-        child: Card(
-          elevation: 12,
-          clipBehavior: Clip.antiAlias,
-          child: BottomNavigationBar(
-              currentIndex: _selectedIndex, // Set the selected index
-              onTap: _onItemTapped, // Handle taps on items
-              type: BottomNavigationBarType.fixed, // Prevents shifting behavior
-              backgroundColor: AppColors.white,
-              selectedItemColor: AppColors.primaryColor,
-              showSelectedLabels: true,
-              unselectedItemColor: const Color(0xffC4D3F6), // Inactive item color
-              selectedFontSize: 12.0,
-              unselectedFontSize: 12.0,
-              items: [
-                _buildBottomNavItem(AppIcons.homesIcon, 'Home'),
-                _buildBottomNavItem(AppIcons.golferIcon, 'Golfers'),
-                _buildBottomNavItem(AppIcons.enteredLogo, 'Entered'),
-                _buildBottomNavItem(AppIcons.messageIcons, 'Message'),
-                _buildBottomNavItem(AppIcons.top50Logo, 'Top 50'),
-              ],
-            ),
+    return SafeArea(
+      child: Padding(
+        padding: EdgeInsets.all(10.sp),
+        child: SizedBox(
+          height: 75.h,
+          child: Card(
+            elevation: 12,
+            clipBehavior: Clip.antiAlias,
+            child: BottomNavigationBar(
+                currentIndex: _selectedIndex, // Set the selected index
+                onTap: _onItemTapped, // Handle taps on items
+                type: BottomNavigationBarType.fixed, // Prevents shifting behavior
+                backgroundColor: AppColors.white,
+                selectedItemColor: AppColors.primaryColor,
+                showSelectedLabels: true,
+                unselectedItemColor: const Color(0xffC4D3F6), // Inactive item color
+                selectedFontSize: 12.0,
+                unselectedFontSize: 12.0,
+                items: [
+                  _buildBottomNavItem(AppIcons.homesIcon, 'Home'),
+                  _buildBottomNavItem(AppIcons.golferIcon, 'Golfers'),
+                  _buildBottomNavItem(AppIcons.enteredLogo, 'Entered'),
+                  _buildBottomNavItem(AppIcons.messageIcons, 'Message'),
+                  _buildBottomNavItem(AppIcons.top50Logo, 'Top 50'),
+                ],
+              ),
+          ),
         ),
       ),
     );

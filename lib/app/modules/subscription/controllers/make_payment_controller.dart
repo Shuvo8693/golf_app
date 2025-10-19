@@ -1,3 +1,4 @@
+/*
 import 'dart:convert';
 import 'dart:io';
 
@@ -158,4 +159,4 @@ class PaymentController extends GetxController{
       Get.snackbar('Failed payment record ', responseBody['message'].toString(),);
     }
   }
-}
+}*/
