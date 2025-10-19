@@ -72,10 +72,10 @@ class _BottomMenuState extends State<BottomMenu> {
                 selectedFontSize: 12.0,
                 unselectedFontSize: 12.0,
                 items: [
-                  _buildBottomNavItem(AppIcons.homesIcon, 'Home'),
-                  _buildBottomNavItem(AppIcons.golferIcon, 'Golfers'),
+                  _buildBottomNavItem(AppIcons.homesIcon,   'Home'),
+                  _buildBottomNavItem(AppIcons.golferIcon,  'Golfers'),
                   _buildBottomNavItem(AppIcons.enteredLogo, 'Entered'),
-                  _buildBottomNavItem(AppIcons.messageIcons, 'Message'),
+                  _buildBottomNavItem(AppIcons.messageIcons,  'Message'),
                   _buildBottomNavItem(AppIcons.top50Logo, 'Top 50'),
                 ],
               ),
