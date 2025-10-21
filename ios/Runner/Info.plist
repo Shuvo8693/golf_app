@@ -26,10 +26,28 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>We need access to your location to show it on the map.</string>
+	<!-- PRIVACY PERMISSIONS - ADD THESE -->
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>We need access to your photo library to let you select and upload images for your golf profile and tournament photos.</string>
+
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>We need access to save golf tournament photos to your photo library.</string>
+
+	<key>NSCameraUsageDescription</key>
+	<string>We need access to your camera to take photos for your golf profile and tournament.</string>
+
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>We need access to your location to show it on the map.</string>
+	<string>We need your location to show nearby golf courses and tournaments on the map.</string>
+
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>We need your location to show nearby golf courses and tournaments, even when the app is in the background.</string>
+
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>We need your location to show nearby golf courses and tournaments.</string>
+
+	<!-- Google Maps API Key -->
+	<key>GMSApiKey</key>
+	<string>AIzaSyBI8fHu17r7bJcDz4eV8MdiVOIbYVG6fTI</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>
