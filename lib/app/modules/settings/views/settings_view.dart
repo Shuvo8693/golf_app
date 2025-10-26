@@ -6,7 +6,10 @@ import 'package:golf_game_play/common/app_color/app_colors.dart';
 import 'package:golf_game_play/common/app_icons/app_icons.dart';
 import 'package:golf_game_play/common/app_string/app_string.dart';
 import 'package:golf_game_play/common/app_text_style/style.dart';
+import 'package:golf_game_play/common/widgets/custom_button.dart';
 import 'package:golf_game_play/common/widgets/custom_listTile.dart';
+import 'package:golf_game_play/common/widgets/delete_account_dialouge.dart';
+import 'package:golf_game_play/common/widgets/spacing.dart';
 
 class SettingsView extends StatelessWidget {
   const SettingsView({super.key});
@@ -68,7 +71,7 @@ class SettingsView extends StatelessWidget {
             },
           ),
 
-       /*   /// support screen
+          /*   /// support screen
           SizedBox(height: 16.h),
           CustomListTile(
             title: AppString.contactUsText,
@@ -77,8 +80,19 @@ class SettingsView extends StatelessWidget {
               Get.toNamed(Routes.CONTACT_US);
             },
           ),*/
+          Spacer(flex: 3,),
+          CustomButton(
+            onTap: () {
+              DeleteAccountDialog.showDeleteConfirmationDialog(context,deleteOnTap: (){});
+            },
+            text: 'Delete Account',
+            padding: EdgeInsets.symmetric(horizontal: 24.w,vertical: 8.h),
+          ),
+          Spacer(flex: 1,),
         ],
       ),
     );
   }
 }
+
+
