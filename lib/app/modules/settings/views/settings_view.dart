@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:golf_game_play/app/modules/my_profile/controllers/my_profile_controller.dart';
+import 'package:golf_game_play/app/modules/settings/controllers/settings_controller.dart';
 import 'package:golf_game_play/app/routes/app_pages.dart';
 import 'package:golf_game_play/common/app_color/app_colors.dart';
 import 'package:golf_game_play/common/app_icons/app_icons.dart';
@@ -20,13 +21,7 @@ class SettingsView extends StatefulWidget {
 }
 
 class _SettingsViewState extends State<SettingsView> {
-
-  final MyProfileController _myProfileController = Get.put(MyProfileController());
- @override
-  void didChangeDependencies() async {
-    await _myProfileController.fetchProfile((){});
-    super.didChangeDependencies();
-  }
+  final SettingsController _settingsController = Get.put(SettingsController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -93,19 +88,25 @@ class _SettingsViewState extends State<SettingsView> {
               Get.toNamed(Routes.CONTACT_US);
             },
           ),*/
-          Spacer(flex: 3,),
+          Spacer(
+            flex: 3,
+          ),
           CustomButton(
-            onTap: () {
-              DeleteAccountDialog.showDeleteConfirmationDialog(context,deleteOnTap: (){});
+            onTap: () async{
+             await DeleteAccountDialog.showDeleteConfirmationDialog(context,
+                  deleteOnTap: () async{
+                   await _settingsController.deleteAccount();
+                  }
+              );
             },
             text: 'Delete Account',
-            padding: EdgeInsets.symmetric(horizontal: 24.w,vertical: 8.h),
+            padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 8.h),
           ),
-          Spacer(flex: 1,),
+          Spacer(
+            flex: 1,
+          ),
         ],
       ),
     );
   }
 }
-
-

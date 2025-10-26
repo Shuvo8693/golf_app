@@ -119,6 +119,7 @@ static String  getProfileUrl (dynamic postId)=> '$baseUrl/users/$postId';
 static String  updateProfileUrl (dynamic postId)=> '$baseUrl/users/$postId';
 static String  sendFriendRequestUrl (dynamic postId)=> '$baseUrl/friend/request?receiverId=$postId';
 static String  searchNameUrl (String name)=> '$baseUrl/users?fullName=$name';
+static String  accountDeleteUrl (String userId)=> '$baseUrl/users/delete?userId=$userId';
 
 
 }

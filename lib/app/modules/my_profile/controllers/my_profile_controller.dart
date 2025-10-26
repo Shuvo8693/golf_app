@@ -24,7 +24,6 @@ class MyProfileController extends GetxController {
       final responseData = jsonDecode(responseBody);
       if (response.statusCode == 200) {
         var profileValue= responseData['data']['attributes']['user'] as Map<String,dynamic>;
-        profileValue['id'];
         myProfile.value =MyProfile.fromJson(profileValue);
 
       } else {
