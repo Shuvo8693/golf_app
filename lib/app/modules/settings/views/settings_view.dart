@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:golf_game_play/app/modules/my_profile/controllers/my_profile_controller.dart';
 import 'package:golf_game_play/app/routes/app_pages.dart';
 import 'package:golf_game_play/common/app_color/app_colors.dart';
 import 'package:golf_game_play/common/app_icons/app_icons.dart';
@@ -11,9 +12,21 @@ import 'package:golf_game_play/common/widgets/custom_listTile.dart';
 import 'package:golf_game_play/common/widgets/delete_account_dialouge.dart';
 import 'package:golf_game_play/common/widgets/spacing.dart';
 
-class SettingsView extends StatelessWidget {
+class SettingsView extends StatefulWidget {
   const SettingsView({super.key});
 
+  @override
+  State<SettingsView> createState() => _SettingsViewState();
+}
+
+class _SettingsViewState extends State<SettingsView> {
+
+  final MyProfileController _myProfileController = Get.put(MyProfileController());
+ @override
+  void didChangeDependencies() async {
+    await _myProfileController.fetchProfile((){});
+    super.didChangeDependencies();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
