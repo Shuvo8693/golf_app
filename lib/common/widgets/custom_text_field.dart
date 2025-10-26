@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:golf_game_play/common/app_color/app_colors.dart';
 import 'package:golf_game_play/common/app_constant/app_constant.dart';
 
-
 class CustomTextField extends StatefulWidget {
   final TextEditingController controller;
   final TextInputType? keyboardType;
@@ -27,12 +26,12 @@ class CustomTextField extends StatefulWidget {
 
   const CustomTextField(
       {super.key,
-        this.suffixIconColor,
-        this.labelTextStyle,
+      this.suffixIconColor,
+      this.labelTextStyle,
       this.contentPaddingHorizontal,
       this.contentPaddingVertical,
       this.hintText,
-        this.maxLine,
+      this.maxLine,
       this.prefixIcon,
       this.suffixIcon,
       this.validator,
@@ -45,7 +44,7 @@ class CustomTextField extends StatefulWidget {
       this.labelText,
       this.isPassword = false,
       this.isEnabled = true,
-        this.onChange});
+      this.onChange});
 
   @override
   State<CustomTextField> createState() => _CustomTextFieldState();
@@ -66,7 +65,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
       controller: widget.controller,
       keyboardType: widget.keyboardType,
       obscuringCharacter: widget.obscure!,
-      maxLines: widget.maxLine??1,
+      maxLines: widget.maxLine ?? 1,
       onChanged: widget.onChange,
       // validator: widget.validator,
       validator: widget.validator ??
@@ -96,29 +95,40 @@ class _CustomTextFieldState extends State<CustomTextField> {
       obscureText: widget.isPassword ? obscureText : false,
       style: TextStyle(color: AppColors.textColor, fontSize: 16.sp),
       decoration: InputDecoration(
-        contentPadding: EdgeInsets.symmetric(
-            horizontal: widget.contentPaddingHorizontal ?? 20.w,
-            vertical: widget.contentPaddingVertical ?? 20.w),
-        fillColor: widget.filColor,
-        prefixIcon: widget.prefixIcon,
-        suffixIcon: widget.isPassword
-            ? GestureDetector(
-                onTap: toggle,
-                child: _suffixIcon(
-                    obscureText ? Icons.visibility_off : Icons.visibility),
-              )
-            : widget.suffixIcon,
-        prefixIconConstraints: BoxConstraints(minHeight: 24.w, minWidth: 24.w),
-        labelText: widget.labelText,
-        hintText: widget.hintText,
-        labelStyle: widget.labelTextStyle,
-        enabled: widget.isEnabled
-      ),
+          contentPadding: EdgeInsets.symmetric(
+              horizontal: widget.contentPaddingHorizontal ?? 20.w,
+              vertical: widget.contentPaddingVertical ?? 20.w),
+          fillColor: widget.filColor,
+          prefixIcon: widget.prefixIcon,
+          errorStyle: TextStyle(
+            color: Colors.white, // Your custom error color
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+          ),
+          suffixIcon: widget.isPassword
+              ? GestureDetector(
+                  onTap: toggle,
+                  child: _suffixIcon(
+                      obscureText ? Icons.visibility_off : Icons.visibility),
+                )
+              : widget.suffixIcon,
+          prefixIconConstraints:
+              BoxConstraints(minHeight: 24.w, minWidth: 24.w),
+          labelText: widget.labelText,
+          hintText: widget.hintText,
+          labelStyle: widget.labelTextStyle,
+          enabled: widget.isEnabled),
     );
   }
 
   _suffixIcon(IconData icon) {
-    return Padding(padding: const EdgeInsets.all(12.0), child: Icon(icon,color: widget.suffixIconColor??Colors.black,size: 20,));
+    return Padding(
+      padding: const EdgeInsets.all(12.0),
+      child: Icon(
+        icon,
+        color: widget.suffixIconColor ?? Colors.black,
+        size: 20,
+      ),
+    );
   }
 }
-
