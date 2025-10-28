@@ -89,11 +89,11 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "CompanyName", "com.golfgameplay" "\0"
+            VALUE "CompanyName", "com.golfgameplay.golfgame" "\0"
             VALUE "FileDescription", "golf_game_play" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
             VALUE "InternalName", "golf_game_play" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2024 com.golfgameplay. All rights reserved." "\0"
+            VALUE "LegalCopyright", "Copyright (C) 2024 com.golfgameplay.golfgame. All rights reserved." "\0"
             VALUE "OriginalFilename", "golf_game_play.exe" "\0"
             VALUE "ProductName", "golf_game_play" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"

@@ -25,7 +25,7 @@ class LocationSelectorView extends StatefulWidget {
 
 class _LocationSelectorViewState extends State<LocationSelectorView> {
   GoogleMapController? mapController;
-  final LatLng _center = const LatLng(19.432608, -99.133209); // Default to Mexico City
+  final LatLng _center = const LatLng(19.432608, -80.133209); // Default to Mexico City
   LatLng? _pickedLocation;
   late final TextEditingController _searchController = TextEditingController();
   List<String> onChangeTextFieldValue = [];
@@ -49,7 +49,7 @@ class _LocationSelectorViewState extends State<LocationSelectorView> {
   void _moveCamera(LatLng target) {
     mapController?.animateCamera(
       CameraUpdate.newCameraPosition(
-        CameraPosition(target: target, zoom: 15),
+        CameraPosition(target: target, zoom: 14),
       ),
     );
     setState(() {
@@ -84,7 +84,7 @@ class _LocationSelectorViewState extends State<LocationSelectorView> {
                 onMapCreated: _onMapCreated,
                 initialCameraPosition: CameraPosition(
                   target: _pickedLocation??_center,
-                  zoom: 11.0,
+                  zoom: 5.0,
                 ),
                 onTap: (position) {
                   _moveCamera(position);
