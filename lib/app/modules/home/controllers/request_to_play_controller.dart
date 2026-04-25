@@ -2,18 +2,19 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:get/get.dart';
 import 'package:golf_game_play/app/data/api_constants.dart';
-import 'package:golf_game_play/app/modules/home/controllers/current_location_controller.dart';
 import 'package:golf_game_play/common/prefs_helper/prefs_helpers.dart';
 import 'package:http/http.dart' as http;
 
 class RequestSendToPlayController extends GetxController {
-
-   RxMap<int,bool> isLoading = <int,bool>{}.obs;
- // RxMap<int,bool> isSmallLoading = <int,bool>{}.obs ;
-
+  RxMap<int, bool> isLoading = <int, bool>{}.obs;
+  // RxMap<int,bool> isSmallLoading = <int,bool>{}.obs ;
 
   /// Club Request to play
-   request({Function(String?)? callBack,String? tournamentId,String? tournamentType, required int index}) async {
+  request(
+      {Function(String?)? callBack,
+      String? tournamentId,
+      String? tournamentType,
+      required int index}) async {
     isLoading[index] = true;
     try {
       String token = await PrefsHelper.getString('token');
@@ -25,14 +26,15 @@ class RequestSendToPlayController extends GetxController {
       };
 
       Map<String, String> body = {
-        "tournamentId":tournamentId??'',
-        "typename":tournamentType??''
+        "tournamentId": tournamentId ?? '',
+        "typename": tournamentType ?? ''
       };
 
-      var request = http.Request('POST', Uri.parse(ApiConstants.sendRequestToPlayUrl));
+      var request =
+          http.Request('POST', Uri.parse(ApiConstants.sendRequestToPlayUrl));
 
       request.headers.addAll(headers);
-      request.body=jsonEncode(body);
+      request.body = jsonEncode(body);
 
       var response = await request.send();
       var responseBody = await http.Response.fromStream(response);
@@ -63,9 +65,6 @@ class RequestSendToPlayController extends GetxController {
       isLoading[index] = false;
     }
   }
-
-
-
 
   /// Small Outing Request to play
   // smallOutingRequest({Function(String?)? callBack,String? tournamentId,String? tournamentType,required int index}) async {

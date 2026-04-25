@@ -6,16 +6,14 @@ import 'package:golf_game_play/app/modules/sign_up/controllers/signup_controller
 import 'package:golf_game_play/common/app_color/app_colors.dart';
 import 'package:image_picker/image_picker.dart';
 
-
-
 class ShowImagePickerRegister {
-
-  SignupController registerCtrl=Get.put(SignupController());
-   ProfileUpdateController _profileUpdateCtrl = Get.put(ProfileUpdateController());
+  SignupController registerCtrl = Get.put(SignupController());
+  final ProfileUpdateController _profileUpdateCtrl =
+      Get.put(ProfileUpdateController());
 
   showImagePickerOption(BuildContext context) {
     showModalBottomSheet(
-      // backgroundColor: AppColors.AppBgColor,
+        // backgroundColor: AppColors.AppBgColor,
         context: context,
         builder: (builder) {
           return Padding(
@@ -28,8 +26,9 @@ class ShowImagePickerRegister {
                 children: [
                   Expanded(
                     child: InkWell(
-                      onTap: ()async {
-                       await registerCtrl.pickImageFromCamera(ImageSource.gallery);
+                      onTap: () async {
+                        await registerCtrl
+                            .pickImageFromCamera(ImageSource.gallery);
                       },
                       child: SizedBox(
                         child: Column(
@@ -47,8 +46,9 @@ class ShowImagePickerRegister {
                   ),
                   Expanded(
                     child: InkWell(
-                      onTap: () async{
-                        await registerCtrl.pickImageFromCamera(ImageSource.camera);
+                      onTap: () async {
+                        await registerCtrl
+                            .pickImageFromCamera(ImageSource.camera);
                       },
                       child: SizedBox(
                         child: Column(
@@ -73,7 +73,7 @@ class ShowImagePickerRegister {
 
   showImagePickerUpdateProfileOption(BuildContext context) {
     showModalBottomSheet(
-      // backgroundColor: AppColors.AppBgColor,
+        // backgroundColor: AppColors.AppBgColor,
         context: context,
         builder: (builder) {
           return Padding(
@@ -86,8 +86,10 @@ class ShowImagePickerRegister {
                 children: [
                   Expanded(
                     child: InkWell(
-                      onTap: ()async {
-                        await _profileUpdateCtrl.pickImageFromCameraForProfilePic(ImageSource.gallery);
+                      onTap: () async {
+                        await _profileUpdateCtrl
+                            .pickImageFromCameraForProfilePic(
+                                ImageSource.gallery);
                       },
                       child: SizedBox(
                         child: Column(
@@ -105,8 +107,10 @@ class ShowImagePickerRegister {
                   ),
                   Expanded(
                     child: InkWell(
-                      onTap: () async{
-                        await _profileUpdateCtrl.pickImageFromCameraForProfilePic(ImageSource.camera);
+                      onTap: () async {
+                        await _profileUpdateCtrl
+                            .pickImageFromCameraForProfilePic(
+                                ImageSource.camera);
                       },
                       child: SizedBox(
                         child: Column(
@@ -128,6 +132,4 @@ class ShowImagePickerRegister {
           );
         });
   }
-
-
 }

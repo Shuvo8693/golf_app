@@ -10,8 +10,6 @@ import 'package:golf_game_play/common/app_text_style/style.dart';
 import 'package:golf_game_play/common/date_time_formation/data_age_formation.dart';
 import 'package:golf_game_play/common/widgets/casess_network_image.dart';
 import 'package:golf_game_play/common/widgets/custom_appBar_title.dart';
-import 'package:golf_game_play/main.dart';
-import 'package:intl/intl.dart';
 
 import '../controllers/messenger_controller.dart';
 
@@ -33,12 +31,13 @@ class MessageView extends StatelessWidget {
             /// Friend List
 
             Obx(() {
-              List<MessageAttributes> messageAttributes = _messengerController.messageModel.value.data?.attributes??[];
+              List<MessageAttributes> messageAttributes =
+                  _messengerController.messageModel.value.data?.attributes ??
+                      [];
 
-              if(_messengerController.isLoading.value){
+              if (_messengerController.isLoading.value) {
                 return Center(child: CircularProgressIndicator());
-              }
-              else if(messageAttributes.isEmpty){
+              } else if (messageAttributes.isEmpty) {
                 return Center(child: Text('No Message'));
               }
               return Expanded(
@@ -47,43 +46,64 @@ class MessageView extends StatelessWidget {
                   primary: false,
                   itemCount: messageAttributes.length,
                   itemBuilder: (context, index) {
-                    MessageAttributes messageAttributeIndex = messageAttributes[index];
-                    if(messageAttributeIndex.type == 'single'){
-                    Participants? participantId = messageAttributeIndex.participants?.firstWhereOrNull((participant)=>participant.id != _messengerController.myID);
+                    MessageAttributes messageAttributeIndex =
+                        messageAttributes[index];
+                    if (messageAttributeIndex.type == 'single') {
+                      Participants? participantId = messageAttributeIndex
+                          .participants
+                          ?.firstWhereOrNull((participant) =>
+                              participant.id != _messengerController.myID);
                       return ListTile(
                         contentPadding: EdgeInsets.zero,
                         onTap: () {
-                          Get.toNamed(Routes.MESSAGE_INBOX,arguments: {'messengerAttributes':messageAttributeIndex});
+                          Get.toNamed(Routes.MESSAGE_INBOX, arguments: {
+                            'messengerAttributes': messageAttributeIndex
+                          });
                         },
                         leading: CustomNetworkImage(
-                          imageUrl: "${ApiConstants.imageBaseUrl}${participantId?.image?.url}",
+                          imageUrl:
+                              "${ApiConstants.imageBaseUrl}${participantId?.image?.url}",
                           height: 60.h,
                           width: 60.h,
                           borderRadius: BorderRadius.circular(10.r),
                         ),
                         title: Text(
-                          participantId?.name??'',
+                          participantId?.name ?? '',
                           style: AppStyles.h3(family: "Schuyler"),
                         ),
                         subtitle: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('${messageAttributeIndex.lastMessage?.message}',maxLines: 1,style: AppStyles.h5(color: Colors.black54),),
-                            Text(DataAgeFormation().formatAge(messageAttributeIndex.lastMessage?.timestamp??DateTime.now()),
-                                style: AppStyles.h6(family: "Schuyler",color: Colors.black54),
+                            Text(
+                              '${messageAttributeIndex.lastMessage?.message}',
+                              maxLines: 1,
+                              style: AppStyles.h5(color: Colors.black54),
+                            ),
+                            Text(
+                              DataAgeFormation().formatAge(messageAttributeIndex
+                                      .lastMessage?.timestamp ??
+                                  DateTime.now()),
+                              style: AppStyles.h6(
+                                  family: "Schuyler", color: Colors.black54),
                             ),
                           ],
                         ),
                       );
-                    }else{
-                     String? tournamentImage = messageAttributeIndex.btournamentId?.tournamentImage?.url ?? messageAttributeIndex.stournamentId?.tournamentImage?.url;
+                    } else {
+                      String? tournamentImage = messageAttributeIndex
+                              .btournamentId?.tournamentImage?.url ??
+                          messageAttributeIndex
+                              .stournamentId?.tournamentImage?.url;
                       return ListTile(
                         contentPadding: EdgeInsets.zero,
                         onTap: () {
-                          Get.toNamed(Routes.MESSAGE_INBOX,arguments: {'messengerAttributes':messageAttributeIndex});
+                          Get.toNamed(Routes.MESSAGE_INBOX, arguments: {
+                            'messengerAttributes': messageAttributeIndex
+                          });
                         },
                         leading: CustomNetworkImage(
-                          imageUrl: "${ApiConstants.imageBaseUrl}${tournamentImage??''}",
+                          imageUrl:
+                              "${ApiConstants.imageBaseUrl}${tournamentImage ?? ''}",
                           height: 54.h,
                           width: 54.w,
                           borderRadius: BorderRadius.circular(10.r),
@@ -95,15 +115,22 @@ class MessageView extends StatelessWidget {
                         subtitle: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('${messageAttributeIndex.lastMessage?.message}',maxLines: 1,style: AppStyles.h5(color: Colors.black54),),
-                            Text(DataAgeFormation().formatAge(messageAttributeIndex.lastMessage?.timestamp??DateTime.now()),
-                              style: AppStyles.h6(family: "Schuyler",color: Colors.black54),
+                            Text(
+                              '${messageAttributeIndex.lastMessage?.message}',
+                              maxLines: 1,
+                              style: AppStyles.h5(color: Colors.black54),
+                            ),
+                            Text(
+                              DataAgeFormation().formatAge(messageAttributeIndex
+                                      .lastMessage?.timestamp ??
+                                  DateTime.now()),
+                              style: AppStyles.h6(
+                                  family: "Schuyler", color: Colors.black54),
                             ),
                           ],
                         ),
                       );
                     }
-
                   },
                 ),
               );

@@ -1,29 +1,24 @@
-
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
 
-
-class FileController extends GetxController{
-
+class FileController extends GetxController {
   File? selectedIFile;
-  var filePath=''.obs;
-  var fileName=''.obs;
-  var type=''.obs;
-  var getFilePath=''.obs;
+  var filePath = ''.obs;
+  var fileName = ''.obs;
+  var type = ''.obs;
+  var getFilePath = ''.obs;
 
-  var selectedFiles = <File>[].obs;  // Observable list of selected files
+  var selectedFiles = <File>[].obs; // Observable list of selected files
   var selectedFilePaths = <String>[].obs;
 
   // var selectedFilePath = ''.obs;
   // File? selectedFile;
 
-
- /* Future<void> pickImageFile() async {
+  /* Future<void> pickImageFile() async {
     try {
       // Let the user pick multiple files (images or PDFs)
       FilePickerResult? result = await FilePicker.platform.pickFiles(
@@ -67,7 +62,6 @@ class FileController extends GetxController{
     }
   }*/
 
-
   Future<void> pickImageFile() async {
     try {
       // Let the user pick image or PDF
@@ -82,19 +76,19 @@ class FileController extends GetxController{
 
         String fileExtension = extension(selectedIFile!.path).toLowerCase();
 
-        if (fileExtension == '.jpg' || fileExtension == '.jpeg' || fileExtension == '.png') {
+        if (fileExtension == '.jpg' ||
+            fileExtension == '.jpeg' ||
+            fileExtension == '.png') {
           print("Selected Image: ${filePath.value}");
-          getFilePath.value= filePath.value;
+          getFilePath.value = filePath.value;
           Get.back();
           Get.snackbar('file selected', '');
-         print("=========tap");
-
+          print("=========tap");
         } else {
           print("Unsupported file type selected.");
         }
         // You can call an upload function if needed
         // uploadFile(selectedFile!);
-
       } else {
         print("No file selected.");
       }
@@ -108,7 +102,18 @@ class FileController extends GetxController{
       // Let the user pick image or PDF
       FilePickerResult? result = await FilePicker.platform.pickFiles(
         type: FileType.custom,
-        allowedExtensions: ['jpg', 'jpeg', 'png', 'pdf', 'heic', 'heif', 'mp4', 'avi', 'mkv', 'mov'],
+        allowedExtensions: [
+          'jpg',
+          'jpeg',
+          'png',
+          'pdf',
+          'heic',
+          'heif',
+          'mp4',
+          'avi',
+          'mkv',
+          'mov'
+        ],
       );
 
       if (result != null && result.files.single.path != null) {
@@ -119,22 +124,22 @@ class FileController extends GetxController{
 
         if (fileExtension == '.pdf') {
           print("Selected PDF: ${filePath.value}");
-           getFilePath.value= filePath.value;
-           Get.back();
-           Get.snackbar('file selected', '');
-        } else if (fileExtension == '.jpg' || fileExtension == '.jpeg' || fileExtension == '.png') {
-          print("Selected Image: ${filePath.value}");
-          getFilePath.value= filePath.value;
+          getFilePath.value = filePath.value;
           Get.back();
           Get.snackbar('file selected', '');
-         print("=========tap");
-
+        } else if (fileExtension == '.jpg' ||
+            fileExtension == '.jpeg' ||
+            fileExtension == '.png') {
+          print("Selected Image: ${filePath.value}");
+          getFilePath.value = filePath.value;
+          Get.back();
+          Get.snackbar('file selected', '');
+          print("=========tap");
         } else {
           print("Unsupported file type selected.");
         }
         // You can call an upload function if needed
         // uploadFile(selectedFile!);
-
       } else {
         print("No file selected.");
       }
@@ -143,8 +148,7 @@ class FileController extends GetxController{
     }
   }
 
-
- /* Future<void> pickPDF() async {
+  /* Future<void> pickPDF() async {
     try {
       // Let the user pick a PDF file
       FilePickerResult? result = await FilePicker.platform.pickFiles(
@@ -170,25 +174,26 @@ class FileController extends GetxController{
     }
   }*/
 
-
-/// camera image
+  /// camera image
   Future pickImageFromCamera(ImageSource source) async {
     final returnImage = await ImagePicker().pickImage(source: source);
     if (returnImage == null) return;
     selectedIFile = File(returnImage.path);
-    filePath.value=selectedIFile!.path;
-     type.value='image';
+    filePath.value = selectedIFile!.path;
+    type.value = 'image';
     //  image = File(returnImage.path).readAsBytesSync();
     update();
     print('ImagesPath:$filePath');
     Get.back(); //
   }
+
   Future pickImageFromGallery() async {
-    final returnImage = await ImagePicker().pickImage(source: ImageSource.gallery);
+    final returnImage =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
     if (returnImage == null) return;
     selectedIFile = File(returnImage.path);
-    filePath.value=selectedIFile!.path;
-     type.value='image';
+    filePath.value = selectedIFile!.path;
+    type.value = 'image';
     //  image = File(returnImage.path).readAsBytesSync();
     print('ImagesPath:$filePath');
     Get.back(); //

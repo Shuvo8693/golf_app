@@ -5,7 +5,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
 import 'package:golf_game_play/app/modules/otp/controllers/resend_otp_controller.dart';
-import 'package:golf_game_play/app/routes/app_pages.dart';
 import 'package:golf_game_play/common/app_color/app_colors.dart';
 import 'package:golf_game_play/common/app_string/app_string.dart';
 import 'package:golf_game_play/common/app_text_style/style.dart';
@@ -44,8 +43,12 @@ class _OtpViewState extends State<OtpView> {
   }
 
   String get timerText {
-    int minutes = _start ~/ 60; /// ~/ eta vag kora {When (_start 179 ~/ 60=2.98 ),(_start 119 ~/ 60 = 1.98 ),(_start 59 ~/ 60 = 0.98 ) }
-    int seconds = _start % 60; /// Vag sesh, The remainder is 150−120=30, 30 is reminder, if _start is 119 then second will set to 59 cause reminder is 59 ({60*2=120} then 60*1=60 ,if 119 then 119-60=59)
+    int minutes = _start ~/ 60;
+
+    /// ~/ eta vag kora {When (_start 179 ~/ 60=2.98 ),(_start 119 ~/ 60 = 1.98 ),(_start 59 ~/ 60 = 0.98 ) }
+    int seconds = _start % 60;
+
+    /// Vag sesh, The remainder is 150−120=30, 30 is reminder, if _start is 119 then second will set to 59 cause reminder is 59 ({60*2=120} then 60*1=60 ,if 119 then 119-60=59)
     /// When _start = 59 is divided by 60, the quotient is 0 (since 59 is less than 60), and the remainder is 59. {eta hocce vag sesh , jeta dea multiply kora jabe na obosisto number ty reminder hobe }
     return '${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}';
   }
@@ -86,7 +89,8 @@ class _OtpViewState extends State<OtpView> {
                 SizedBox(
                   height: 55.h,
                 ),
-                Text(AppString.verifyEmailTExt, style:
+                Text(AppString.verifyEmailTExt,
+                    style:
                         AppStyles.h1(family: "Schuyler", color: Colors.white)),
                 Text(AppString.subverifyEmailTExt,
                     style: AppStyles.h5(color: Colors.white)),
@@ -130,7 +134,8 @@ class _OtpViewState extends State<OtpView> {
                     ),
                     SizedBox(height: 20.h),
 
-                    Text(timerText, style: AppStyles.h4(color: AppColors.primaryColor)),
+                    Text(timerText,
+                        style: AppStyles.h4(color: AppColors.primaryColor)),
 
                     SizedBox(height: 20.h),
 
@@ -140,7 +145,8 @@ class _OtpViewState extends State<OtpView> {
                           loading: otpController.verifyLoading.value,
                           onTap: () async {
                             if (_formKey.currentState!.validate()) {
-                              await otpController.sendOtp(Get.arguments['isPassReset']??false);
+                              await otpController.sendOtp(
+                                  Get.arguments['isPassReset'] ?? false);
                             }
                           },
                           text: AppString.verifyEmailTExt);

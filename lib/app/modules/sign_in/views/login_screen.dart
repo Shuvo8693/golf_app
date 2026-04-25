@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:golf_game_play/app/modules/sign_in/controllers/login_controller.dart';
 import 'package:golf_game_play/app/routes/app_pages.dart';
 import 'package:golf_game_play/common/app_color/app_colors.dart';
 import 'package:golf_game_play/common/app_string/app_string.dart';
 import 'package:golf_game_play/common/app_text_style/style.dart';
-import 'package:golf_game_play/common/prefs_helper/prefs_helpers.dart';
 import 'package:golf_game_play/common/widgets/background_image.dart';
 import 'package:golf_game_play/common/widgets/custom_button.dart';
 import 'package:golf_game_play/common/widgets/custom_text_field.dart';
@@ -26,8 +24,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BackgroundImage(
-        children: [
+    return BackgroundImage(children: [
       SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.symmetric(horizontal: 10.w),
@@ -97,7 +94,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                  /*  Wrap(
+                    /*  Wrap(
                       children: [
                         InkWell(
                           onTap: () {},
@@ -141,7 +138,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           await _signInController.login();
                         }
                       },
-                      textStyle: AppStyles.h1(color: Colors.black, fontWeight: FontWeight.w700),
+                      textStyle: AppStyles.h1(
+                          color: Colors.black, fontWeight: FontWeight.w700),
                       text: AppString.loginText);
                 }),
 
@@ -149,7 +147,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 SizedBox(height: 100.h),
                 InkWell(
                   onTap: () {
-                    Get.toNamed(Routes.LOCATION_SELECTOR,arguments: {'from':'login'});
+                    Get.toNamed(Routes.LOCATION_SELECTOR,
+                        arguments: {'from': 'login'});
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -182,6 +181,7 @@ class _LoginScreenState extends State<LoginScreen> {
       )
     ]);
   }
+
   @override
   void dispose() {
     _signInController.dispose();

@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:golf_game_play/app/data/google_api_service.dart';
 import 'package:golf_game_play/app/modules/sponsor_signup/controllers/sponsor_signup_controller.dart';
@@ -14,8 +13,6 @@ import 'package:golf_game_play/common/widgets/app_button.dart';
 import 'package:golf_game_play/common/widgets/custom_button.dart';
 import 'package:golf_game_play/common/widgets/custom_card.dart';
 import 'package:golf_game_play/common/widgets/custom_text_field.dart';
-import 'package:golf_game_play/common/widgets/custom_textfelid.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 
 class SponsorSignupView extends StatefulWidget {
@@ -26,10 +23,10 @@ class SponsorSignupView extends StatefulWidget {
 }
 
 class _SponsorSignupViewState extends State<SponsorSignupView> {
-  final SponsorSignupController _sponsorSignupController = Get.put(SponsorSignupController());
+  final SponsorSignupController _sponsorSignupController =
+      Get.put(SponsorSignupController());
   late final TextEditingController _searchController = TextEditingController();
   List<String> onChangeTextFieldValue = [];
-
 
   @override
   Widget build(BuildContext context) {
@@ -101,7 +98,9 @@ class _SponsorSignupViewState extends State<SponsorSignupView> {
                       child: TextField(
                         onChanged: (inputValue) async {
                           if (inputValue.isNotEmpty == true) {
-                            var result = await GoogleApiService.fetchSuggestions(inputValue);
+                            var result =
+                                await GoogleApiService.fetchSuggestions(
+                                    inputValue);
                             print(result.toString());
                             setState(() {
                               _sponsorSignupController.latLng = null;
@@ -122,7 +121,8 @@ class _SponsorSignupViewState extends State<SponsorSignupView> {
                         ),
                         onSubmitted: (value) async {
                           print(value);
-                         await _sponsorSignupController.goToSearchLocation(value);
+                          await _sponsorSignupController
+                              .goToSearchLocation(value);
                         },
                       ),
                     ),
@@ -159,19 +159,25 @@ class _SponsorSignupViewState extends State<SponsorSignupView> {
                                 padding: EdgeInsets.all(8.0.sp),
                                 child: InkWell(
                                   onTap: () {
-                                    String selectedLocation = onChangeTextFieldValue[index].toString();
+                                    String selectedLocation =
+                                        onChangeTextFieldValue[index]
+                                            .toString();
                                     print(selectedLocation);
                                     if (selectedLocation.isNotEmpty == true) {
                                       _searchController.text = selectedLocation;
                                       print(_searchController.text);
-                                      _sponsorSignupController.goToSearchLocation(_searchController.text);
+                                      _sponsorSignupController
+                                          .goToSearchLocation(
+                                              _searchController.text);
                                       setState(() {
                                         onChangeTextFieldValue.clear();
                                       });
                                     }
                                   },
-                                  child: Text(onChangeTextFieldValue[index].toString(),
-                                    style: const TextStyle(fontWeight: FontWeight.w500),
+                                  child: Text(
+                                    onChangeTextFieldValue[index].toString(),
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.w500),
                                   ),
                                 ),
                               );
@@ -198,14 +204,18 @@ class _SponsorSignupViewState extends State<SponsorSignupView> {
                 SizedBox(height: 100.h),
                 Obx(() {
                   return CustomButton(
-                    loading: _sponsorSignupController.isLoading.value,
+                      loading: _sponsorSignupController.isLoading.value,
                       onTap: () async {
-                        if (_sponsorSignupController.latLng != null && _sponsorSignupController.selectedIFile!.path.isNotEmpty) {
-                          print('Check LatLng: ${_sponsorSignupController.latLng}');
+                        if (_sponsorSignupController.latLng != null &&
+                            _sponsorSignupController
+                                .selectedIFile!.path.isNotEmpty) {
+                          print(
+                              'Check LatLng: ${_sponsorSignupController.latLng}');
                           await _sponsorSignupController.createSponsorContent();
                         } else {
                           print("No location selected!");
-                          Get.snackbar('No location selected!', 'Please select your location ');
+                          Get.snackbar('No location selected!',
+                              'Please select your location ');
                         }
                       },
                       text: AppString.saveAndContinueText);

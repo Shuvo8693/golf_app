@@ -6,24 +6,23 @@ import 'package:golf_game_play/app/modules/requested_to_play_tournament/controll
 import 'package:golf_game_play/app/modules/requested_to_play_tournament/model/request_to_play_model.dart';
 import 'package:golf_game_play/app/modules/requested_to_play_tournament/widgets/request_to_play_item_card.dart';
 
-import 'package:golf_game_play/common/app_color/app_colors.dart';
 import 'package:golf_game_play/common/app_string/app_string.dart';
 import 'package:golf_game_play/common/app_text_style/style.dart';
 import 'package:golf_game_play/common/widgets/app_button.dart';
 import 'package:golf_game_play/common/widgets/custom_card.dart';
-import 'package:golf_game_play/common/widgets/custom_text_field.dart';
 
 class RequestedToPlayTournamentView extends StatefulWidget {
-
   const RequestedToPlayTournamentView({super.key});
 
   @override
-  State<RequestedToPlayTournamentView> createState() => _RequestedToPlayTournamentViewState();
+  State<RequestedToPlayTournamentView> createState() =>
+      _RequestedToPlayTournamentViewState();
 }
 
-class _RequestedToPlayTournamentViewState extends State<RequestedToPlayTournamentView> {
-
-  final RequestedToPlayTournamentController _requestToPlayTournamentController = Get.put(RequestedToPlayTournamentController());
+class _RequestedToPlayTournamentViewState
+    extends State<RequestedToPlayTournamentView> {
+  final RequestedToPlayTournamentController _requestToPlayTournamentController =
+      Get.put(RequestedToPlayTournamentController());
   final ScrollController _scrollController = ScrollController();
 
   @override
@@ -32,8 +31,10 @@ class _RequestedToPlayTournamentViewState extends State<RequestedToPlayTournamen
     WidgetsBinding.instance.addPostFrameCallback((__) async {
       await _requestToPlayTournamentController.fetchRequestedPlayerList();
     });
-    _scrollController.addListener(()async{
-      if(_scrollController.position.pixels >= _scrollController.position.maxScrollExtent -200 && !_requestToPlayTournamentController.isFetchingMore.value){
+    _scrollController.addListener(() async {
+      if (_scrollController.position.pixels >=
+              _scrollController.position.maxScrollExtent - 200 &&
+          !_requestToPlayTournamentController.isFetchingMore.value) {
         await _requestToPlayTournamentController.loadMorePage();
       }
     });
@@ -51,8 +52,7 @@ class _RequestedToPlayTournamentViewState extends State<RequestedToPlayTournamen
             children: [
               Align(
                 alignment: Alignment.center,
-                child:
-                    Text(AppString.requestToPlayText, style: AppStyles.h1()),
+                child: Text(AppString.requestToPlayText, style: AppStyles.h1()),
               ),
               SizedBox(height: 12.h),
               // Row(
@@ -78,34 +78,42 @@ class _RequestedToPlayTournamentViewState extends State<RequestedToPlayTournamen
               SizedBox(height: 30.h),
               //Text('80+ Results'),
               SizedBox(height: 8.h),
-              Obx((){
-               List<RequestToPlayData> requestToPlayData = _requestToPlayTournamentController.requestToPlayModel.value.data??[];
-               if(_requestToPlayTournamentController.isLoading.value){
-                 return Center(child: CircularProgressIndicator());
-               }
-               if(requestToPlayData.isEmpty){
-                 return Text('Player request is empty',style: AppStyles.h3(),);
-               }
+              Obx(() {
+                List<RequestToPlayData> requestToPlayData =
+                    _requestToPlayTournamentController
+                            .requestToPlayModel.value.data ??
+                        [];
+                if (_requestToPlayTournamentController.isLoading.value) {
+                  return Center(child: CircularProgressIndicator());
+                }
+                if (requestToPlayData.isEmpty) {
+                  return Text(
+                    'Player request is empty',
+                    style: AppStyles.h3(),
+                  );
+                }
                 return Expanded(
                   child: ListView.builder(
-                    itemCount: requestToPlayData.length + (_requestToPlayTournamentController.isFetchingMore.value ? 1:0),
+                    itemCount: requestToPlayData.length +
+                        (_requestToPlayTournamentController.isFetchingMore.value
+                            ? 1
+                            : 0),
                     controller: _scrollController,
                     shrinkWrap: true,
                     itemBuilder: (BuildContext context, int index) {
-                      if(requestToPlayData.length == index ){
+                      if (requestToPlayData.length == index) {
                         return Padding(
-                          padding:  EdgeInsets.symmetric(vertical: 16.h),
+                          padding: EdgeInsets.symmetric(vertical: 16.h),
                           child: Center(child: CircularProgressIndicator()),
                         );
                       }
                       final requestToPlayDataIndex = requestToPlayData[index];
-                      return RequestToPlayItemCard( requestToPlayData: requestToPlayDataIndex );
+                      return RequestToPlayItemCard(
+                          requestToPlayData: requestToPlayDataIndex);
                     },
                   ),
                 );
-              }
-
-              ),
+              }),
             ],
           ),
         ),
@@ -166,5 +174,3 @@ class _RequestedToPlayTournamentViewState extends State<RequestedToPlayTournamen
     );
   }
 }
-
-

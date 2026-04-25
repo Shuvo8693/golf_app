@@ -8,7 +8,9 @@ class CompleteTournamentModel {
   CompleteTournamentModel.fromJson(Map<String, dynamic> json) {
     code = json['code'];
     message = json['message'];
-    data = json['data'] != null ? CompleteTournamentData.fromJson(json['data']) : null;
+    data = json['data'] != null
+        ? CompleteTournamentData.fromJson(json['data'])
+        : null;
   }
 }
 
@@ -21,7 +23,7 @@ class CompleteTournamentData {
     if (json['attributes'] != null) {
       attributes = <CompleteTournamentAttributes>[];
       json['attributes'].forEach((v) {
-        attributes!.add(new CompleteTournamentAttributes.fromJson(v));
+        attributes!.add(CompleteTournamentAttributes.fromJson(v));
       });
     }
   }
@@ -41,16 +43,15 @@ class CompleteTournamentAttributes {
 
   CompleteTournamentAttributes(
       {this.sId,
-        this.clubName,
-        this.tournamentType,
-        this.typeName,
-        this.date,
-        this.time,
-        this.courseName,
-        this.tournamentName,
-        this.tournamentCreator,
-        this.isWinnerView
-      });
+      this.clubName,
+      this.tournamentType,
+      this.typeName,
+      this.date,
+      this.time,
+      this.courseName,
+      this.tournamentName,
+      this.tournamentCreator,
+      this.isWinnerView});
 
   CompleteTournamentAttributes.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
@@ -63,6 +64,5 @@ class CompleteTournamentAttributes {
     tournamentName = json['tournamentName'];
     tournamentCreator = json['tournamentCreator'];
     isWinnerView = json['iswinner'];
-
   }
 }

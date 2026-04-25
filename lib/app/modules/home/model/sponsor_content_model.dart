@@ -8,7 +8,8 @@ class SponsorContentModel {
   SponsorContentModel.fromJson(Map<String, dynamic> json) {
     code = json['code'];
     message = json['message'];
-    data = json['data'] != null ? new SponsorContentData.fromJson(json['data']) : null;
+    data =
+        json['data'] != null ? SponsorContentData.fromJson(json['data']) : null;
   }
 }
 
@@ -21,7 +22,7 @@ class SponsorContentData {
     if (json['attributes'] != null) {
       attributes = <SponsorContentAttributes>[];
       json['attributes'].forEach((v) {
-        attributes!.add(new SponsorContentAttributes.fromJson(v));
+        attributes!.add(SponsorContentAttributes.fromJson(v));
       });
     }
   }
@@ -41,26 +42,25 @@ class SponsorContentAttributes {
 
   SponsorContentAttributes(
       {this.sId,
-        this.sponserCreator,
-        this.sponserImage,
-        this.name,
-        this.location,
-        this.link,
-        this.createdAt,
-        this.updatedAt,
-        this.iV,
-        this.distance});
+      this.sponserCreator,
+      this.sponserImage,
+      this.name,
+      this.location,
+      this.link,
+      this.createdAt,
+      this.updatedAt,
+      this.iV,
+      this.distance});
 
   SponsorContentAttributes.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
     sponserCreator = json['sponserCreator'];
     sponserImage = json['sponserImage'] != null
-        ? new SponserImage.fromJson(json['sponserImage'])
+        ? SponserImage.fromJson(json['sponserImage'])
         : null;
     name = json['name'];
-    location = json['location'] != null
-        ? new Location.fromJson(json['location'])
-        : null;
+    location =
+        json['location'] != null ? Location.fromJson(json['location']) : null;
     link = json['link'];
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];

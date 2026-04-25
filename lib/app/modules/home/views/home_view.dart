@@ -1,7 +1,5 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import 'package:get/get.dart';
 import 'package:golf_game_play/app/modules/home/controllers/current_location_controller.dart';
 import 'package:golf_game_play/app/modules/home/controllers/location_update_controller.dart';
@@ -25,6 +23,7 @@ import 'package:golf_game_play/common/app_text_style/style.dart';
 import 'package:golf_game_play/common/widgets/app_button.dart';
 import 'package:golf_game_play/common/widgets/custom_card.dart';
 import 'package:golf_game_play/common/widgets/golf_logo.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -41,6 +40,7 @@ class _HomeViewState extends State<HomeView> {
   final SponsorContentController _sponsorContentController= Get.put(SponsorContentController());
   final ScrollController _scrollController = ScrollController();
   final MyProfileController _myProfileController = MyProfileController();
+  bool _hasNavigatedToLookingToPlay = false;
 
   @override
   void initState() {
@@ -65,6 +65,19 @@ class _HomeViewState extends State<HomeView> {
         await _homeController.loadMoreOutingPage();
       }
     });
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    _hasNavigatedToLookingToPlay = false;
+    super.dispose();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _hasNavigatedToLookingToPlay = false;
   }
 
   @override
@@ -245,27 +258,29 @@ class _HomeViewState extends State<HomeView> {
                  return Text('No sponsor content are available',style: AppStyles.h4(color: Colors.grey.shade400),);
                }
 
-                return  CarouselSlider.builder(
-                  itemCount: sponsorContentAttributes.length,
-                  itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex) {
-                   final sponsorContentIndex = sponsorContentAttributes[itemIndex];
-                    return SponsorContentView(sponsorContentAttributes: sponsorContentIndex,);
-                  },
-                  options: CarouselOptions(
-                    height: 140.h,
-                    aspectRatio: 16 / 9,
-                    viewportFraction: 1,
-                    initialPage: 0,
-                    enableInfiniteScroll: true,
-                    reverse: false,
-                    autoPlay: true,
-                    autoPlayInterval: Duration(seconds: 3),
-                    autoPlayAnimationDuration: Duration(milliseconds: 800),
-                    autoPlayCurve: Curves.fastOutSlowIn,
-                    enlargeCenterPage: true,
-                    enlargeFactor: 0.3,
-                    // onPageChanged: ,
-                    scrollDirection: Axis.horizontal,
+                return SizedBox(
+                  height: 140.h,
+                  child: CarouselSlider.builder(
+                    itemCount: sponsorContentAttributes.length,
+                    itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex) {
+                     final sponsorContentIndex = sponsorContentAttributes[itemIndex];
+                      return SponsorContentView(sponsorContentAttributes: sponsorContentIndex,);
+                    },
+                    options: CarouselOptions(
+                      height: 140.h,
+                      aspectRatio: 16 / 9,
+                      viewportFraction: 1,
+                      initialPage: 0,
+                      enableInfiniteScroll: true,
+                      reverse: false,
+                      autoPlay: true,
+                      autoPlayInterval: Duration(seconds: 3),
+                      autoPlayAnimationDuration: Duration(milliseconds: 800),
+                      autoPlayCurve: Curves.fastOutSlowIn,
+                      enlargeCenterPage: true,
+                      enlargeFactor: 0.3,
+                      scrollDirection: Axis.horizontal,
+                    ),
                   ),
                 );
               }
@@ -306,9 +321,12 @@ class _HomeViewState extends State<HomeView> {
               late  List<ClubTournamentData> clubTournamentDataList ;
               late  List<SmallTournamentData> smallTournamentDataList ;
                MyProfile myProfile = _myProfileController.myProfile.value;
-                if (_tabBarController.currentIndex.value == 2) {
+                if (_tabBarController.currentIndex.value == 2 && !_hasNavigatedToLookingToPlay) {
                   /// Looking to Play Screen Route
-                  Future.microtask(() => Get.offNamed(Routes.LOOKING_TO_PLAY));
+                  _hasNavigatedToLookingToPlay = true;
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    Get.offNamed(Routes.LOOKING_TO_PLAY);
+                  });
                   return SizedBox.shrink();
                 }
                 if (_tabBarController.currentIndex.value == 0) {

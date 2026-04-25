@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:golf_game_play/app/data/api_constants.dart';
 import 'package:golf_game_play/app/data/google_api_service.dart';
@@ -21,9 +20,10 @@ class AddTournamentController extends GetxController {
   final TextEditingController courseRatingCtrl = TextEditingController();
   final TextEditingController slopeRatingCtrl = TextEditingController();
   final TextEditingController numberOfPlayerCtrl = TextEditingController();
-  late final TextEditingController searchCourseNameCtrl = TextEditingController();
+  late final TextEditingController searchCourseNameCtrl =
+      TextEditingController();
 
-  List tournamentTypeList =  [
+  List tournamentTypeList = [
     'Skins',
     'Stroke Play',
     'Match Play',
@@ -51,8 +51,9 @@ class AddTournamentController extends GetxController {
 
   Future<void> goToSearchLocation(String address) async {
     try {
-      LatLng? locations = await GoogleApiService.fetchAddressToCoordinate(address, (location){});
-      if (locations !=null) {
+      LatLng? locations = await GoogleApiService.fetchAddressToCoordinate(
+          address, (location) {});
+      if (locations != null) {
         latLng = locations;
         print(latLng);
       }
@@ -68,7 +69,7 @@ class AddTournamentController extends GetxController {
         initialDate: DateTime.now(),
         firstDate: DateTime(1725),
         lastDate: DateTime(2050));
-   // DateTime selectedDates = DateTime.parse(selectedDate.value);
+    // DateTime selectedDates = DateTime.parse(selectedDate.value);
 
     if (picked != null && picked != selectedDate.value) {
       selectedDate.value = DateFormat('dd/MM/yyyy').format(picked);
@@ -106,8 +107,8 @@ class AddTournamentController extends GetxController {
         "date": selectedDate.value,
         "city": cityCtrl.text,
         "courseName": searchCourseNameCtrl.text,
-        "longitude": latLng?.longitude.toString()??'',
-        "latitude": latLng?.latitude.toString()?? '',
+        "longitude": latLng?.longitude.toString() ?? '',
+        "latitude": latLng?.latitude.toString() ?? '',
         "courseRating": courseRatingCtrl.text,
         "slopeRating": slopeRatingCtrl.text,
         "numberOfPlayers": numberOfPlayerCtrl.text,
@@ -116,11 +117,12 @@ class AddTournamentController extends GetxController {
       };
 
       // Create a MultipartRequest for the profile update
-      var request = http.MultipartRequest('POST', Uri.parse(ApiConstants.createTournamentUrl));
+      var request = http.MultipartRequest(
+          'POST', Uri.parse(ApiConstants.createTournamentUrl));
 
       request.headers.addAll(headers);
       if (selectedFile != null && selectedFile!.path.isNotEmpty) {
-      await _addFileToRequest(request, selectedFile!, 'tournamentImage');
+        await _addFileToRequest(request, selectedFile!, 'tournamentImage');
       }
       request.fields.assignAll(body);
 
@@ -154,7 +156,7 @@ class AddTournamentController extends GetxController {
   }
 
   /// Helper method to add file based on its type
- Future<void> _addFileToRequest(
+  Future<void> _addFileToRequest(
       http.MultipartRequest request, File file, String fileKey) async {
     String fileName = file.path.split('/').last;
     String fileType = fileName.split('.').last.toLowerCase();

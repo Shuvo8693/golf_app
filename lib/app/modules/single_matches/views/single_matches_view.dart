@@ -2,18 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import 'package:get/get.dart';
 import 'package:golf_game_play/app/modules/challenge_matches/widgets/challenge_matchPlayer_details.dart';
 import 'package:golf_game_play/common/app_color/app_colors.dart';
 import 'package:golf_game_play/common/app_icons/app_icons.dart';
 import 'package:golf_game_play/common/app_images/network_image%20.dart';
 import 'package:golf_game_play/common/app_string/app_string.dart';
 import 'package:golf_game_play/common/app_text_style/style.dart';
-import 'package:golf_game_play/common/widgets/casess_network_image.dart';
-import 'package:golf_game_play/common/widgets/custom_button.dart';
 import 'package:golf_game_play/common/widgets/custom_card.dart';
-import 'package:golf_game_play/common/widgets/custom_outlinebutton.dart';
-import 'package:golf_game_play/common/widgets/delete_alert_dialogue.dart';
 import 'package:golf_game_play/common/widgets/spacing.dart';
 
 class SingleMatchesView extends StatelessWidget {
@@ -41,7 +36,7 @@ class SingleMatchesView extends StatelessWidget {
                   alignment: Alignment.centerRight,
                   child: GestureDetector(
                     onTap: () {
-                     /* showDialog(
+                      /* showDialog(
                         context: context,
                         builder: (BuildContext context) {
                           return DeleteAlertDialogue(challengeId: '',);
@@ -118,5 +113,3 @@ class SingleMatchesView extends StatelessWidget {
     );
   }
 }
-
-

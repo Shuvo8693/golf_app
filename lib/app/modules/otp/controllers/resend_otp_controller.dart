@@ -1,16 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:golf_game_play/app/data/api_constants.dart';
 import 'package:http/http.dart' as http;
 
 class ResendOtpController extends GetxController {
-
   var isLoading = false.obs;
 
   Future<void> sendMail() async {
-
     if (isLoading.value) {
       return; // Prevent multiple taps
     }
@@ -46,13 +43,13 @@ class ResendOtpController extends GetxController {
           snackPosition: SnackPosition.TOP,
         );
       }
-    }  on SocketException catch (_) {
+    } on SocketException catch (_) {
       Get.snackbar(
         'Error',
         'No internet connection. Please check your network and try again.',
         snackPosition: SnackPosition.TOP,
       );
-    }catch(e){
+    } catch (e) {
       Get.snackbar(
         'Error',
         'Something went wrong. Please try again later.',
@@ -63,6 +60,4 @@ class ResendOtpController extends GetxController {
       isLoading.value = false;
     }
   }
-
-
 }

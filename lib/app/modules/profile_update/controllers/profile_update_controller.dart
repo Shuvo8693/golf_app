@@ -7,7 +7,6 @@ import 'package:golf_game_play/app/modules/model/user_model.dart';
 import 'package:golf_game_play/common/prefs_helper/prefs_helpers.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
 import 'package:mime/mime.dart';
 
@@ -125,7 +124,11 @@ class ProfileUpdateController extends GetxController {
 
       // Check if an image is selected for upload
       if (selectedProfileImage != null) {
-        buildImageForUpload(selectedProfileImage, request, fileKey: 'image',);
+        buildImageForUpload(
+          selectedProfileImage,
+          request,
+          fileKey: 'image',
+        );
       }
       if (selectedCoverImage != null) {
         buildImageForUpload(selectedCoverImage, request, fileKey: 'coverImage');
@@ -137,7 +140,7 @@ class ProfileUpdateController extends GetxController {
       var decodedBody = jsonDecode(responseBody.body);
 
       if (response.statusCode == 200) {
-       //return callBack(decodedBody['message'].toString());
+        //return callBack(decodedBody['message'].toString());
         String message = decodedBody['message'].toString();
         Get.snackbar('', message);
       } else {
@@ -179,5 +182,4 @@ class ProfileUpdateController extends GetxController {
       );
     }
   }
-
 }

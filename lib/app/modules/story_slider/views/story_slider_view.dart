@@ -1,19 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:golf_game_play/app/modules/story_slider/controllers/story_slider_controller.dart';
-import 'package:golf_game_play/common/app_color/app_colors.dart';
-import 'package:golf_game_play/common/app_icons/app_icons.dart';
-import 'package:golf_game_play/common/app_text_style/style.dart';
 import 'package:golf_game_play/common/widgets/custom_appBar_title.dart';
 
 class StorySliderView extends StatelessWidget {
-   StorySliderView({super.key});
+  StorySliderView({super.key});
   final StorySliderController controller = Get.put(StorySliderController());
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: CustomAppBarTitle(text: 'Slider'),
       body: Obx(() {
@@ -41,7 +35,6 @@ class StorySliderView extends StatelessWidget {
                 );
               },
             ),
-
           ],
         );
       }),

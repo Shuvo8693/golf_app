@@ -7,7 +7,6 @@ import 'package:golf_game_play/app/modules/create_winner_details/model/player_mo
 import 'package:golf_game_play/app/routes/app_pages.dart';
 import 'package:golf_game_play/common/app_string/app_string.dart';
 import 'package:golf_game_play/common/app_text_style/style.dart';
-import 'package:golf_game_play/common/custom_drop_down_field/custom_dropdown_field.dart';
 import 'package:golf_game_play/common/widgets/custom_button.dart';
 import 'package:golf_game_play/common/widgets/custom_text_field.dart';
 import 'package:golf_game_play/common/widgets/spacing.dart';
@@ -90,8 +89,10 @@ class _TopWinnerViewState extends State<TopWinnerView> {
                                   return null;
                                 },
                                 onChanged: (changedValue) {
-                                  _createWinnerDetailsController.winnerId = changedValue?.id;
-                                  print(_createWinnerDetailsController.winnerId);
+                                  _createWinnerDetailsController.winnerId =
+                                      changedValue?.id;
+                                  print(
+                                      _createWinnerDetailsController.winnerId);
                                 });
                           },
                         ),
@@ -137,7 +138,9 @@ class _TopWinnerViewState extends State<TopWinnerView> {
                         child: Obx(
                           () {
                             List<PlayerAttributes> playerAttributes =
-                                _createWinnerDetailsController.playerModel.value.data?.attributes ?? [];
+                                _createWinnerDetailsController
+                                        .playerModel.value.data?.attributes ??
+                                    [];
                             if (playerAttributes.isEmpty) {
                               return Text('Player is empty');
                             }
@@ -193,11 +196,13 @@ class _TopWinnerViewState extends State<TopWinnerView> {
                 children: [
                   Expanded(
                     child: CustomButton(
-                        onTap: () async{
-                          if(_formKey.currentState!.validate()){
-                            await _createWinnerDetailsController.postWinners('chalangeMatch');
+                        onTap: () async {
+                          if (_formKey.currentState!.validate()) {
+                            await _createWinnerDetailsController
+                                .postWinners('chalangeMatch');
                           }
-                        }, text: AppString.saveAndContinueText),
+                        },
+                        text: AppString.saveAndContinueText),
                   ),
                   horizontalSpacing(8.w),
                   Expanded(

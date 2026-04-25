@@ -4,13 +4,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:golf_game_play/app/data/api_constants.dart';
-import 'package:golf_game_play/app/data/google_api_service.dart';
-import 'package:golf_game_play/app/modules/model/user_model.dart';
 import 'package:golf_game_play/app/modules/tournament_detail/controllers/chat_creation_controller.dart';
 import 'package:golf_game_play/app/modules/user_profile/controllers/user_profile_controller.dart';
 import 'package:golf_game_play/app/modules/user_profile/model/user_profile.dart';
 import 'package:golf_game_play/common/app_color/app_colors.dart';
-import 'package:golf_game_play/common/app_constant/app_constant.dart';
 import 'package:golf_game_play/common/app_icons/app_icons.dart';
 import 'package:golf_game_play/common/app_string/app_string.dart';
 import 'package:golf_game_play/common/app_text_style/style.dart';
@@ -32,8 +29,10 @@ class UserProfileView extends StatefulWidget {
 
 class _UserProfileViewState extends State<UserProfileView> {
   late final TextEditingController _searchController = TextEditingController();
-  final UserProfileController _userProfileController= Get.put(UserProfileController());
-  final ChatCreationController _chatCreationController= Get.put(ChatCreationController());
+  final UserProfileController _userProfileController =
+      Get.put(UserProfileController());
+  final ChatCreationController _chatCreationController =
+      Get.put(ChatCreationController());
   List<String> onChangeTextFieldValue = [];
 
   LatLng? latLng;
@@ -54,25 +53,29 @@ class _UserProfileViewState extends State<UserProfileView> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((__)async{
-      await  _userProfileController.fetchUser();
+    WidgetsBinding.instance.addPostFrameCallback((__) async {
+      await _userProfileController.fetchUser();
     });
-
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: Obx((){
-        UserProfileAttributes? usersAttributes= _userProfileController.userProfile.value.data?.attributes;
-       if(_userProfileController.isLoading.value){
-         return Center(child: CircularProgressIndicator());
-       }
-       if(usersAttributes == null){
-         return Center(child: Text('User data is empty',style: AppStyles.h4(),));
-       }
-        return  SingleChildScrollView(
+      body: Obx(() {
+        UserProfileAttributes? usersAttributes =
+            _userProfileController.userProfile.value.data?.attributes;
+        if (_userProfileController.isLoading.value) {
+          return Center(child: CircularProgressIndicator());
+        }
+        if (usersAttributes == null) {
+          return Center(
+              child: Text(
+            'User data is empty',
+            style: AppStyles.h4(),
+          ));
+        }
+        return SingleChildScrollView(
           padding: EdgeInsets.only(bottom: 30.h),
           child: Column(
             children: [
@@ -83,7 +86,8 @@ class _UserProfileViewState extends State<UserProfileView> {
                     /// Cover Image
                     Positioned(
                       child: CustomNetworkImage(
-                        imageUrl: '${ApiConstants.imageBaseUrl}/${usersAttributes.coverImage?.url}',
+                        imageUrl:
+                            '${ApiConstants.imageBaseUrl}/${usersAttributes.coverImage?.url}',
                         height: 200.h,
                       ),
                     ),
@@ -91,7 +95,8 @@ class _UserProfileViewState extends State<UserProfileView> {
                       top: 140.h,
                       left: 145.w,
                       child: CustomNetworkImage(
-                        imageUrl: '${ApiConstants.imageBaseUrl}/${usersAttributes.image?.url}',
+                        imageUrl:
+                            '${ApiConstants.imageBaseUrl}/${usersAttributes.image?.url}',
                         height: 125.h,
                         width: 125.h,
                         boxShape: BoxShape.circle,
@@ -101,8 +106,9 @@ class _UserProfileViewState extends State<UserProfileView> {
                   ],
                 ),
               ),
+
               /// Email
-              Text(usersAttributes.email??'', style: AppStyles.h4()),
+              Text(usersAttributes.email ?? '', style: AppStyles.h4()),
               SizedBox(height: 8.h),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -110,8 +116,9 @@ class _UserProfileViewState extends State<UserProfileView> {
                   /// Facebook
                   InkWell(
                     onTap: () {
-                      if(usersAttributes.facebookLink!.isNotEmpty){
-                        ExternalUrlLauncher.lunchUrl(usersAttributes.facebookLink!);
+                      if (usersAttributes.facebookLink!.isNotEmpty) {
+                        ExternalUrlLauncher.lunchUrl(
+                            usersAttributes.facebookLink!);
                       }
                     },
                     child: Padding(
@@ -122,12 +129,14 @@ class _UserProfileViewState extends State<UserProfileView> {
                       ),
                     ),
                   ),
+
                   ///Linkedin
                   SizedBox(width: 10.h),
                   InkWell(
                     onTap: () {
-                      if(usersAttributes.linkdinLink!.isNotEmpty){
-                        ExternalUrlLauncher.lunchUrl(usersAttributes.linkdinLink!);
+                      if (usersAttributes.linkdinLink!.isNotEmpty) {
+                        ExternalUrlLauncher.lunchUrl(
+                            usersAttributes.linkdinLink!);
                       }
                     },
                     child: SvgPicture.asset(
@@ -135,11 +144,12 @@ class _UserProfileViewState extends State<UserProfileView> {
                       height: 20.h,
                     ),
                   ),
+
                   ///X_Twitter
                   SizedBox(width: 10.h),
                   InkWell(
                     onTap: () {
-                      if(usersAttributes.xLink!.isNotEmpty){
+                      if (usersAttributes.xLink!.isNotEmpty) {
                         ExternalUrlLauncher.lunchUrl(usersAttributes.xLink!);
                       }
                     },
@@ -148,12 +158,14 @@ class _UserProfileViewState extends State<UserProfileView> {
                       height: 20.h,
                     ),
                   ),
+
                   /// Instagram
                   SizedBox(width: 10.h),
                   InkWell(
                     onTap: () {
-                      if(usersAttributes.instagramLink!.isNotEmpty){
-                        ExternalUrlLauncher.lunchUrl(usersAttributes.instagramLink!);
+                      if (usersAttributes.instagramLink!.isNotEmpty) {
+                        ExternalUrlLauncher.lunchUrl(
+                            usersAttributes.instagramLink!);
                       }
                     },
                     child: SvgPicture.asset(
@@ -169,21 +181,26 @@ class _UserProfileViewState extends State<UserProfileView> {
                 child: CustomCard(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('${AppString.nameText} : ${usersAttributes.name}', style: AppStyles.h3()),
+                    Text('${AppString.nameText} : ${usersAttributes.name}',
+                        style: AppStyles.h3()),
                     SizedBox(height: 8.h),
                     Text('${AppString.clubText} : ${usersAttributes.clubName}',
                         style: AppStyles.h3()),
                     SizedBox(height: 8.h),
-                    Text('${AppString.clubLevelHandicapText} : ${usersAttributes.clubHandicap}',
+                    Text(
+                        '${AppString.clubLevelHandicapText} : ${usersAttributes.clubHandicap}',
                         style: AppStyles.h3()),
                     SizedBox(height: 8.h),
-                    Text('${AppString.handicapText} : ${usersAttributes.handicap}', style: AppStyles.h3()),
+                    Text(
+                        '${AppString.handicapText} : ${usersAttributes.handicap}',
+                        style: AppStyles.h3()),
                     // SizedBox(height: 8.h),
                     // Text('${AppString.cityText} : ${usersAttributes.city}', style: AppStyles.h3()),
                     // SizedBox(height: 8.h),
                     // Text('${AppString.stateText} : ${usersAttributes.state}', style: AppStyles.h3()),
                     SizedBox(height: 8.h),
-                    Text('${AppString.locationText} : ${usersAttributes.country}',
+                    Text(
+                        '${AppString.locationText} : ${usersAttributes.country}',
                         style: AppStyles.h3()),
                     SizedBox(height: 50.h),
                     // CustomButton(
@@ -192,27 +209,27 @@ class _UserProfileViewState extends State<UserProfileView> {
                     //     },
                     //     text: AppString.challengeText),
                     SizedBox(height: 15.h),
-                    Obx((){
+                    Obx(() {
                       return CustomButton(
-                           loading: _chatCreationController.isLoading.value,
-                          onTap: ()async{
-                             if(usersAttributes.id != null ){
+                          loading: _chatCreationController.isLoading.value,
+                          onTap: () async {
+                            if (usersAttributes.id != null) {
                               // String receiverId = Get.arguments['receiverId'];
-                               await _chatCreationController.createChatWithTournamentCreator(usersAttributes.id!);
-                             }
-                      }, text: AppString.messageText);
-                    }
-
-                    ),
+                              await _chatCreationController
+                                  .createChatWithTournamentCreator(
+                                      usersAttributes.id!);
+                            }
+                          },
+                          text: AppString.messageText);
+                    }),
                     SizedBox(height: 20.h),
                   ],
                 ),
               ),
             ],
           ),
-          );
-        }
-      ),
+        );
+      }),
     );
   }
 
@@ -233,22 +250,24 @@ class _UserProfileViewState extends State<UserProfileView> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                   BottomSheetTopLine(),
+                  BottomSheetTopLine(),
                   verticalSpacing(25.h),
-                  Text(AppString.selectCourseText,
+                  Text(
+                    AppString.selectCourseText,
                     style: AppStyles.h3(fontWeight: FontWeight.w700),
                   ),
                   verticalSpacing(15.h),
                   LocationSelector(
-                    onSelected: (location)async {
+                    onSelected: (location) async {
                       print("Selected location: $location");
-                      if(location.isNotEmpty){
+                      if (location.isNotEmpty) {
                         _searchController.text = location;
-                         await _goToSearchLocation(location);
-                         print(latLng);
+                        await _goToSearchLocation(location);
+                        print(latLng);
                       }
                     },
                   ),
+
                   ///===Action Button===
                   verticalSpacing(15.h),
                   CustomButton(
@@ -268,4 +287,3 @@ class _UserProfileViewState extends State<UserProfileView> {
     );
   }
 }
-

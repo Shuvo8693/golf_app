@@ -8,7 +8,7 @@ class GolferModel {
   GolferModel.fromJson(Map<String, dynamic> json) {
     code = json['code'];
     message = json['message'];
-    data = json['data'] != null ? new GolferData.fromJson(json['data']) : null;
+    data = json['data'] != null ? GolferData.fromJson(json['data']) : null;
   }
 }
 
@@ -37,18 +37,18 @@ class GolferAttributes {
 
   GolferAttributes(
       {this.name,
-        this.city,
-        this.handicap,
-        this.clubHandicap,
-        this.image,
-        this.id});
+      this.city,
+      this.handicap,
+      this.clubHandicap,
+      this.image,
+      this.id});
 
   GolferAttributes.fromJson(Map<String, dynamic> json) {
     name = json['name'];
     city = json['city'];
     handicap = json['handicap'];
     clubHandicap = json['clubHandicap'];
-    image = json['image'] != null ? new Image.fromJson(json['image']) : null;
+    image = json['image'] != null ? Image.fromJson(json['image']) : null;
     id = json['id'];
   }
 }

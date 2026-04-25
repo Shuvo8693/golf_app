@@ -7,17 +7,18 @@ class UrbanistFont extends StatelessWidget {
   final double? fontSize;
   final Color? color;
 
-  UrbanistFont({
+  const UrbanistFont({
     super.key,
     required this.title,
-    this.fontSize=14,
-    this.fontWeight=FontWeight.w400,
-    this.color=Colors.black,
+    this.fontSize = 14,
+    this.fontWeight = FontWeight.w400,
+    this.color = Colors.black,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Text(title,
+    return Text(
+      title,
       style: GoogleFonts.urbanist(
         fontWeight: fontWeight,
         fontSize: fontSize,

@@ -9,7 +9,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 
 class SignupController extends GetxController {
-
   TextEditingController nameCtrl = TextEditingController();
   TextEditingController emailCtrl = TextEditingController();
   TextEditingController handicapCtrl = TextEditingController();
@@ -46,7 +45,7 @@ class SignupController extends GetxController {
   var registerLoading = false.obs;
 
   signUp() async {
-    registerLoading.value=true;
+    registerLoading.value = true;
     final location = Get.arguments ?? {};
     latLng = location['latLng'] as LatLng;
     final locationName = location['locationName'] as String;
@@ -58,13 +57,14 @@ class SignupController extends GetxController {
       "email": emailCtrl.text,
       "password": passWordCtrl.text,
       "role": "user",
-       "country": locationName,
+      "country": locationName,
       "handicap": handicapCtrl.text,
       "latitude": (latLng?.latitude).toString(),
       "longitude": (latLng?.longitude).toString()
     };
 
-    http.Request request = http.Request('POST', Uri.parse(ApiConstants.registerUrl));
+    http.Request request =
+        http.Request('POST', Uri.parse(ApiConstants.registerUrl));
     request.headers.addAll(header);
     request.body = jsonEncode(body);
 
@@ -74,13 +74,12 @@ class SignupController extends GetxController {
       Map<String, dynamic> data = jsonDecode(responseData.body);
       if (response.statusCode == 201) {
         print(data['code']);
-        if(data['code']==201){
-          Get.toNamed(Routes.OTP,arguments: {'email':emailCtrl.text});
+        if (data['code'] == 201) {
+          Get.toNamed(Routes.OTP, arguments: {'email': emailCtrl.text});
         }
-
       } else {
-        print('Error>>>' );
-        print('Error>>>${response}');
+        print('Error>>>');
+        print('Error>>>$response');
         Get.snackbar('Failed', data['message']);
       }
     } on SocketException catch (_) {
@@ -89,14 +88,14 @@ class SignupController extends GetxController {
         'No internet connection. Please check your network and try again.',
         snackPosition: SnackPosition.TOP,
       );
-    }catch(_){
+    } catch (_) {
       Get.snackbar(
         'Error',
         'Something went wrong. Please try again later.',
         snackPosition: SnackPosition.TOP,
       );
-    }finally{
-      registerLoading.value=false;
+    } finally {
+      registerLoading.value = false;
     }
   }
 }

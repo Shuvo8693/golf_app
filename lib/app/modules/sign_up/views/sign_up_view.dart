@@ -2,14 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
-import 'package:golf_game_play/app/data/google_api_service.dart';
-import 'package:golf_game_play/app/modules/home/views/home_view.dart';
 import 'package:golf_game_play/app/modules/sign_up/controllers/signup_controller.dart';
 import 'package:golf_game_play/app/routes/app_pages.dart';
 import 'package:golf_game_play/common/app_color/app_colors.dart';
 import 'package:golf_game_play/common/app_string/app_string.dart';
 import 'package:golf_game_play/common/app_text_style/style.dart';
-import 'package:golf_game_play/common/prefs_helper/prefs_helpers.dart';
 import 'package:golf_game_play/common/widgets/background_image.dart';
 import 'package:golf_game_play/common/widgets/custom_button.dart';
 import 'package:golf_game_play/common/widgets/custom_text_field.dart';
@@ -99,6 +96,7 @@ class _SignUpViewState extends State<SignUpView> {
                       return null;
                     },
                   ),
+
                   ///handicap
                   SizedBox(height: 20.h),
                   CustomTextField(
@@ -216,7 +214,8 @@ class _SignUpViewState extends State<SignUpView> {
                           await _signupController.signUp();
                         }
                       },
-                      textStyle: AppStyles.h3(color: Colors.black, fontWeight: FontWeight.w700),
+                      textStyle: AppStyles.h3(
+                          color: Colors.black, fontWeight: FontWeight.w700),
                       text: AppString.createAccountText,
                     );
                   }),

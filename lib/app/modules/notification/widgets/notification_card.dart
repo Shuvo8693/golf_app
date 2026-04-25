@@ -1,22 +1,21 @@
- import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:golf_game_play/app/modules/notification/model/notification_model.dart';
 import 'package:golf_game_play/common/app_color/app_colors.dart';
-import 'package:golf_game_play/common/app_images/network_image%20.dart';
-import 'package:golf_game_play/common/app_string/app_string.dart';
 import 'package:golf_game_play/common/app_text_style/style.dart';
 import 'package:golf_game_play/common/date_time_formation/data_age_formation.dart';
 import 'package:golf_game_play/common/date_time_formation/difference_formation.dart';
-import 'package:golf_game_play/common/widgets/casess_network_image.dart';
-import 'package:golf_game_play/common/widgets/custom_button.dart';
-import 'package:golf_game_play/common/widgets/custom_outlinebutton.dart';
 import 'package:golf_game_play/common/widgets/spacing.dart';
 
 class NotificationCard extends StatelessWidget {
   final int index;
- final NotificationAttributes notificationData;
- final VoidCallback iconOnTap;
-   NotificationCard({super.key, required this.index, required this.notificationData, required this.iconOnTap});
+  final NotificationAttributes notificationData;
+  final VoidCallback iconOnTap;
+  NotificationCard(
+      {super.key,
+      required this.index,
+      required this.notificationData,
+      required this.iconOnTap});
 
   final DataAgeFormation _dataAgeFormation = DataAgeFormation();
 
@@ -38,19 +37,23 @@ class NotificationCard extends StatelessWidget {
           // ),
           Stack(
             children: [
-              Icon(Icons.notifications_none_outlined,size: 40.sp,color: AppColors.primaryColor,),
-              notificationData.isRead==false? Positioned(
-                top: 5.h,
-                  right: 5.w,
-                  child: Container(
-                    height: 12.h,
-                    width: 12.h,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.deepOrangeAccent
-                    ),
-                  )
-              ):SizedBox.shrink()
+              Icon(
+                Icons.notifications_none_outlined,
+                size: 40.sp,
+                color: AppColors.primaryColor,
+              ),
+              notificationData.isRead == false
+                  ? Positioned(
+                      top: 5.h,
+                      right: 5.w,
+                      child: Container(
+                        height: 12.h,
+                        width: 12.h,
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.deepOrangeAccent),
+                      ))
+                  : SizedBox.shrink()
             ],
           ),
 
@@ -77,8 +80,7 @@ class NotificationCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Flexible(
-                        child: Text(
-                            "${notificationData.body}",
+                        child: Text("${notificationData.body}",
                             overflow: TextOverflow.ellipsis,
                             maxLines: 3,
                             style: AppStyles.h6()),
@@ -92,8 +94,13 @@ class NotificationCard extends StatelessWidget {
                     ],
                   ),
                   verticalSpacing(8.w),
+
                   /// Time
-                  Text(_dataAgeFormation.formatContentAge(_differenceFormation.formatDifference(notificationData.createdAt!),),
+                  Text(
+                      _dataAgeFormation.formatContentAge(
+                        _differenceFormation
+                            .formatDifference(notificationData.createdAt!),
+                      ),
                       style: AppStyles.h6()),
                   /*Row(
                     children: [

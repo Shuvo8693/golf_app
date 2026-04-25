@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:golf_game_play/app/routes/app_pages.dart';
 import 'package:golf_game_play/common/app_color/app_colors.dart';
 import 'package:golf_game_play/common/app_icons/app_icons.dart';
-import 'package:golf_game_play/common/app_text_style/style.dart';
 
 class BottomMenu extends StatefulWidget {
   final int menuIndex;
@@ -26,7 +25,7 @@ class _BottomMenuState extends State<BottomMenu> {
   }
 
   void _onItemTapped(int index) {
-    if(_selectedIndex == index) return;
+    if (_selectedIndex == index) return;
     setState(() {
       _selectedIndex = index;
     });
@@ -62,28 +61,28 @@ class _BottomMenuState extends State<BottomMenu> {
             elevation: 12,
             clipBehavior: Clip.antiAlias,
             child: BottomNavigationBar(
-                currentIndex: _selectedIndex, // Set the selected index
-                onTap: _onItemTapped, // Handle taps on items
-                type: BottomNavigationBarType.fixed, // Prevents shifting behavior
-                backgroundColor: AppColors.white,
-                selectedItemColor: AppColors.primaryColor,
-                showSelectedLabels: true,
-                unselectedItemColor: const Color(0xffC4D3F6), // Inactive item color
-                selectedFontSize: 12.0,
-                unselectedFontSize: 12.0,
-                items: [
-                  _buildBottomNavItem(AppIcons.homesIcon,   'Home'),
-                  _buildBottomNavItem(AppIcons.golferIcon,  'Golfers'),
-                  _buildBottomNavItem(AppIcons.enteredLogo, 'Entered'),
-                  _buildBottomNavItem(AppIcons.messageIcons,  'Message'),
-                  _buildBottomNavItem(AppIcons.top50Logo, 'Top 50'),
-                ],
-              ),
+              currentIndex: _selectedIndex, // Set the selected index
+              onTap: _onItemTapped, // Handle taps on items
+              type: BottomNavigationBarType.fixed, // Prevents shifting behavior
+              backgroundColor: AppColors.white,
+              selectedItemColor: AppColors.primaryColor,
+              showSelectedLabels: true,
+              unselectedItemColor:
+                  const Color(0xffC4D3F6), // Inactive item color
+              selectedFontSize: 12.0,
+              unselectedFontSize: 12.0,
+              items: [
+                _buildBottomNavItem(AppIcons.homesIcon, 'Home'),
+                _buildBottomNavItem(AppIcons.golferIcon, 'Golfers'),
+                _buildBottomNavItem(AppIcons.enteredLogo, 'Entered'),
+                _buildBottomNavItem(AppIcons.messageIcons, 'Message'),
+                _buildBottomNavItem(AppIcons.top50Logo, 'Top 50'),
+              ],
+            ),
           ),
         ),
       ),
     );
-
   }
 
   BottomNavigationBarItem _buildBottomNavItem(String iconPath, String label) {
@@ -99,7 +98,7 @@ class _BottomMenuState extends State<BottomMenu> {
         height: 24.0,
         width: 24.0,
         colorFilter: ColorFilter.mode(AppColors.primaryColor, BlendMode.srcIn),
-         // Active icon color
+        // Active icon color
       ),
       label: label,
     );

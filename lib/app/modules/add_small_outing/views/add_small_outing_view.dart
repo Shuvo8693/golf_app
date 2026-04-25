@@ -3,12 +3,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:geocoding/geocoding.dart';
 
 import 'package:get/get.dart';
 import 'package:golf_game_play/app/data/google_api_service.dart';
 import 'package:golf_game_play/app/modules/add_small_outing/controllers/add_small_outing_controller.dart';
-import 'package:golf_game_play/app/modules/add_tournament/controllers/add_tournament_controller.dart';
 import 'package:golf_game_play/common/app_color/app_colors.dart';
 import 'package:golf_game_play/common/app_icons/app_icons.dart';
 import 'package:golf_game_play/common/app_string/app_string.dart';
@@ -18,7 +16,6 @@ import 'package:golf_game_play/common/widgets/custom_button.dart';
 import 'package:golf_game_play/common/widgets/custom_card.dart';
 import 'package:golf_game_play/common/widgets/custom_text_field.dart';
 import 'package:golf_game_play/common/widgets/spacing.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 
 class AddSmallOutingView extends StatefulWidget {
@@ -34,7 +31,9 @@ class _AddSmallOutingViewState extends State<AddSmallOutingView> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   List<String> onChangeTextFieldValue = [];
-  List<String> nothings = []; /// not important
+  List<String> nothings = [];
+
+  /// not important
 
   @override
   Widget build(BuildContext context) {
@@ -80,11 +79,14 @@ class _AddSmallOutingViewState extends State<AddSmallOutingView> {
                 Text(AppString.tournamentTypeText,
                     style: AppStyles.h4(family: "Schuyler")),
                 SizedBox(height: 10.h),
+
                 /// Dropdown button field======================<<<<<<<<
                 DropdownButtonFormField<String>(
                   value: _addSmallOutingController.outingType,
                   padding: EdgeInsets.zero,
-                  hint: Text("Select tournament type",),
+                  hint: Text(
+                    "Select tournament type",
+                  ),
                   decoration: InputDecoration(),
                   items: _addSmallOutingController.outingTypeList
                       .map(
@@ -92,7 +94,8 @@ class _AddSmallOutingViewState extends State<AddSmallOutingView> {
                           value: gender,
                           child: Text(gender),
                         ),
-                      ).toList(),
+                      )
+                      .toList(),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Select tournament type';
@@ -264,11 +267,14 @@ class _AddSmallOutingViewState extends State<AddSmallOutingView> {
                   padding: EdgeInsets.zero,
                   hint: Text("Select Number of player"),
                   decoration: InputDecoration(),
-                  items: _addSmallOutingController.numberOfPlayerList.map((gender) => DropdownMenuItem<String>(
+                  items: _addSmallOutingController.numberOfPlayerList
+                      .map(
+                        (gender) => DropdownMenuItem<String>(
                           value: gender,
                           child: Text(gender),
                         ),
-                      ).toList(),
+                      )
+                      .toList(),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Select player number';
@@ -291,12 +297,17 @@ class _AddSmallOutingViewState extends State<AddSmallOutingView> {
                   return CustomButton(
                     loading: _addSmallOutingController.isLoading.value,
                     text: AppString.submitText,
-                    onTap: () async{
+                    onTap: () async {
                       print(_addSmallOutingController.latLng);
-                      if (formKey.currentState!.validate() && _addSmallOutingController.numberOfPlayer!.isNotEmpty && _addSmallOutingController.selectedDate.value.isNotEmpty && _addSmallOutingController.latLng !=null
-                      ) {
-                       await _addSmallOutingController.createSmallTournament(callBack: (message){
-                          if(message !=null){
+                      if (formKey.currentState!.validate() &&
+                          _addSmallOutingController
+                              .numberOfPlayer!.isNotEmpty &&
+                          _addSmallOutingController
+                              .selectedDate.value.isNotEmpty &&
+                          _addSmallOutingController.latLng != null) {
+                        await _addSmallOutingController.createSmallTournament(
+                            callBack: (message) {
+                          if (message != null) {
                             Get.snackbar('Success', message);
                           }
                         });
@@ -358,7 +369,8 @@ class _AddSmallOutingViewState extends State<AddSmallOutingView> {
                 size: 24.sp,
               ),
               onPressed: () {
-                _addSmallOutingController.goToSearchLocation(_addSmallOutingController.searchCourseNameCtrl.text);
+                _addSmallOutingController.goToSearchLocation(
+                    _addSmallOutingController.searchCourseNameCtrl.text);
                 setState(() {
                   onChangeTextFieldValue.clear();
                 });
@@ -397,11 +409,15 @@ class _AddSmallOutingViewState extends State<AddSmallOutingView> {
                         padding: EdgeInsets.all(8.0.sp),
                         child: InkWell(
                           onTap: () {
-                            String selectedLocation = onChangeTextFieldValue[index].toString();
+                            String selectedLocation =
+                                onChangeTextFieldValue[index].toString();
                             print(selectedLocation);
                             if (selectedLocation.isNotEmpty == true) {
-                              _addSmallOutingController.searchCourseNameCtrl.text = selectedLocation;
-                              _addSmallOutingController.goToSearchLocation(_addSmallOutingController.searchCourseNameCtrl.text);
+                              _addSmallOutingController
+                                  .searchCourseNameCtrl.text = selectedLocation;
+                              _addSmallOutingController.goToSearchLocation(
+                                  _addSmallOutingController
+                                      .searchCourseNameCtrl.text);
                               setState(() {
                                 onChangeTextFieldValue.clear();
                               });
@@ -422,7 +438,7 @@ class _AddSmallOutingViewState extends State<AddSmallOutingView> {
     );
   }
 
-   _showBottomSheet(BuildContext context) {
+  _showBottomSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
@@ -449,11 +465,12 @@ class _AddSmallOutingViewState extends State<AddSmallOutingView> {
                 height: 40,
               ),
               GestureDetector(
-                onTap: () async{
-                await _addSmallOutingController.pickImageFromGallery(ImageSource.gallery);
+                onTap: () async {
+                  await _addSmallOutingController
+                      .pickImageFromGallery(ImageSource.gallery);
                 },
                 child: Obx(() {
-                  if(_addSmallOutingController.filePath.value.isEmpty){
+                  if (_addSmallOutingController.filePath.value.isEmpty) {
                     return Container(
                       height: 150,
                       decoration: BoxDecoration(
@@ -468,9 +485,9 @@ class _AddSmallOutingViewState extends State<AddSmallOutingView> {
                       color: AppColors.grayLight,
                       borderRadius: BorderRadius.circular(12),
                       image: DecorationImage(
-                          image: FileImage(File(_addSmallOutingController.filePath.value)),
-                          fit: BoxFit.cover
-                      ),
+                          image: FileImage(
+                              File(_addSmallOutingController.filePath.value)),
+                          fit: BoxFit.cover),
                     ),
                   );
                 }),

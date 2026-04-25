@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:golf_game_play/app/modules/home/views/home_view.dart';
 import 'package:golf_game_play/common/app_color/app_colors.dart';
 import 'package:golf_game_play/common/app_text_style/style.dart';
 
@@ -30,7 +29,9 @@ class AppButton extends StatelessWidget {
       this.buttonColor,
       this.containerVerticalPadding,
       this.containerHorizontalPadding,
-      this.isIconWithTextActive = false, this.iconPath, this.textStyle});
+      this.isIconWithTextActive = false,
+      this.iconPath,
+      this.textStyle});
 
   @override
   Widget build(BuildContext context) {
@@ -53,21 +54,26 @@ class AppButton extends StatelessWidget {
                 )
               : Border.fromBorderSide(BorderSide.none),
         ),
-        child:isIconWithTextActive==true
-            ?Row(
-          children: [
-            SvgPicture.asset(iconPath??'',height: 17,),
-            SizedBox(width: 5.w),
-            Text(text,
-              style:textStyle?? AppStyles.h4(),
-              textAlign: TextAlign.center,
-            )
-          ],
-        ) :Text(
-          text,
-          style:textStyle?? AppStyles.h4(),
-          textAlign: TextAlign.center,
-        ),
+        child: isIconWithTextActive == true
+            ? Row(
+                children: [
+                  SvgPicture.asset(
+                    iconPath ?? '',
+                    height: 17,
+                  ),
+                  SizedBox(width: 5.w),
+                  Text(
+                    text,
+                    style: textStyle ?? AppStyles.h4(),
+                    textAlign: TextAlign.center,
+                  )
+                ],
+              )
+            : Text(
+                text,
+                style: textStyle ?? AppStyles.h4(),
+                textAlign: TextAlign.center,
+              ),
       ),
     );
   }

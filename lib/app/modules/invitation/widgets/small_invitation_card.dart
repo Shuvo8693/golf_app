@@ -8,9 +8,7 @@ import 'package:golf_game_play/app/modules/invitation/controllers/invitation_con
 import 'package:golf_game_play/app/modules/invitation/controllers/invitation_delete_controller.dart';
 import 'package:golf_game_play/app/modules/invitation/model/invitation_model.dart';
 import 'package:golf_game_play/app/routes/app_pages.dart';
-import 'package:golf_game_play/common/app_color/app_colors.dart';
 import 'package:golf_game_play/common/app_icons/app_icons.dart';
-import 'package:golf_game_play/common/app_images/network_image%20.dart';
 import 'package:golf_game_play/common/app_string/app_string.dart';
 import 'package:golf_game_play/common/app_text_style/style.dart';
 import 'package:golf_game_play/common/date_time_formation/data_age_formation.dart';
@@ -24,7 +22,11 @@ class SmallInvitationCard extends StatefulWidget {
   final int index;
   final InvitationAttributes invitationAttributes;
   final InvitationController invitationController;
-  const SmallInvitationCard({super.key, required this.index, required this.invitationAttributes, required this.invitationController});
+  const SmallInvitationCard(
+      {super.key,
+      required this.index,
+      required this.invitationAttributes,
+      required this.invitationController});
 
   @override
   State<SmallInvitationCard> createState() => _InvitationCardState();
@@ -34,14 +36,16 @@ class _InvitationCardState extends State<SmallInvitationCard> {
   final DataAgeFormation _dataAgeFormation = DataAgeFormation();
   final DifferenceFormation _differenceFormation = DifferenceFormation();
 
-   late InvitationAcceptController _invitationAcceptController;
-   late InvitationDeleteController _invitationDeleteController;
+  late InvitationAcceptController _invitationAcceptController;
+  late InvitationDeleteController _invitationDeleteController;
 
-   @override
+  @override
   void initState() {
     super.initState();
-    _invitationAcceptController = Get.put(InvitationAcceptController(invitationController: widget.invitationController));
-    _invitationDeleteController = Get.put(InvitationDeleteController(invitationController: widget.invitationController));
+    _invitationAcceptController = Get.put(InvitationAcceptController(
+        invitationController: widget.invitationController));
+    _invitationDeleteController = Get.put(InvitationDeleteController(
+        invitationController: widget.invitationController));
   }
 
   @override
@@ -53,10 +57,13 @@ class _InvitationCardState extends State<SmallInvitationCard> {
         children: [
           InkWell(
             onTap: () {
-              Get.toNamed(Routes.USER_PROFILE,arguments: {'userId': widget.invitationAttributes.inviteSender?.id});
+              Get.toNamed(Routes.USER_PROFILE, arguments: {
+                'userId': widget.invitationAttributes.inviteSender?.id
+              });
             },
             child: CustomNetworkImage(
-              imageUrl: '${ApiConstants.imageBaseUrl}${widget.invitationAttributes.inviteSender?.image?.url}',
+              imageUrl:
+                  '${ApiConstants.imageBaseUrl}${widget.invitationAttributes.inviteSender?.image?.url}',
               height: 64.h,
               width: 64.w,
               borderRadius: BorderRadius.circular(10.r),
@@ -74,11 +81,11 @@ class _InvitationCardState extends State<SmallInvitationCard> {
                     children: [
                       /// Inviter Name
                       Flexible(
-                        child: Text("${widget.invitationAttributes.inviteSender?.name}",
+                        child: Text(
+                            "${widget.invitationAttributes.inviteSender?.name}",
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
-                            style: AppStyles.h4(family:'Schuyler' )
-                        ),
+                            style: AppStyles.h4(family: 'Schuyler')),
                       ),
                       horizontalSpacing(10.w),
                       SvgPicture.asset(AppIcons.threeDotIcon),
@@ -87,12 +94,14 @@ class _InvitationCardState extends State<SmallInvitationCard> {
 
                   /// Tournament name & Location
                   verticalSpacing(6.h),
-                  Text("${widget.invitationAttributes.smallTournament?.tournamentName}",
+                  Text(
+                      "${widget.invitationAttributes.smallTournament?.tournamentName}",
                       overflow: TextOverflow.ellipsis,
                       maxLines: 2,
                       style: AppStyles.h6()),
                   verticalSpacing(6.h),
-                  Text("${widget.invitationAttributes.smallTournament?.courseName}",
+                  Text(
+                      "${widget.invitationAttributes.smallTournament?.courseName}",
                       overflow: TextOverflow.ellipsis,
                       maxLines: 2,
                       style: AppStyles.h6()),
@@ -104,14 +113,26 @@ class _InvitationCardState extends State<SmallInvitationCard> {
                       CustomButton(
                         onTap: () async {
                           if (widget.invitationAttributes.sId != null) {
-                            await _invitationAcceptController.acceptRequest(widget.invitationAttributes.sId! ,updateFromIndex: (){
-                               widget.invitationController.invitationModel.refresh();
+                            await _invitationAcceptController
+                                .acceptRequest(widget.invitationAttributes.sId!,
+                                    updateFromIndex: () {
+                              widget.invitationController.invitationModel
+                                  .refresh();
                             });
                           }
                         },
                         width: 100.w,
                         height: 40.h,
-                        text: widget.invitationController.invitationModel.value.data?.attributes?[widget.index].isAccepted==true?"Accepted":"Accept",
+                        text: widget
+                                    .invitationController
+                                    .invitationModel
+                                    .value
+                                    .data
+                                    ?.attributes?[widget.index]
+                                    .isAccepted ==
+                                true
+                            ? "Accepted"
+                            : "Accept",
                       ),
                       SizedBox(
                         width: 10.w,
@@ -119,7 +140,9 @@ class _InvitationCardState extends State<SmallInvitationCard> {
                       CustomOutlineButton(
                         onTap: () async {
                           if (widget.invitationAttributes.sId != null) {
-                            await _invitationDeleteController.deleteRequest(widget.invitationAttributes.sId! ,updateFromIndex: () {});
+                            await _invitationDeleteController.deleteRequest(
+                                widget.invitationAttributes.sId!,
+                                updateFromIndex: () {});
                           }
                         },
                         width: 100.w,
@@ -131,7 +154,10 @@ class _InvitationCardState extends State<SmallInvitationCard> {
                   ),
 
                   /// Time
-                  Text(_dataAgeFormation.formatContentAge(_differenceFormation.formatDifference(widget.invitationAttributes.createdAt!)),
+                  Text(
+                      _dataAgeFormation.formatContentAge(
+                          _differenceFormation.formatDifference(
+                              widget.invitationAttributes.createdAt!)),
                       style: AppStyles.h6()),
                 ],
               ),
@@ -142,5 +168,3 @@ class _InvitationCardState extends State<SmallInvitationCard> {
     );
   }
 }
-
-

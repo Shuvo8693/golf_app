@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 class Top50GolfersModel {
   int? code;
   String? message;
@@ -38,7 +36,8 @@ class Top50GolferAttributes {
   Image? image;
   double? distance;
 
-  Top50GolferAttributes({this.sId, this.name, this.handicap, this.image, this.distance});
+  Top50GolferAttributes(
+      {this.sId, this.name, this.handicap, this.image, this.distance});
 
   Top50GolferAttributes.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
@@ -47,14 +46,12 @@ class Top50GolferAttributes {
     city = json['city'];
     clubName = json['clubName'];
     image = json['image'] != null ? Image.fromJson(json['image']) : null;
-    if(json['distance'] is int){
+    if (json['distance'] is int) {
       distance = double.tryParse(json['distance'].toString());
-    }else{
+    } else {
       distance = json['distance'];
     }
-
   }
-
 }
 
 class Image {
@@ -67,5 +64,4 @@ class Image {
     url = json['url'];
     path = json['path'];
   }
-
 }

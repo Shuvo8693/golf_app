@@ -10,7 +10,6 @@ import 'package:golf_game_play/app/modules/tournament_detail/model/tournament_de
 import 'package:golf_game_play/app/routes/app_pages.dart';
 import 'package:golf_game_play/common/app_color/app_colors.dart';
 import 'package:golf_game_play/common/app_icons/app_icons.dart';
-import 'package:golf_game_play/common/app_images/network_image%20.dart';
 import 'package:golf_game_play/common/app_string/app_string.dart';
 import 'package:golf_game_play/common/app_text_style/style.dart';
 import 'package:golf_game_play/common/prefs_helper/prefs_helpers.dart';
@@ -29,39 +28,42 @@ class ChallengeMatchesView extends StatefulWidget {
 }
 
 class _ChallengeMatchesViewState extends State<ChallengeMatchesView> {
-  final ChallengeMatchesController _challengeMatchesController= Get.put(ChallengeMatchesController());
-  final ChallengeRemoveController _challengeRemoveController =Get.put(ChallengeRemoveController());
+  final ChallengeMatchesController _challengeMatchesController =
+      Get.put(ChallengeMatchesController());
+  final ChallengeRemoveController _challengeRemoveController =
+      Get.put(ChallengeRemoveController());
 
   TournamentDetailAttributes? tournamentDetailAttributes;
   String? userId;
   @override
   void initState() {
     super.initState();
-    if(Get.arguments !=null){
+    if (Get.arguments != null) {
       getTournamentDetails();
     }
-    WidgetsBinding.instance.addPostFrameCallback((__)async{
+    WidgetsBinding.instance.addPostFrameCallback((__) async {
       await getMyId();
-      await _challengeMatchesController.fetchMatches(tournamentDetailAttributes!.typeName!, tournamentDetailAttributes!.sId!);
-
+      await _challengeMatchesController.fetchMatches(
+          tournamentDetailAttributes!.typeName!,
+          tournamentDetailAttributes!.sId!);
     });
-
   }
 
-  getTournamentDetails(){
-    final tournamentDetails = Get.arguments['tournamentDetailsAttributes'] as TournamentDetailAttributes;
+  getTournamentDetails() {
+    final tournamentDetails = Get.arguments['tournamentDetailsAttributes']
+        as TournamentDetailAttributes;
     tournamentDetailAttributes = tournamentDetails;
   }
 
-  getMyId()async{
+  getMyId() async {
     final id = await PrefsHelper.getString('userId');
-    if(id.isNotEmpty){
+    if (id.isNotEmpty) {
       setState(() {
         userId = id;
       });
     }
-
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -74,89 +76,111 @@ class _ChallengeMatchesViewState extends State<ChallengeMatchesView> {
       ),
       body: Column(
         children: [
-          if(tournamentDetailAttributes?.tournamentCreator?.sId==userId)
-          Align(
-            alignment: Alignment.topRight,
-            child: Padding(
-              padding: EdgeInsets.only(right: 8.w),
-              child: CustomButton(
-                width: 100.w,
-                  height: 45.h,
-                  onTap: (){
-                    if(tournamentDetailAttributes !=null){
-                      Get.toNamed(Routes.CREATE_CHALLENGE,arguments: {'tournamentDetails':tournamentDetailAttributes});
-                    }
-
-              }, text: 'Create Challenge'),
+          if (tournamentDetailAttributes?.tournamentCreator?.sId == userId)
+            Align(
+              alignment: Alignment.topRight,
+              child: Padding(
+                padding: EdgeInsets.only(right: 8.w),
+                child: CustomButton(
+                    width: 100.w,
+                    height: 45.h,
+                    onTap: () {
+                      if (tournamentDetailAttributes != null) {
+                        Get.toNamed(Routes.CREATE_CHALLENGE, arguments: {
+                          'tournamentDetails': tournamentDetailAttributes
+                        });
+                      }
+                    },
+                    text: 'Create Challenge'),
+              ),
             ),
+          SizedBox(
+            height: 8,
           ),
-          SizedBox(height: 8,),
-          Obx((){
-            List<ChallengeMatchAttributes>  matchList = _challengeMatchesController.challengeMatchModel.value.data?.attributes??[];
-            if(_challengeMatchesController.isLoading1.value){
+          Obx(() {
+            List<ChallengeMatchAttributes> matchList =
+                _challengeMatchesController
+                        .challengeMatchModel.value.data?.attributes ??
+                    [];
+            if (_challengeMatchesController.isLoading1.value) {
               return Center(child: CircularProgressIndicator());
             }
-            if(matchList.isEmpty){
+            if (matchList.isEmpty) {
               Center(child: Text('Player Challenges is Empty'));
             }
-            return  Expanded(
+            return Expanded(
               child: ListView.builder(
                 itemCount: matchList.length,
                 shrinkWrap: true,
                 itemBuilder: (BuildContext context, int index) {
-                 final matchItemIndex = matchList[index];
-                  return  Padding(
+                  final matchItemIndex = matchList[index];
+                  return Padding(
                     padding: EdgeInsets.all(8.0.sp),
                     child: CustomCard(
                       cardColor: AppColors.primaryColor,
                       children: [
                         /// >>>>This Delete Button only visible to Tournament creator <<<<
                         /// Delete Button
-                        if(tournamentDetailAttributes?.tournamentCreator?.sId==userId)
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: GestureDetector(
-                            onTap: () {
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  final challengeId = matchItemIndex.id;
-                                  if(challengeId != null && challengeId.isNotEmpty){
-                                    return DeleteAlertDialogue(
-                                      callback: () async{
-                                        Get.back();
-                                       await _challengeRemoveController.removeChallenge(challengeId, (){
-                                         _challengeMatchesController.challengeMatchModel.value.data?.attributes?.removeAt(index);
-                                         _challengeMatchesController.challengeMatchModel.refresh();
-                                         setState(() {});
-                                        });
-                                    },);
-                                  }else{
-                                    return Text('Challenge id not found');
-                                  }
-                                },
-                              );
-                            },
-                            child: Padding(
-                              padding: EdgeInsets.only(right: 8.w),
-                              child: SvgPicture.asset(
-                                AppIcons.deleteLogo,
-                                height: 20.h,
-                                colorFilter: ColorFilter.mode(
-                                    AppColors.dark2Color, BlendMode.srcIn),
+                        if (tournamentDetailAttributes
+                                ?.tournamentCreator?.sId ==
+                            userId)
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: GestureDetector(
+                              onTap: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    final challengeId = matchItemIndex.id;
+                                    if (challengeId != null &&
+                                        challengeId.isNotEmpty) {
+                                      return DeleteAlertDialogue(
+                                        callback: () async {
+                                          Get.back();
+                                          await _challengeRemoveController
+                                              .removeChallenge(challengeId, () {
+                                            _challengeMatchesController
+                                                .challengeMatchModel
+                                                .value
+                                                .data
+                                                ?.attributes
+                                                ?.removeAt(index);
+                                            _challengeMatchesController
+                                                .challengeMatchModel
+                                                .refresh();
+                                            setState(() {});
+                                          });
+                                        },
+                                      );
+                                    } else {
+                                      return Text('Challenge id not found');
+                                    }
+                                  },
+                                );
+                              },
+                              child: Padding(
+                                padding: EdgeInsets.only(right: 8.w),
+                                child: SvgPicture.asset(
+                                  AppIcons.deleteLogo,
+                                  height: 20.h,
+                                  colorFilter: ColorFilter.mode(
+                                      AppColors.dark2Color, BlendMode.srcIn),
+                                ),
                               ),
                             ),
                           ),
-                        ),
+
                         ///Challenge player card
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             //player 1
                             ChallengeMatchPlayerDetails(
-                              imageUrl: '${ApiConstants.imageBaseUrl}/${matchItemIndex.player1?.image?.url}',
+                              imageUrl:
+                                  '${ApiConstants.imageBaseUrl}/${matchItemIndex.player1?.image?.url}',
                               playerName: '${matchItemIndex.player1?.name}',
-                              playerHandicap: '${matchItemIndex.player1?.clubHandicap!.isNotEmpty==true? matchItemIndex.player1?.clubHandicap :matchItemIndex.player1?.handicap}',
+                              playerHandicap:
+                                  '${matchItemIndex.player1?.clubHandicap!.isNotEmpty == true ? matchItemIndex.player1?.clubHandicap : matchItemIndex.player1?.handicap}',
                             ),
                             Text(
                               AppString.vsText,
@@ -164,9 +188,11 @@ class _ChallengeMatchesViewState extends State<ChallengeMatchesView> {
                             ),
                             //player 2
                             ChallengeMatchPlayerDetails(
-                              imageUrl: '${ApiConstants.imageBaseUrl}/${matchItemIndex.player2?.image?.url}',
+                              imageUrl:
+                                  '${ApiConstants.imageBaseUrl}/${matchItemIndex.player2?.image?.url}',
                               playerName: '${matchItemIndex.player2?.name}',
-                              playerHandicap: '${matchItemIndex.player2?.clubHandicap!.isNotEmpty==true? matchItemIndex.player2?.clubHandicap :matchItemIndex.player2?.handicap}',
+                              playerHandicap:
+                                  '${matchItemIndex.player2?.clubHandicap!.isNotEmpty == true ? matchItemIndex.player2?.clubHandicap : matchItemIndex.player2?.handicap}',
                             ),
                           ],
                         ),
@@ -179,17 +205,35 @@ class _ChallengeMatchesViewState extends State<ChallengeMatchesView> {
                             children: [
                               Wrap(
                                 children: [
-                                  Icon(Icons.location_pin,color: AppColors.white,size: 18.sp,),
+                                  Icon(
+                                    Icons.location_pin,
+                                    color: AppColors.white,
+                                    size: 18.sp,
+                                  ),
                                   horizontalSpacing(6.w),
                                   SizedBox(
                                       width: 170.w,
-                                      child: Text('${matchItemIndex.courseName}',softWrap: true,overflow: TextOverflow.fade,style: AppStyles.h5(color: AppColors.white),)),
+                                      child: Text(
+                                        '${matchItemIndex.courseName}',
+                                        softWrap: true,
+                                        overflow: TextOverflow.fade,
+                                        style: AppStyles.h5(
+                                            color: AppColors.white),
+                                      )),
                                 ],
                               ),
                               //VerticalDivider(width: 5.w,color: Colors.redAccent,),
-                              SizedBox(width: 8.w,),
-                              Expanded(child: Text('${matchItemIndex.date}\n  ${matchItemIndex.time}',maxLines: 2,overflow: TextOverflow.ellipsis,style: AppStyles.h5(color: AppColors.primaryColor),)),
-
+                              SizedBox(
+                                width: 8.w,
+                              ),
+                              Expanded(
+                                  child: Text(
+                                '${matchItemIndex.date}\n  ${matchItemIndex.time}',
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style:
+                                    AppStyles.h5(color: AppColors.primaryColor),
+                              )),
                             ],
                           ),
                         )
@@ -199,9 +243,7 @@ class _ChallengeMatchesViewState extends State<ChallengeMatchesView> {
                 },
               ),
             );
-          }
-
-          ),
+          }),
         ],
       ),
     );

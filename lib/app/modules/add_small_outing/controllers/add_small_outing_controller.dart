@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:golf_game_play/app/data/api_constants.dart';
 import 'package:golf_game_play/app/data/google_api_service.dart';
@@ -23,7 +22,8 @@ class AddSmallOutingController extends GetxController {
   final TextEditingController slopeRatingCtrl = TextEditingController();
   final TextEditingController timeCtrl = TextEditingController();
 
-  late final TextEditingController searchCourseNameCtrl = TextEditingController();
+  late final TextEditingController searchCourseNameCtrl =
+      TextEditingController();
   LatLng? latLng;
 
   List<String> outingTypeList = [
@@ -57,8 +57,9 @@ class AddSmallOutingController extends GetxController {
 
   Future<void> goToSearchLocation(String address) async {
     try {
-      LatLng? locations = await GoogleApiService.fetchAddressToCoordinate(address, (location){});
-      if (locations !=null) {
+      LatLng? locations = await GoogleApiService.fetchAddressToCoordinate(
+          address, (location) {});
+      if (locations != null) {
         latLng = locations;
         print(latLng);
       }
@@ -120,7 +121,8 @@ class AddSmallOutingController extends GetxController {
       };
 
       // Create a MultipartRequest for the profile update
-      var request = http.MultipartRequest('POST', Uri.parse(ApiConstants.createSmallTournamentUrl));
+      var request = http.MultipartRequest(
+          'POST', Uri.parse(ApiConstants.createSmallTournamentUrl));
 
       request.headers.addAll(headers);
       // Check if an image is selected for upload

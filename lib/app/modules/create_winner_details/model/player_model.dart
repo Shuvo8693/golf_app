@@ -8,7 +8,7 @@ class PlayerModel {
   PlayerModel.fromJson(Map<String, dynamic> json) {
     code = json['code'];
     message = json['message'];
-    data = json['data'] != null ? new PlayerData.fromJson(json['data']) : null;
+    data = json['data'] != null ? PlayerData.fromJson(json['data']) : null;
   }
 }
 
@@ -21,7 +21,7 @@ class PlayerData {
     if (json['attributes'] != null) {
       attributes = <PlayerAttributes>[];
       json['attributes'].forEach((v) {
-        attributes!.add(new PlayerAttributes.fromJson(v));
+        attributes!.add(PlayerAttributes.fromJson(v));
       });
     }
   }

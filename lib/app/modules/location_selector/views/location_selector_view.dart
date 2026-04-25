@@ -1,20 +1,11 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:get/get_common/get_reset.dart';
-import 'package:golf_game_play/app/data/api_constants.dart';
 import 'package:golf_game_play/app/data/google_api_service.dart';
 import 'package:golf_game_play/app/routes/app_pages.dart';
 import 'package:golf_game_play/common/app_color/app_colors.dart';
-import 'package:golf_game_play/common/app_icons/app_icons.dart';
 import 'package:golf_game_play/common/widgets/custom_button.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:geocoding/geocoding.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:http/http.dart' as http;
 
 class LocationSelectorView extends StatefulWidget {
   const LocationSelectorView({super.key});
@@ -25,14 +16,14 @@ class LocationSelectorView extends StatefulWidget {
 
 class _LocationSelectorViewState extends State<LocationSelectorView> {
   GoogleMapController? mapController;
-  final LatLng _center = const LatLng(19.432608, -80.133209); // Default to Mexico City
+  final LatLng _center =
+      const LatLng(19.432608, -80.133209); // Default to Mexico City
   LatLng? _pickedLocation;
   late final TextEditingController _searchController = TextEditingController();
   List<String> onChangeTextFieldValue = [];
 
-@override
+  @override
   void initState() {
-
     super.initState();
   }
 
@@ -41,9 +32,9 @@ class _LocationSelectorViewState extends State<LocationSelectorView> {
   }
 
   Future<void> _goToSearchLocation(String address) async {
-   await GoogleApiService.fetchAddressToCoordinate(address, (location){
-     _moveCamera(location);
-   });
+    await GoogleApiService.fetchAddressToCoordinate(address, (location) {
+      _moveCamera(location);
+    });
   }
 
   void _moveCamera(LatLng target) {
@@ -55,19 +46,22 @@ class _LocationSelectorViewState extends State<LocationSelectorView> {
     setState(() {
       _pickedLocation = target;
     });
-
   }
- /// Api Call method
+
+  /// Api Call method
   void _confirmLocation(String selectedLocation) {
-      // You can make an API call here to save the selected location or perform other actions
-      final args = Get.arguments ?? {};
-      print(selectedLocation);
-      if(args['from']=='login'){
-        Get.toNamed(Routes.SIGN_UP, arguments: {'latLng': _pickedLocation,'locationName': selectedLocation});
-      }else{
-        Get.offAndToNamed(Routes.HOME);
-      }
-      print("Location confirmed: $_pickedLocation");
+    // You can make an API call here to save the selected location or perform other actions
+    final args = Get.arguments ?? {};
+    print(selectedLocation);
+    if (args['from'] == 'login') {
+      Get.toNamed(Routes.SIGN_UP, arguments: {
+        'latLng': _pickedLocation,
+        'locationName': selectedLocation
+      });
+    } else {
+      Get.offAndToNamed(Routes.HOME);
+    }
+    print("Location confirmed: $_pickedLocation");
   }
 
   @override
@@ -83,7 +77,7 @@ class _LocationSelectorViewState extends State<LocationSelectorView> {
                 myLocationButtonEnabled: true,
                 onMapCreated: _onMapCreated,
                 initialCameraPosition: CameraPosition(
-                  target: _pickedLocation??_center,
+                  target: _pickedLocation ?? _center,
                   zoom: 5.0,
                 ),
                 onTap: (position) {
@@ -94,12 +88,11 @@ class _LocationSelectorViewState extends State<LocationSelectorView> {
                   Marker(
                       markerId: MarkerId('pick-location'),
                       draggable: true,
-                      position: _pickedLocation??_center,
-                      onDragEnd: (positionValue){
+                      position: _pickedLocation ?? _center,
+                      onDragEnd: (positionValue) {
                         _pickedLocation = positionValue;
                         setState(() {});
-                      }
-                  ),
+                      }),
                 },
               ),
             ),
@@ -141,10 +134,11 @@ class _LocationSelectorViewState extends State<LocationSelectorView> {
                     child: TextFormField(
                       onChanged: (inputValue) async {
                         if (inputValue.isNotEmpty == true) {
-                          var result = await GoogleApiService.fetchSuggestions(inputValue);
+                          var result = await GoogleApiService.fetchSuggestions(
+                              inputValue);
                           print(result.toString());
                           setState(() {
-                            _pickedLocation=null;
+                            _pickedLocation = null;
                             onChangeTextFieldValue = result;
                           });
                           print(onChangeTextFieldValue.toString());
@@ -162,6 +156,7 @@ class _LocationSelectorViewState extends State<LocationSelectorView> {
                       ),
                     ),
                   ),
+
                   /// Search Icon
                   IconButton(
                     icon: Icon(
@@ -169,11 +164,11 @@ class _LocationSelectorViewState extends State<LocationSelectorView> {
                       color: AppColors.primaryColor,
                       size: 24.sp,
                     ),
-                    onPressed: () async{
+                    onPressed: () async {
                       // Handle search button press logic
-                     await _goToSearchLocation(_searchController.text);
+                      await _goToSearchLocation(_searchController.text);
                       setState(() {
-                        onChangeTextFieldValue=[];
+                        onChangeTextFieldValue = [];
                       });
                     },
                   ),
@@ -210,20 +205,23 @@ class _LocationSelectorViewState extends State<LocationSelectorView> {
                         return Padding(
                           padding: EdgeInsets.all(8.0.sp),
                           child: InkWell(
-                            onTap: () async{
-                              String selectedLocation = onChangeTextFieldValue[index].toString();
+                            onTap: () async {
+                              String selectedLocation =
+                                  onChangeTextFieldValue[index].toString();
                               print(selectedLocation);
                               if (selectedLocation.isNotEmpty == true) {
                                 _searchController.text = selectedLocation;
                                 print(_searchController.text);
                               }
-                             await _goToSearchLocation(_searchController.text);
+                              await _goToSearchLocation(_searchController.text);
                               setState(() {
-                                onChangeTextFieldValue=[];
+                                onChangeTextFieldValue = [];
                               });
                             },
-                            child: Text(onChangeTextFieldValue[index].toString(),
-                              style: const TextStyle(fontWeight: FontWeight.w500),
+                            child: Text(
+                              onChangeTextFieldValue[index].toString(),
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.w500),
                             ),
                           ),
                         );
@@ -240,11 +238,12 @@ class _LocationSelectorViewState extends State<LocationSelectorView> {
             right: 15.w,
             child: CustomButton(
               onTap: () {
-                if(_pickedLocation !=null){
+                if (_pickedLocation != null) {
                   _confirmLocation(_searchController.text);
-                }else {
+                } else {
                   print("No location selected!");
-                  Get.snackbar('No location selected!', 'Please select your location ');
+                  Get.snackbar(
+                      'No location selected!', 'Please select your location ');
                 }
               },
               text: 'Confirm Location',

@@ -8,7 +8,7 @@ import 'package:golf_game_play/common/app_text_style/style.dart';
 class LocationSelector extends StatefulWidget {
   final ValueChanged<String> onSelected;
 
-  const LocationSelector({Key? key, required this.onSelected}) : super(key: key);
+  const LocationSelector({super.key, required this.onSelected});
 
   @override
   _LocationSelectorState createState() => _LocationSelectorState();
@@ -57,10 +57,10 @@ class _LocationSelectorState extends State<LocationSelector> {
               print('On Submitted: $value');
             },
           ),
-           SizedBox(height: 8.h),
+          SizedBox(height: 8.h),
           if (suggestions.isNotEmpty)
             Padding(
-              padding:  EdgeInsets.only(left: 8.0.w),
+              padding: EdgeInsets.only(left: 8.0.w),
               child: Container(
                 height: 200.h,
                 decoration: BoxDecoration(
@@ -85,15 +85,16 @@ class _LocationSelectorState extends State<LocationSelector> {
                         setState(() {
                           suggestions.clear();
                         });
-
                       },
-                      title: Text(suggestions[index],style: AppStyles.h4(),),
+                      title: Text(
+                        suggestions[index],
+                        style: AppStyles.h4(),
+                      ),
                     );
                   },
                 ),
               ),
             ),
-
         ],
       ),
     );

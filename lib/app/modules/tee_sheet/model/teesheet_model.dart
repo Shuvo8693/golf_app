@@ -8,7 +8,7 @@ class TeeSheetModel {
   TeeSheetModel.fromJson(Map<String, dynamic> json) {
     code = json['code'];
     message = json['message'];
-    data = json['data'] != null ? new TeeSheetData.fromJson(json['data']) : null;
+    data = json['data'] != null ? TeeSheetData.fromJson(json['data']) : null;
   }
 }
 
@@ -40,14 +40,14 @@ class TeeSheetAttributes {
 
   TeeSheetAttributes(
       {this.sId,
-        this.tournametId,
-        this.groupName,
-        this.playerList,
-        this.teeSheetCreator,
-        this.dateTime,
-        this.createdAt,
-        this.updatedAt,
-        this.iV});
+      this.tournametId,
+      this.groupName,
+      this.playerList,
+      this.teeSheetCreator,
+      this.dateTime,
+      this.createdAt,
+      this.updatedAt,
+      this.iV});
 
   TeeSheetAttributes.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
@@ -56,7 +56,7 @@ class TeeSheetAttributes {
     if (json['playerList'] != null) {
       playerList = <PlayerList>[];
       json['playerList'].forEach((v) {
-        playerList!.add(new PlayerList.fromJson(v));
+        playerList!.add(PlayerList.fromJson(v));
       });
     }
     teeSheetCreator = json['teeSheetCreator'];

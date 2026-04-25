@@ -15,10 +15,12 @@ import 'package:golf_game_play/common/widgets/spacing.dart';
 class SubscriptionCard extends StatelessWidget {
   final SubscriptionAttributes subscriptionAttributes;
   final int index;
-   SubscriptionCard({
-    super.key, required this.subscriptionAttributes, required this.index,
+  const SubscriptionCard({
+    super.key,
+    required this.subscriptionAttributes,
+    required this.index,
   });
-   // final PaymentController _paymentController = Get.put(PaymentController());
+  // final PaymentController _paymentController = Get.put(PaymentController());
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -31,8 +33,7 @@ class SubscriptionCard extends StatelessWidget {
           color: AppColors.primaryColor.withOpacity(0.7),
         ),
         child: Padding(
-          padding: EdgeInsets.symmetric(
-              horizontal: 16.w, vertical: 16.h),
+          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -40,7 +41,10 @@ class SubscriptionCard extends StatelessWidget {
               SvgPicture.asset(
                 AppIcons.crownIcon,
               ),
-              Text(subscriptionAttributes.subscribeType=='superUser'?'Super User':'Basic User',
+              Text(
+                subscriptionAttributes.subscribeType == 'superUser'
+                    ? 'Super User'
+                    : 'Basic User',
                 style: AppStyles.h2(
                   family: "Schuyler",
                 ),
@@ -92,23 +96,23 @@ class SubscriptionCard extends StatelessWidget {
                 height: 15.h,
               ),
               CustomButton(
-            // loading: _paymentController.isLoading[index]??false,
-            onTap: () async {
-              String myId = await PrefsHelper.getString('userId');
-              // await _paymentController.makePayment(
-              //     subscriptionAttributes.price.toString(),
-              //     'USD',
-              //     subscriptionAttributes.sId,
-              //     myId,
-              //     subscriptionAttributes.subscribeType ?? '',
-              //     subscriptionAttributes.typeOfSubscription ?? '',
-              //    index
-              // );
-            },
-            color: Colors.black,
-            text: 'Buy',
-            textStyle: AppStyles.h3(color: AppColors.white),
-          ),
+                // loading: _paymentController.isLoading[index]??false,
+                onTap: () async {
+                  String myId = await PrefsHelper.getString('userId');
+                  // await _paymentController.makePayment(
+                  //     subscriptionAttributes.price.toString(),
+                  //     'USD',
+                  //     subscriptionAttributes.sId,
+                  //     myId,
+                  //     subscriptionAttributes.subscribeType ?? '',
+                  //     subscriptionAttributes.typeOfSubscription ?? '',
+                  //    index
+                  // );
+                },
+                color: Colors.black,
+                text: 'Buy',
+                textStyle: AppStyles.h3(color: AppColors.white),
+              ),
             ],
           ),
         ),

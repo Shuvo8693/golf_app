@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:golf_game_play/app/data/api_constants.dart';
 import 'package:golf_game_play/app/modules/golfers/model/golfers_models.dart';
 import 'package:golf_game_play/common/app_color/app_colors.dart';
-import 'package:golf_game_play/common/app_images/network_image%20.dart';
 import 'package:golf_game_play/common/app_string/app_string.dart';
 import 'package:golf_game_play/common/app_text_style/style.dart';
 import 'package:golf_game_play/common/widgets/casess_network_image.dart';
@@ -36,7 +35,8 @@ class GolferCardItem extends StatelessWidget {
           isRow: true,
           children: [
             CustomNetworkImage(
-              imageUrl: '${ApiConstants.imageBaseUrl}${golferAttributes.image!.url}',
+              imageUrl:
+                  '${ApiConstants.imageBaseUrl}${golferAttributes.image!.url}',
               height: 80.h,
               width: 80.w,
               borderRadius: BorderRadius.circular(10.r),
@@ -46,18 +46,19 @@ class GolferCardItem extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('${AppString.nameText} : ${golferAttributes.name} ',overflow: TextOverflow.ellipsis,style: AppStyles.h4()),
+                  Text('${AppString.nameText} : ${golferAttributes.name} ',
+                      overflow: TextOverflow.ellipsis, style: AppStyles.h4()),
                   // verticalSpacing(10.h),
                   // Text('${AppString.cityText} : ${golferAttributes.city} ',overflow: TextOverflow.ellipsis,style: AppStyles.h4()),
                   horizontalSpacing(10.w),
-                  Text(golferAttributes.clubHandicap!.isEmpty
-                      ? '${AppString.handicapText} : ${golferAttributes.handicap}'
-                      : 'Club handicap : ${golferAttributes.clubHandicap}',
+                  Text(
+                      golferAttributes.clubHandicap!.isEmpty
+                          ? '${AppString.handicapText} : ${golferAttributes.handicap}'
+                          : 'Club handicap : ${golferAttributes.clubHandicap}',
                       style: AppStyles.h4()),
                 ],
               ),
             ),
-
           ],
         ),
       ),

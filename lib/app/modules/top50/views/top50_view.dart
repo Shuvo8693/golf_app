@@ -10,7 +10,6 @@ import 'package:golf_game_play/common/app_drawer/app_drawer.dart';
 import 'package:golf_game_play/common/app_string/app_string.dart';
 import 'package:golf_game_play/common/app_text_style/style.dart';
 import 'package:golf_game_play/common/widgets/custom_card.dart';
-import 'package:golf_game_play/common/widgets/custom_text_field.dart';
 import 'package:golf_game_play/common/widgets/golf_logo.dart';
 
 class Top50View extends StatelessWidget {
@@ -42,7 +41,7 @@ class Top50View extends StatelessWidget {
                   alignment: Alignment.center,
                   child: Text(AppString.top50PlayerText, style: AppStyles.h1()),
                 ),
-               /* SizedBox(height: 12.h),
+                /* SizedBox(height: 12.h),
                 Row(
                   children: [
                     Expanded(
@@ -81,12 +80,17 @@ class Top50View extends StatelessWidget {
                 ),*/
                 SizedBox(height: 30.h),
                 Text(AppString.top3PlayerText, style: AppStyles.h1()),
-                Obx((){
-                  List<Top50GolferAttributes> top50GolferAttributes=_top50controller.top50GolfersModel.value.data?.attributes??[];
-                  if(_top50controller.isLoading.value){
+                Obx(() {
+                  List<Top50GolferAttributes> top50GolferAttributes =
+                      _top50controller
+                              .top50GolfersModel.value.data?.attributes ??
+                          [];
+                  if (_top50controller.isLoading.value) {
                     return Center(child: CircularProgressIndicator());
-                  } else if(top50GolferAttributes.isEmpty){
-                    return Center(child: Text('Top Golfers are not available at your area'));
+                  } else if (top50GolferAttributes.isEmpty) {
+                    return Center(
+                        child:
+                            Text('Top Golfers are not available at your area'));
                   }
                   return SizedBox(
                     height: 320.h,
@@ -94,7 +98,8 @@ class Top50View extends StatelessWidget {
                       itemCount: top50GolferAttributes.length,
                       shrinkWrap: true,
                       itemBuilder: (BuildContext context, int index) {
-                        final top50GolferAttributesIndex = top50GolferAttributes[index];
+                        final top50GolferAttributesIndex =
+                            top50GolferAttributes[index];
                         if (index < 3) {
                           return CustomCard(
                             cardWidth: double.infinity,
@@ -110,22 +115,19 @@ class Top50View extends StatelessWidget {
                                     child: ShaderMask(
                                       shaderCallback: (Rect bounds) {
                                         return LinearGradient(
-                                            begin: Alignment.topLeft,
-                                            end: Alignment.bottomRight,
-                                            tileMode: TileMode.mirror,
-                                            stops: [
-                                              0.4,
-                                              0.5,
-                                              0.7
-                                            ],
-                                            colors: [
-                                              Colors.lightGreenAccent,
-                                              Colors.orange.withOpacity(0.7),
-                                              Colors.green,
-                                            ],
+                                          begin: Alignment.topLeft,
+                                          end: Alignment.bottomRight,
+                                          tileMode: TileMode.mirror,
+                                          stops: [0.4, 0.5, 0.7],
+                                          colors: [
+                                            Colors.lightGreenAccent,
+                                            Colors.orange.withOpacity(0.7),
+                                            Colors.green,
+                                          ],
                                         ).createShader(bounds);
                                       },
-                                      child: Text('',
+                                      child: Text(
+                                        '',
                                         style: AppStyles.h1(
                                             fontSize: 80.sp,
                                             color: Colors.white),
@@ -137,7 +139,8 @@ class Top50View extends StatelessWidget {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Text('${AppString.nameText} : ${top50GolferAttributesIndex.name}',
+                                        Text(
+                                            '${AppString.nameText} : ${top50GolferAttributesIndex.name}',
                                             style: AppStyles.h4()),
                                         SizedBox(height: 8.h),
                                         Text(
@@ -167,49 +170,53 @@ class Top50View extends StatelessWidget {
                       },
                     ),
                   );
-                }
-
-                ),
+                }),
                 SizedBox(height: 25.h),
                 Text(AppString.top4To50PlayersText, style: AppStyles.h1()),
                 SizedBox(height: 8.h),
-                Obx((){
-                  List<Top50GolferAttributes> top50GolferAttributes=_top50controller.top50GolfersModel.value.data?.attributes??[];
-                  if(_top50controller.isLoading.value){
+                Obx(() {
+                  List<Top50GolferAttributes> top50GolferAttributes =
+                      _top50controller
+                              .top50GolfersModel.value.data?.attributes ??
+                          [];
+                  if (_top50controller.isLoading.value) {
                     return Center(child: CircularProgressIndicator());
-                  } else if(top50GolferAttributes.isEmpty){
-                    return Center(child: Text('Top Golfers are not available at your area'));
+                  } else if (top50GolferAttributes.isEmpty) {
+                    return Center(
+                        child:
+                            Text('Top Golfers are not available at your area'));
                   }
                   return SizedBox(
                     height: 300.h,
                     child: ListView.builder(
                       itemCount: top50GolferAttributes.length,
                       itemBuilder: (BuildContext context, int index) {
-                        final top50GolferAttributesIndex = top50GolferAttributes[index];
-                        if(index > 2){
-                          return  CustomCard(
-                            borderSideColor: AppColors.primaryColor.withOpacity(0.5),
+                        final top50GolferAttributesIndex =
+                            top50GolferAttributes[index];
+                        if (index > 2) {
+                          return CustomCard(
+                            borderSideColor:
+                                AppColors.primaryColor.withOpacity(0.5),
                             isRow: true,
                             children: [
-                              Text('${AppString.nameText} : ${top50GolferAttributesIndex.name}', style: AppStyles.h3()),
+                              Text(
+                                  '${AppString.nameText} : ${top50GolferAttributesIndex.name}',
+                                  style: AppStyles.h3()),
                               SizedBox(width: 8.h),
-                              Text('${AppString.handicapText} : ${top50GolferAttributesIndex.handicap}',
+                              Text(
+                                  '${AppString.handicapText} : ${top50GolferAttributesIndex.handicap}',
                                   style: AppStyles.h3()),
                               // SizedBox(width: 8.h),
                               // Text('${AppString.pointText} : 9.2', style: AppStyles.h3()),
                             ],
                           );
-                        }else{
+                        } else {
                           return SizedBox.shrink();
                         }
-
                       },
-
                     ),
                   );
-                }
-
-                )
+                })
               ],
             ),
           ),

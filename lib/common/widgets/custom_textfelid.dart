@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-
 import '../app_color/app_colors.dart';
-import '../app_text_style/styles.dart';
 
 class CustomSimpleTextField extends StatelessWidget {
   final double? horizontalPadding;
@@ -15,13 +13,13 @@ class CustomSimpleTextField extends StatelessWidget {
   final int? maxLines;
   const CustomSimpleTextField({
     super.key,
-     this.hintText,
-     this.width,
-     this.controller,
-      this.horizontalPadding,
-     this.sufIcon,
-     this.maxLines,
-     this.preIcon,
+    this.hintText,
+    this.width,
+    this.controller,
+    this.horizontalPadding,
+    this.sufIcon,
+    this.maxLines,
+    this.preIcon,
   });
 
   @override
@@ -32,9 +30,8 @@ class CustomSimpleTextField extends StatelessWidget {
       decoration: BoxDecoration(
           color: AppColors.white,
           borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: AppColors.borderColor)
-      ),
-      child:  Padding(
+          border: Border.all(color: AppColors.borderColor)),
+      child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
         child: TextField(
           controller: controller,
@@ -43,8 +40,7 @@ class CustomSimpleTextField extends StatelessWidget {
             suffixIcon: sufIcon,
             prefixIcon: preIcon,
             hintText: hintText,
-            hintStyle:  TextStyle(color: AppColors.hintColor,fontSize: 14),
-
+            hintStyle: TextStyle(color: AppColors.hintColor, fontSize: 14),
           ),
           maxLines: maxLines ?? 1,
         ),

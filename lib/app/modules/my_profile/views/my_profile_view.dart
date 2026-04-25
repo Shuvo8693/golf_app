@@ -1,20 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 
 import 'package:get/get.dart';
 import 'package:golf_game_play/app/data/api_constants.dart';
-import 'package:golf_game_play/app/modules/model/user_model.dart';
 import 'package:golf_game_play/app/routes/app_pages.dart';
 import 'package:golf_game_play/common/app_color/app_colors.dart';
-import 'package:golf_game_play/common/app_constant/app_constant.dart';
-import 'package:golf_game_play/common/app_icons/app_icons.dart';
 import 'package:golf_game_play/common/app_string/app_string.dart';
 import 'package:golf_game_play/common/app_text_style/style.dart';
 import 'package:golf_game_play/common/widgets/casess_network_image.dart';
 import 'package:golf_game_play/common/widgets/custom_button.dart';
 import 'package:golf_game_play/common/widgets/no_internet.dart';
-import 'package:lottie/lottie.dart';
 
 import '../controllers/my_profile_controller.dart';
 
@@ -28,13 +23,13 @@ class MyProfileView extends StatefulWidget {
 class _MyProfileViewState extends State<MyProfileView> {
   final MyProfileController _myProfileController =
       Get.put(MyProfileController());
-  bool isInternetNotAvailable=false;
+  bool isInternetNotAvailable = false;
   @override
   void initState() {
     super.initState();
     _myProfileController.fetchProfile(() {
       setState(() {
-        isInternetNotAvailable=true;
+        isInternetNotAvailable = true;
       });
     });
   }
@@ -50,11 +45,11 @@ class _MyProfileViewState extends State<MyProfileView> {
         centerTitle: true,
       ),
       body: Obx(() {
-       final userValue = _myProfileController.myProfile.value;
-        if(_myProfileController.isLoading.value){
-         return Center(child: CircularProgressIndicator());
+        final userValue = _myProfileController.myProfile.value;
+        if (_myProfileController.isLoading.value) {
+          return Center(child: CircularProgressIndicator());
         }
-        if(isInternetNotAvailable){
+        if (isInternetNotAvailable) {
           return Center(child: NoInternetPage());
         }
         return SingleChildScrollView(
@@ -71,16 +66,19 @@ class _MyProfileViewState extends State<MyProfileView> {
                     /// Cover Image
                     Positioned(
                       child: CustomNetworkImage(
-                        imageUrl: '${ApiConstants.imageBaseUrl}${userValue.coverImage?.url}',
+                        imageUrl:
+                            '${ApiConstants.imageBaseUrl}${userValue.coverImage?.url}',
                         height: 200.h,
                       ),
                     ),
+
                     /// Profile image
                     Positioned(
                       top: 140.h,
                       left: 145.w,
                       child: CustomNetworkImage(
-                        imageUrl: '${ApiConstants.imageBaseUrl}${userValue.image?.url}',
+                        imageUrl:
+                            '${ApiConstants.imageBaseUrl}${userValue.image?.url}',
                         height: 125.h,
                         width: 125.h,
                         boxShape: BoxShape.circle,
@@ -119,8 +117,7 @@ class _MyProfileViewState extends State<MyProfileView> {
                     // SizedBox(height: 10.h),
                     // customListTile('${userValue.state}'),
                     SizedBox(height: 10.h),
-                    Text('Location',
-                        style: AppStyles.h4(family: "Schuyler")),
+                    Text('Location', style: AppStyles.h4(family: "Schuyler")),
                     SizedBox(
                       height: 10.h,
                     ),
@@ -149,7 +146,8 @@ class _MyProfileViewState extends State<MyProfileView> {
                                 style: AppStyles.h3()),
                             SizedBox(
                               width: 120.w,
-                              child: customListTile('${userValue.clubHandicap}'),
+                              child:
+                                  customListTile('${userValue.clubHandicap}'),
                             ),
                           ],
                         ),

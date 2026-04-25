@@ -13,18 +13,23 @@ import 'package:golf_game_play/common/widgets/custom_text_field.dart';
 import '../controllers/edit_winner_skin_controller.dart';
 
 class EditWinnerSkinView extends StatelessWidget {
-   EditWinnerSkinView({super.key});
-  final EditWinnerSkinController _editWinnerSkinController=Get.put(EditWinnerSkinController());
-   final WinnersController _winnersController = Get.find();
+  EditWinnerSkinView({super.key});
+  final EditWinnerSkinController _editWinnerSkinController =
+      Get.put(EditWinnerSkinController());
+  final WinnersController _winnersController = Get.find();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppString.editWinnerSkinText,style: AppStyles.h2(),),
+        title: Text(
+          AppString.editWinnerSkinText,
+          style: AppStyles.h2(),
+        ),
         centerTitle: true,
         leading: GestureDetector(
-          onTap: ()async{
-            String completeTourId = await PrefsHelper.getString('completeTourID');
+          onTap: () async {
+            String completeTourId =
+                await PrefsHelper.getString('completeTourID');
             await _winnersController.fetchWinner(completeTourId);
             Get.back();
           },
@@ -39,22 +44,29 @@ class EditWinnerSkinView extends StatelessWidget {
             children: [
               ///============SKIN AREA============
               SizedBox(height: 20.h),
-              Text(AppString.skinsText, style: AppStyles.h3(family: "Schuyler")),
+              Text(AppString.skinsText,
+                  style: AppStyles.h3(family: "Schuyler")),
+
               ///winner name
               SizedBox(height: 10.h),
-              Text(AppString.winnerNameText, style: AppStyles.h4(family: "Schuyler")),
+              Text(AppString.winnerNameText,
+                  style: AppStyles.h4(family: "Schuyler")),
               SizedBox(height: 10.h),
               CustomTextField(
                 contentPaddingVertical: 14.h,
                 controller: _editWinnerSkinController.nameCtrl,
                 isEnabled: false,
-              ) ,
+              ),
+
               ///winner hole
               SizedBox(height: 10.h),
               Text(AppString.holeText, style: AppStyles.h4(family: "Schuyler")),
               SizedBox(height: 10.h),
               DropdownButtonFormField(
-                  value: _editWinnerSkinController.holeList.contains(_editWinnerSkinController.skinHole )? _editWinnerSkinController.skinHole : null,
+                  value: _editWinnerSkinController.holeList
+                          .contains(_editWinnerSkinController.skinHole)
+                      ? _editWinnerSkinController.skinHole
+                      : null,
                   hint: Text('Select player'),
                   items: _editWinnerSkinController.holeList.map((item) {
                     return DropdownMenuItem<int>(
@@ -69,44 +81,49 @@ class EditWinnerSkinView extends StatelessWidget {
                     }
                     return null;
                   },
-                  onChanged: (changedValue){
+                  onChanged: (changedValue) {
                     _editWinnerSkinController.skinHole = changedValue;
                     print(_editWinnerSkinController.skinHole);
                   }),
 
               ///winner score
               SizedBox(height: 10.h),
-              Text('${AppString.scoreText} (Skin)', style: AppStyles.h4(family: "Schuyler")),
+              Text('${AppString.scoreText} (Skin)',
+                  style: AppStyles.h4(family: "Schuyler")),
               SizedBox(height: 10.h),
               CustomDropdownField(
                 items: _editWinnerSkinController.skinScoreList,
-                onChange: (changedValue){
+                onChange: (changedValue) {
                   _editWinnerSkinController.skinScore = changedValue;
                   print(_editWinnerSkinController.skinScore);
                 },
-              ) ,
+              ),
+
               ///winner Amount is Paid?
               SizedBox(height: 10.h),
-              Text(AppString.isAmountPaidText, style: AppStyles.h4(family: "Schuyler")),
+              Text(AppString.isAmountPaidText,
+                  style: AppStyles.h4(family: "Schuyler")),
               SizedBox(height: 10.h),
               CustomDropdownField(
                 items: _editWinnerSkinController.amountIsPaid,
-                onChange: (changedValue){
-                  _editWinnerSkinController.skinAmountIsPaid!.value = changedValue;
+                onChange: (changedValue) {
+                  _editWinnerSkinController.skinAmountIsPaid.value =
+                      changedValue;
                   print(_editWinnerSkinController.skinAmountIsPaid);
                 },
               ),
 
               ///amount
-              Obx((){
-                if(_editWinnerSkinController.skinAmountIsPaid.value=='No'){
+              Obx(() {
+                if (_editWinnerSkinController.skinAmountIsPaid.value == 'No') {
                   return SizedBox.shrink();
                 }
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(height: 10.h),
-                    Text('Amount in \$', style: AppStyles.h4(family: "Schuyler")),
+                    Text('Amount in \$',
+                        style: AppStyles.h4(family: "Schuyler")),
                     SizedBox(height: 10.h),
                     CustomTextField(
                       contentPaddingVertical: 16.h,
@@ -118,16 +135,15 @@ class EditWinnerSkinView extends StatelessWidget {
                 );
               }),
               SizedBox(height: 50.h),
-              Obx((){
+              Obx(() {
                 return CustomButton(
-                  loading: _editWinnerSkinController.isLoading.value,
+                    loading: _editWinnerSkinController.isLoading.value,
                     onTap: () async {
                       await _editWinnerSkinController.updateWinners();
-                    }, text: AppString.saveAndContinueText);
-                }
-              ),
+                    },
+                    text: AppString.saveAndContinueText);
+              }),
               SizedBox(height: 20.h),
-
             ],
           ),
         ),

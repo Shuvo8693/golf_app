@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'package:get/get.dart';
-import 'package:golf_game_play/app/routes/app_pages.dart';
 import 'package:golf_game_play/common/app_icons/app_icons.dart';
 import 'package:golf_game_play/common/app_string/app_string.dart';
 import 'package:golf_game_play/common/app_text_style/style.dart';
@@ -21,7 +20,8 @@ class VerifyEmailView extends StatefulWidget {
 }
 
 class _VerifyEmailViewState extends State<VerifyEmailView> {
-  final VerifyEmailController _verifyEmailController = Get.put(VerifyEmailController());
+  final VerifyEmailController _verifyEmailController =
+      Get.put(VerifyEmailController());
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -85,7 +85,8 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
                 Obx(() {
                   return CustomButton(
                     onTap: () async {
-                      if (_formKey.currentState!.validate() && !_verifyEmailController.isLoading.value) {
+                      if (_formKey.currentState!.validate() &&
+                          !_verifyEmailController.isLoading.value) {
                         await _verifyEmailController.sendMail(true);
                       }
                     },

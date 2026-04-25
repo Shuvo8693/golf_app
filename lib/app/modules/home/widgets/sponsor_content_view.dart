@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
 import 'package:golf_game_play/app/data/api_constants.dart';
 import 'package:golf_game_play/app/modules/home/model/sponsor_content_model.dart';
 import 'package:golf_game_play/common/app_text_style/style.dart';
@@ -21,17 +20,19 @@ class SponsorContentView extends StatelessWidget {
         children: [
           Positioned(
             child: GestureDetector(
-              onTap: (){
+              onTap: () {
                 showDialog(
                   context: context,
                   barrierDismissible: true,
                   builder: (BuildContext context) {
-                    return imageShowDialouge(sponsorContentAttributes: sponsorContentAttributes);
+                    return imageShowDialouge(
+                        sponsorContentAttributes: sponsorContentAttributes);
                   },
                 );
               },
               child: CustomNetworkImage(
-                imageUrl: '${ApiConstants.imageBaseUrl}/${sponsorContentAttributes.sponserImage?.url}',
+                imageUrl:
+                    '${ApiConstants.imageBaseUrl}/${sponsorContentAttributes.sponserImage?.url}',
                 height: 230,
                 borderRadius: BorderRadius.circular(12.r),
               ),
@@ -54,12 +55,16 @@ class SponsorContentView extends StatelessWidget {
                       cardColor: Colors.black.withOpacity(0.5),
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text('For more information ',style: AppStyles.h6(color: Colors.white),),
+                        Text(
+                          'For more information ',
+                          style: AppStyles.h6(color: Colors.white),
+                        ),
                         SizedBox(width: 8.h),
                         GestureDetector(
                           onTap: () {
-                            if(sponsorContentAttributes.link!.isNotEmpty){
-                              ExternalUrlLauncher.lunchUrl('${sponsorContentAttributes.link}');
+                            if (sponsorContentAttributes.link!.isNotEmpty) {
+                              ExternalUrlLauncher.lunchUrl(
+                                  '${sponsorContentAttributes.link}');
                             }
                           },
                           child: Text(
@@ -82,5 +87,3 @@ class SponsorContentView extends StatelessWidget {
     );
   }
 }
-
-

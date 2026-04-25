@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -12,17 +11,14 @@ import 'common/app_constant/app_constant.dart';
 import 'common/di/di.dart';
 import 'common/widgets/message.dart';
 
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // Stripe.publishableKey = SKey.sPubTestKey;
-  Map<String, Map<String, String>> _languages = await init();
-  SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp,
-    DeviceOrientation.portraitDown
-  ]).then((_){
+  Map<String, Map<String, String>> languages = await init();
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]).then((_) {
     runApp(MyApp(
-      languages: _languages,
+      languages: languages,
     ));
   });
 }
